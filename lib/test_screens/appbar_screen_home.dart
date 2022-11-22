@@ -203,7 +203,10 @@ class _AppbarScreenState extends State<AppbarScreen> {
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
                         Text('تیتر خبر'),
-                        Text('خلاصه خبر'),
+                        Text(
+                          'خلاصه خبر',
+                          style: TextStyle(fontSize: 18),
+                        ),
                       ]),
                 ),
               ),
