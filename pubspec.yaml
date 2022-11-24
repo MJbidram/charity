@@ -30,13 +30,22 @@ flutter:
 
 
   assets:
-    - images/
+    - assets/images/
 
 
-  # fonts:
-  #   - family: Schyler
-  #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
+  fonts:
+    - family: VB
+      fonts:
+        - asset: assets/fonts/Vazirmatn-Bold.ttf
+
+
+    - family: VM
+      fonts:
+        - asset: assets/fonts/Vazirmatn-Medium.ttf
+
+    - family: VL
+      fonts:
+        - asset: assets/fonts/Vazirmatn-Light.ttf
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic
   #   - family: Trajan Pro

@@ -69,10 +69,13 @@ class News extends StatelessWidget {
                   child: Column(
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
-                        Text('تیتر خبر'),
+                        Text(
+                          'تیتر خبر',
+                          style: Theme.of(context).textTheme.headline2,
+                        ),
                         Text(
                           'خلاصه خبر',
-                          style: TextStyle(fontSize: 18),
+                          style: Theme.of(context).textTheme.headline3,
                         ),
                       ]),
                 ),

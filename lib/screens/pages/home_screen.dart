@@ -30,8 +30,12 @@ class _AppbarScreenState extends State<AppbarScreen> {
               pinned: true,
               actions: [
                 Padding(
-                    padding: const EdgeInsets.only(right: 8.0, top: 16.0),
-                    child: Text('خیریه امام علی (ع) شهر گرگاب')),
+                  padding: const EdgeInsets.only(right: 8.0, top: 16.0),
+                  child: Text(
+                    'خیریه امام علی (ع) شهر گرگاب',
+                    style: Theme.of(context).textTheme.headline1,
+                  ),
+                ),
               ],
               leading: Icon(
                 Icons.notifications,
@@ -76,11 +80,25 @@ class _AppbarScreenState extends State<AppbarScreen> {
                         TextButton(
                           onPressed: () {},
                           child: Text(
-                            '<<  بیشتر',
+                            'بیشتر',
+                            style: TextStyle(
+                              fontFamily: 'VB',
+                              fontSize: 16,
+                              // fontWeight: FontWeight.w600,
+                              color: blueDark,
+                            ),
                           ),
                         ),
                         Spacer(),
-                        Text('اخبار'),
+                        Text(
+                          'اخبار',
+                          style: TextStyle(
+                            fontFamily: 'VB',
+                            fontSize: 16,
+                            // fontWeight: FontWeight.w600,
+                            color: blueDark,
+                          ),
+                        ),
                       ],
                     )),
               ),

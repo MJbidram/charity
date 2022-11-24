@@ -1,3 +1,4 @@
+import 'package:charity/constants/constants.dart';
 import 'package:charity/screens/pages/home_screen.dart';
 
 import 'package:flutter/material.dart';
@@ -13,6 +14,25 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      theme: ThemeData(
+        textTheme: TextTheme(
+          headline1: TextStyle(
+              fontFamily: 'VB',
+              fontSize: 16,
+              // fontWeight: FontWeight.w800,
+              color: whiet),
+          headline2: TextStyle(
+              fontFamily: 'VM',
+              fontSize: 16,
+              // fontWeight: FontWeight.w600,
+              color: whiet),
+          headline3: TextStyle(
+              fontFamily: 'VL',
+              fontSize: 16,
+              // fontWeight: FontWeight.w400,
+              color: whiet),
+        ),
+      ),
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         appBar: AppBar(
