@@ -16,9 +16,9 @@ class _ImageSliderScreenTestState extends State<ImageSliderScreenTest> {
       body: Container(
         height: AppBar().preferredSize.height + 350,
         decoration: BoxDecoration(
-          color: blueDark,
+          gradient: blueGradient,
           borderRadius: BorderRadius.vertical(
-            bottom: Radius.elliptical(MediaQuery.of(context).size.width, 80),
+            bottom: Radius.elliptical(MediaQuery.of(context).size.width, 170),
           ),
         ),
         child: Column(

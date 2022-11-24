@@ -1,9 +1,5 @@
-import 'package:carousel_slider/carousel_slider.dart';
-import 'package:charity/constants/constants.dart';
-import 'package:charity/test_screens/appbar_screen_home.dart';
-import 'package:charity/test_screens/features_screen-test.dart';
-import 'package:charity/test_screens/hadis_screen_test.dart';
-import 'package:charity/test_screens/image_slider_screen.dart';
+import 'package:charity/screens/pages/home_screen.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 

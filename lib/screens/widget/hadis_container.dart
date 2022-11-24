@@ -1,3 +1,4 @@
+import 'package:charity/constants/constants.dart';
 import 'package:flutter/material.dart';
 
 class HadisContainer extends StatelessWidget {
@@ -12,7 +13,7 @@ class HadisContainer extends StatelessWidget {
           width: MediaQuery.of(context).size.width,
           height: 175,
           decoration: BoxDecoration(
-            color: Colors.greenAccent,
+            gradient: blueGradient,
             borderRadius: BorderRadius.circular(16),
           ),
           child: Center(
