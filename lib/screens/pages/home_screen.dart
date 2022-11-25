@@ -5,6 +5,7 @@ import 'package:charity/screens/widget/image_slider.dart';
 import 'package:charity/screens/widget/news_cover.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:percent_indicator/linear_percent_indicator.dart';
 
 class AppbarScreen extends StatefulWidget {
   const AppbarScreen({super.key});
@@ -55,7 +56,7 @@ class _AppbarScreenState extends State<AppbarScreen> {
               sliver: SliverGrid(
                 delegate: SliverChildBuilderDelegate(
                   (context, index) {
-                    return _getIcons2();
+                    return _getIcons();
                   },
                   childCount: 8,
                 ),
@@ -112,7 +113,7 @@ class _AppbarScreenState extends State<AppbarScreen> {
     ));
   }
 
-  Widget _getIcons2() {
+  Widget _getIcons() {
     return Center(
       child: Column(mainAxisSize: MainAxisSize.min, children: [
         Container(

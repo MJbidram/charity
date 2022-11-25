@@ -1,6 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:charity/constants/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:percent_indicator/linear_percent_indicator.dart';
 
 class ImageSliderScreenTest extends StatefulWidget {
   const ImageSliderScreenTest({super.key});
@@ -61,7 +62,14 @@ class _ImageSliderScreenTestState extends State<ImageSliderScreenTest> {
                 alignment: AlignmentDirectional.bottomCenter,
                 child: Padding(
                   padding: const EdgeInsets.only(bottom: 8.0),
-                  child: _getTitleText(),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      progressBar(),
+                      _getTitleText(),
+                    ],
+                  ),
                 ),
               ),
             );
@@ -94,6 +102,34 @@ class _ImageSliderScreenTestState extends State<ImageSliderScreenTest> {
           ),
         ),
       ],
+    );
+  }
+
+  Widget progressBar() {
+    return Container(
+      margin: EdgeInsets.symmetric(
+        vertical: 8,
+      ),
+      child: LinearPercentIndicator(
+        center: Align(
+          alignment: Alignment.topCenter,
+          child: Text(
+            '50%',
+            style: Theme.of(context).textTheme.headline4,
+          ),
+        ),
+        width: MediaQuery.of(context).size.width / 1.4,
+        lineHeight: 18,
+        progressColor: blueDark,
+        backgroundColor: blueLight,
+        percent: 70 / 100,
+        barRadius: Radius.circular(8),
+        animation: true,
+        animationDuration: 2000,
+        alignment: MainAxisAlignment.center,
+        padding: EdgeInsets.symmetric(horizontal: 8),
+        restartAnimation: false,
+      ),
     );
   }
 }
