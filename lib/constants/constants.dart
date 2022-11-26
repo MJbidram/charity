@@ -1,4 +1,4 @@
-import 'package:flutter/cupertino.dart';
+// import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 Color blueDark = Color(0xff1d3557);
@@ -10,3 +10,6 @@ LinearGradient blueGradient = LinearGradient(
     colors: [blueDark, blueLight],
     begin: Alignment.bottomLeft,
     end: Alignment.topRight);
+//// texts
+String longNme = 'خیریه امام علی ابن ابیطالب (ع) شهر گرگاب';
+String shortName = 'خیریه امام علی (ع) گرگاب';
