@@ -1,10 +1,10 @@
-# charity
+# نرم افزار خیریه
 
-A new Flutter project.
+این نرم افزار رابط کاربری سیستم ارتباط با خیرین است . این پروژه به سفارش خیریه امام علی ابن ابیطالب ع شهر گرگاب ایجاد  گردید .
 
-## Getting Started
+## مستندات تکنولوژی مورد استفاده
 
-This project is a starting point for a Flutter application.
+This project is a powerd by Flutter.
 
 A few resources to get you started if this is your first Flutter project:
 

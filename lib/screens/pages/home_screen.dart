@@ -33,7 +33,7 @@ class _MyHomeScreenState extends State<MyHomeScreen> {
                 Padding(
                   padding: const EdgeInsets.only(right: 8.0, top: 16.0),
                   child: Text(
-                    'خیریه امام علی (ع) شهر گرگاب',
+                    shortName,
                     style: Theme.of(context).textTheme.headline1,
                   ),
                 ),
