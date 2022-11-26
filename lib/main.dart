@@ -1,5 +1,8 @@
 import 'package:charity/constants/constants.dart';
 import 'package:charity/screens/pages/home_screen.dart';
+import 'package:charity/screens/pages/news_list_page.dart';
+import 'package:charity/screens/pages/news_page.dart';
+import 'package:charity/screens/widget/news_cover.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -36,6 +39,16 @@ class MyApp extends StatelessWidget {
               fontSize: 14,
               // fontWeight: FontWeight.w400,
               color: whiet),
+          headline5: TextStyle(
+              fontFamily: 'VB',
+              fontSize: 16,
+              // fontWeight: FontWeight.w400,
+              color: blueDark),
+          headline6: TextStyle(
+              fontFamily: 'VL',
+              fontSize: 16,
+              // fontWeight: FontWeight.w400,
+              color: blueDark),
         ),
       ),
       debugShowCheckedModeBanner: false,
@@ -47,7 +60,7 @@ class MyApp extends StatelessWidget {
             statusBarColor: Color(0xff457b9d),
           ),
         ),
-        body: AppbarScreen(),
+        body: MyNewsPage(),
       ),
     );
   }

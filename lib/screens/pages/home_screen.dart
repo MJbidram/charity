@@ -7,14 +7,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 
-class AppbarScreen extends StatefulWidget {
-  const AppbarScreen({super.key});
+class MyHomeScreen extends StatefulWidget {
+  const MyHomeScreen({super.key});
 
   @override
-  State<AppbarScreen> createState() => _AppbarScreenState();
+  State<MyHomeScreen> createState() => _MyHomeScreenState();
 }
 
-class _AppbarScreenState extends State<AppbarScreen> {
+class _MyHomeScreenState extends State<MyHomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,9 +24,9 @@ class _AppbarScreenState extends State<AppbarScreen> {
           return [
             SliverAppBar(
               systemOverlayStyle: SystemUiOverlayStyle(
-                // Status bar color
-                statusBarColor: Colors.red,
-              ),
+                  // Status bar color
+                  // statusBarColor: Colors.red,
+                  ),
               backgroundColor: blueLight,
               pinned: true,
               actions: [
@@ -104,9 +104,11 @@ class _AppbarScreenState extends State<AppbarScreen> {
                     )),
               ),
             ),
-            SliverToBoxAdapter(
-              child: News(),
-            ),
+            SliverList(
+              delegate: SliverChildBuilderDelegate((context, index) {
+                return News();
+              }, childCount: 3),
+            )
           ],
         ),
       ),
@@ -125,7 +127,7 @@ class _AppbarScreenState extends State<AppbarScreen> {
           ),
           child: Icon(
             Icons.sim_card,
-            color: Colors.white,
+            color: whiet,
             size: 34,
           ),
         ),

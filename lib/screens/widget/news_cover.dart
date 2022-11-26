@@ -6,7 +6,7 @@ class News extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return _getNewsList();
+    return _getCoevrNews(context);
   }
 
   Widget _getNewsList() {
