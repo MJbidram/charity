@@ -60,7 +60,7 @@ class MyApp extends StatelessWidget {
             statusBarColor: Color(0xff457b9d),
           ),
         ),
-        body: MyNewsPage(),
+        body: MyHomeScreen(),
       ),
     );
   }

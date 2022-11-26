@@ -6,8 +6,6 @@ class MyNewsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var mystring = MyStrings();
-    var t = mystring.newsTest;
     return Scaffold(
         backgroundColor: whiet,
         appBar: PreferredSize(
@@ -117,7 +115,7 @@ class MyNewsPage extends StatelessWidget {
               padding: EdgeInsets.only(bottom: 32, right: 16, left: 16),
               sliver: SliverToBoxAdapter(
                 child: Text(
-                  t,
+                  newsTest,
                   style: Theme.of(context).textTheme.headline6,
                   textDirection: TextDirection.rtl,
                   textAlign: TextAlign.justify,
