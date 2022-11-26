@@ -11,5 +11,5 @@ LinearGradient blueGradient = LinearGradient(
     begin: Alignment.bottomLeft,
     end: Alignment.topRight);
 //// texts
-String longNme = 'خیریه امام علی ابن ابیطالب (ع) شهر گرگاب';
+String longName = 'خیریه امام علی ابن ابیطالب (ع) شهر گرگاب';
 String shortName = 'خیریه امام علی (ع) گرگاب';
