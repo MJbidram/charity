@@ -127,7 +127,7 @@ class _MyHomeScreenState extends State<MyHomeScreen> {
           ),
           child: Icon(
             Icons.sim_card,
-            color: whiet,
+            color: Colors.white,
             size: 34,
           ),
         ),
