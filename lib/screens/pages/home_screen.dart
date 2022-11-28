@@ -126,7 +126,7 @@ class _MyHomeScreenState extends State<MyHomeScreen> {
             borderRadius: BorderRadius.circular(16),
           ),
           child: Icon(
-            Icons.abc_sharp,
+            Icons.sim_card,
             color: whiet,
             size: 34,
           ),

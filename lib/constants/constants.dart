@@ -3,13 +3,15 @@ import 'package:flutter/material.dart';
 
 Color blueDark = Color(0xff1d3557);
 Color blueLight = Color(0xff457b9d);
-Color whiet = Colors.white;
+Color white = Colors.white;
 Color black = Colors.black;
 //// gradient
 LinearGradient blueGradient = LinearGradient(
     colors: [blueDark, blueLight],
     begin: Alignment.bottomLeft,
     end: Alignment.topRight);
+
+// Strings
 String longName = 'خیریه امام علی ابن ابیطالب (ع) شهر گرگاب';
 String shortName = 'خیریه امام علی (ع) گرگاب';
 

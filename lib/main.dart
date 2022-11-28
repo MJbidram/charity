@@ -26,22 +26,22 @@ class MyApp extends StatelessWidget {
               fontFamily: 'VB',
               fontSize: 16,
               // fontWeight: FontWeight.w800,
-              color: whiet),
+              color: white),
           headline2: TextStyle(
               fontFamily: 'VM',
               fontSize: 16,
               // fontWeight: FontWeight.w600,
-              color: whiet),
+              color: white),
           headline3: TextStyle(
               fontFamily: 'VL',
               fontSize: 16,
               // fontWeight: FontWeight.w400,
-              color: whiet),
+              color: white),
           headline4: TextStyle(
               fontFamily: 'VL',
               fontSize: 14,
               // fontWeight: FontWeight.w400,
-              color: whiet),
+              color: white),
           headline5: TextStyle(
               fontFamily: 'VB',
               fontSize: 16,
