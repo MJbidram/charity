@@ -53,7 +53,7 @@ class MyNewsPage extends StatelessWidget {
                     child: Image(
                       fit: BoxFit.cover,
                       image: AssetImage(
-                        'assets/images/item15.png',
+                        'assets/images/item15.jpg',
                       ),
                     ),
                   ),

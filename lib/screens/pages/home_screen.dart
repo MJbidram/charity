@@ -122,11 +122,11 @@ class _MyHomeScreenState extends State<MyHomeScreen> {
           height: 54,
           width: 54,
           decoration: BoxDecoration(
-            color: blueLight,
+            gradient: blueGradient,
             borderRadius: BorderRadius.circular(16),
           ),
           child: Icon(
-            Icons.sim_card,
+            Icons.abc_sharp,
             color: whiet,
             size: 34,
           ),

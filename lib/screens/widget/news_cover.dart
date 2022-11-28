@@ -25,63 +25,29 @@ class News extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
         Container(
-          margin: EdgeInsets.symmetric(vertical: 16),
+          margin: EdgeInsets.symmetric(vertical: 16, horizontal: 10),
           height: 200,
           width: MediaQuery.of(context).size.width,
           color: Colors.transparent,
-          child: Stack(children: [
-            Align(
-              alignment: AlignmentDirectional.bottomStart,
-              child: Container(
-                margin: EdgeInsets.symmetric(horizontal: 8),
-                height: 150,
-                width: MediaQuery.of(context).size.width,
-                decoration: BoxDecoration(
-                  color: blueLight,
-                  borderRadius: BorderRadius.circular(12),
-                ),
+          child: Container(
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(20),
+            ),
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 10),
+              child: Row(
+                children: [
+                  Image(
+                    image: AssetImage(
+                      'assets/images/item15.jpg',
+                    ),
+                  ),
+                  Text('عنوان خبر در این جا قرار دارد'),
+                ],
               ),
             ),
-            Align(
-              alignment: AlignmentDirectional.topEnd,
-              child: Container(
-                margin: EdgeInsets.only(right: 20, bottom: 12),
-                height: 188,
-                width: MediaQuery.of(context).size.width / 3,
-                decoration: BoxDecoration(
-                  color: blueDark,
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: Text('تصویر'),
-              ),
-            ),
-            Align(
-              alignment: AlignmentDirectional.bottomStart,
-              child: Container(
-                color: Colors.transparent,
-                height: 150,
-                width: MediaQuery.of(context).size.width -
-                    (MediaQuery.of(context).size.width / 3) -
-                    20,
-                child: Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-                  child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        Text(
-                          'تیتر خبر',
-                          style: Theme.of(context).textTheme.headline2,
-                        ),
-                        Text(
-                          'خلاصه خبر',
-                          style: Theme.of(context).textTheme.headline3,
-                        ),
-                      ]),
-                ),
-              ),
-            )
-          ]),
+          ),
         ),
       ],
     );

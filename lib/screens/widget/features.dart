@@ -42,7 +42,7 @@ class MyfeaturesTest extends StatelessWidget {
               color: Colors.white,
               size: 28,
             ),
-            // AssetImage('images/logo.png'),
+            // AssetImage('images/logo.jpg'),
           ),
           Text(
             'test',
