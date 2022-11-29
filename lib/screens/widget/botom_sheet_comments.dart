@@ -130,7 +130,7 @@ class BottomSheetComments extends StatelessWidget {
       textDirection: TextDirection.rtl,
       children: [
         CircleAvatar(
-          backgroundImage: AssetImage('assets/images/item10.png'),
+          backgroundImage: AssetImage('assets/images/item10.jpg'),
         ),
         SizedBox(
           width: 8,

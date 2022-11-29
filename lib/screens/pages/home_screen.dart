@@ -1,4 +1,5 @@
 import 'package:charity/constants/constants.dart';
+import 'package:charity/screens/pages/news_page.dart';
 
 import 'package:charity/screens/widget/hadis_container.dart';
 import 'package:charity/screens/widget/image_slider.dart';
@@ -16,78 +17,67 @@ class _MyHomeScreenState extends State<MyHomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        extendBody: true,
         backgroundColor: grey,
-        body: SafeArea(
-          child: NestedScrollView(
-            headerSliverBuilder: (context, innerBoxIsScrolled) {
-              return [
-                SliverAppBar(
-                  backgroundColor: blueLight,
-                  pinned: true,
-                  actions: [
-                    Padding(
-                      padding: const EdgeInsets.only(right: 8.0, top: 16.0),
-                      child: Text(
-                        shortName,
-                        style: Theme.of(context).textTheme.headline1,
-                      ),
-                    ),
-                  ],
-                  leading: Icon(
-                    Icons.notifications,
-                    size: 32,
-                  ),
-                  expandedHeight: 275,
-                  flexibleSpace: FlexibleSpaceBar(
-                    background: ImageSliderScreenTest(),
-                  ),
+        body: NestedScrollView(
+          headerSliverBuilder: (context, innerBoxIsScrolled) {
+            return [
+              SliverAppBar(
+                backgroundColor: blueLight,
+                pinned: true,
+                title: Text(
+                  shortName,
+                  style: Theme.of(context).textTheme.headline1,
                 ),
-              ];
-            },
-            body: CustomScrollView(
-              slivers: [
-                SliverPadding(
-                  padding: EdgeInsets.only(top: 20),
-                  sliver: SliverGrid(
-                    delegate: SliverChildBuilderDelegate(
-                      (context, index) {
-                        return _getIcons();
-                      },
-                      childCount: 8,
-                    ),
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 4,
-                      crossAxisSpacing: 18,
-                      mainAxisSpacing: 18,
-                      mainAxisExtent: 100,
+                actions: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Icon(
+                      Icons.notifications,
+                      size: 32,
                     ),
                   ),
+                ],
+                expandedHeight: 275,
+                flexibleSpace: FlexibleSpaceBar(
+                  background: ImageSliderScreenTest(),
                 ),
-                SliverToBoxAdapter(
-                  child: HadisContainer(),
+              ),
+            ];
+          },
+          body: CustomScrollView(
+            slivers: [
+              SliverPadding(
+                padding: EdgeInsets.only(top: 20),
+                sliver: SliverGrid(
+                  delegate: SliverChildBuilderDelegate(
+                    (context, index) {
+                      return _getIcons();
+                    },
+                    childCount: 8,
+                  ),
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 4,
+                    crossAxisSpacing: 18,
+                    mainAxisSpacing: 18,
+                    mainAxisExtent: 100,
+                  ),
                 ),
-                SliverToBoxAdapter(
-                  child: Padding(
-                    padding: EdgeInsets.only(top: 16, right: 16, left: 16),
-                    child: Align(
-                        alignment: Alignment.topRight,
-                        child: Row(
-                          children: [
-                            TextButton(
-                              onPressed: () {},
-                              child: Text(
-                                'بیشتر',
-                                style: TextStyle(
-                                  fontFamily: 'VB',
-                                  fontSize: 16,
-                                  // fontWeight: FontWeight.w600,
-                                  color: blueDark,
-                                ),
-                              ),
-                            ),
-                            Spacer(),
-                            Text(
-                              'اخبار',
+              ),
+              SliverToBoxAdapter(
+                child: HadisContainer(),
+              ),
+              SliverToBoxAdapter(
+                child: Padding(
+                  padding: EdgeInsets.only(top: 16, right: 16, left: 16),
+                  child: Align(
+                      alignment: Alignment.topRight,
+                      child: Row(
+                        children: [
+                          TextButton(
+                            onPressed: () {},
+                            child: Text(
+                              'بیشتر',
                               style: TextStyle(
                                 fontFamily: 'VB',
                                 fontSize: 16,
@@ -95,20 +85,30 @@ class _MyHomeScreenState extends State<MyHomeScreen> {
                                 color: blueDark,
                               ),
                             ),
-                          ],
-                        )),
-                  ),
+                          ),
+                          Spacer(),
+                          Text(
+                            'اخبار',
+                            style: TextStyle(
+                              fontFamily: 'VB',
+                              fontSize: 16,
+                              // fontWeight: FontWeight.w600,
+                              color: blueDark,
+                            ),
+                          ),
+                        ],
+                      )),
                 ),
-                SliverPadding(
-                  padding: EdgeInsets.only(bottom: 24),
-                  sliver: SliverList(
-                    delegate: SliverChildBuilderDelegate((context, index) {
-                      return News();
-                    }, childCount: 3),
-                  ),
-                )
-              ],
-            ),
+              ),
+              SliverPadding(
+                padding: EdgeInsets.only(bottom: 80),
+                sliver: SliverList(
+                  delegate: SliverChildBuilderDelegate((context, index) {
+                    return News();
+                  }, childCount: 3),
+                ),
+              )
+            ],
           ),
         ));
   }

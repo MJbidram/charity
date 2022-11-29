@@ -1,8 +1,7 @@
 import 'package:charity/constants/constants.dart';
-import 'package:charity/screens/widget/image_slider.dart';
+import 'package:charity/screens/pages/news_page.dart';
 import 'package:charity/screens/widget/news_cover.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 class NewsListPage extends StatelessWidget {
   const NewsListPage({super.key});
@@ -11,6 +10,7 @@ class NewsListPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       extendBody: true,
+      backgroundColor: grey,
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
@@ -37,11 +37,12 @@ class NewsListPage extends StatelessWidget {
                     textDirection: TextDirection.rtl,
                     style: TextStyle(color: blueDark, fontSize: 16),
                     decoration: InputDecoration(
-                      contentPadding: EdgeInsets.symmetric(vertical: 0),
                       border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(15)),
+                        borderRadius: BorderRadius.circular(15),
+                      ),
                       filled: true,
                       fillColor: Colors.white,
+                      contentPadding: EdgeInsets.symmetric(horizontal: 16),
                       hintText: 'جست و جو',
                       hintStyle: TextStyle(
                         color: blueDark,
@@ -58,14 +59,14 @@ class NewsListPage extends StatelessWidget {
               ),
             ),
           ),
-          // SliverPadding(
-          //   padding: EdgeInsets.only(top: 16),
-          //   sliver: SliverList(
-          //     delegate: SliverChildBuilderDelegate((context, index) {
-          //       return News();
-          //     }, childCount: 10),
-          //   ),
-          // ),
+          SliverPadding(
+            padding: EdgeInsets.only(top: 16, bottom: 80),
+            sliver: SliverList(
+              delegate: SliverChildBuilderDelegate((context, index) {
+                return News();
+              }, childCount: 10),
+            ),
+          ),
         ],
       ),
     );

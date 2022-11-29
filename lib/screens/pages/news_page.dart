@@ -17,19 +17,19 @@ class MyNewsPage extends StatelessWidget {
         child: AppBar(
           elevation: 0,
           toolbarHeight: 60,
+          title: Text(
+            shortName,
+            style: Theme.of(context).textTheme.headline1,
+          ),
           actions: [
             Padding(
-              padding: const EdgeInsets.only(right: 8.0, top: 16.0),
-              child: Text(
-                'خیریه امام علی (ع) شهر گرگاب',
-                style: Theme.of(context).textTheme.headline1,
+              padding: const EdgeInsets.all(8.0),
+              child: Icon(
+                Icons.notifications,
+                size: 32,
               ),
             ),
           ],
-          leading: Icon(
-            Icons.notifications,
-            size: 32,
-          ),
           backgroundColor: Colors.white,
           flexibleSpace: FlexibleSpaceBar(
             collapseMode: CollapseMode.pin,
@@ -148,7 +148,7 @@ class MyNewsPage extends StatelessWidget {
             ),
           ),
           SliverPadding(
-            padding: EdgeInsets.only(bottom: 32, right: 16, left: 16),
+            padding: EdgeInsets.only(bottom: 16, right: 16, left: 16),
             sliver: SliverToBoxAdapter(
                 child: Container(
               height: 50,
@@ -190,19 +190,19 @@ class MyNewsPage extends StatelessWidget {
       child: AppBar(
         elevation: 0,
         toolbarHeight: 60,
+        title: Text(
+          shortName,
+          style: Theme.of(context).textTheme.headline1,
+        ),
         actions: [
           Padding(
-            padding: const EdgeInsets.only(right: 8.0, top: 16.0),
-            child: Text(
-              'خیریه امام علی (ع) شهر گرگاب',
-              style: Theme.of(context).textTheme.headline1,
+            padding: const EdgeInsets.all(8.0),
+            child: Icon(
+              Icons.notifications,
+              size: 32,
             ),
           ),
         ],
-        leading: Icon(
-          Icons.notifications,
-          size: 32,
-        ),
         backgroundColor: Colors.white,
         flexibleSpace: FlexibleSpaceBar(
           collapseMode: CollapseMode.pin,
@@ -230,7 +230,7 @@ class MyNewsPage extends StatelessWidget {
                 child: Image(
                   fit: BoxFit.cover,
                   image: AssetImage(
-                    'assets/images/item15.png',
+                    'assets/images/item15.jpg',
                   ),
                 ),
               ),
