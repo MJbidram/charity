@@ -14,6 +14,7 @@ class _ImageSliderScreenTestState extends State<ImageSliderScreenTest> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: grey,
       body: Container(
         height: AppBar().preferredSize.height + 350,
         decoration: BoxDecoration(

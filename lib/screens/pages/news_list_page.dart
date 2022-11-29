@@ -58,14 +58,14 @@ class NewsListPage extends StatelessWidget {
               ),
             ),
           ),
-          SliverPadding(
-            padding: EdgeInsets.only(top: 16),
-            sliver: SliverList(
-              delegate: SliverChildBuilderDelegate((context, index) {
-                return News();
-              }, childCount: 10),
-            ),
-          ),
+          // SliverPadding(
+          //   padding: EdgeInsets.only(top: 16),
+          //   sliver: SliverList(
+          //     delegate: SliverChildBuilderDelegate((context, index) {
+          //       return News();
+          //     }, childCount: 10),
+          //   ),
+          // ),
         ],
       ),
     );
