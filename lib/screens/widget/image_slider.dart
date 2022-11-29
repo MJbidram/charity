@@ -54,7 +54,7 @@ class _ImageSliderScreenTestState extends State<ImageSliderScreenTest> {
                 borderRadius: BorderRadius.circular(16),
                 image: DecorationImage(
                     image: AssetImage(
-                      'assets/images/item${i + 10}.png',
+                      'assets/images/item${i + 10}.jpg',
                     ),
                     fit: BoxFit.cover),
               ),
