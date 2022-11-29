@@ -23,11 +23,11 @@ class BottomSheetComments extends StatelessWidget {
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
                 colors: [
-              Color.fromRGBO(255, 255, 255, 0.4),
-              Color.fromRGBO(255, 255, 255, 0.1)
+              Color.fromARGB(102, 204, 204, 204),
+              Color.fromARGB(102, 143, 143, 143),
             ])),
         child: BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 25, sigmaY: 25),
+          filter: ImageFilter.blur(sigmaX: 30, sigmaY: 30),
           child: Container(
             padding: EdgeInsets.symmetric(horizontal: 40),
             child: _getItems(context),

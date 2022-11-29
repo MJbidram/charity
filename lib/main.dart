@@ -1,4 +1,5 @@
 import 'package:charity/constants/constants.dart';
+import 'package:charity/screens/pages/charity_page.dart';
 import 'package:charity/screens/pages/home_screen.dart';
 import 'package:charity/screens/pages/news_list_page.dart';
 import 'package:charity/screens/pages/news_page.dart';
@@ -60,7 +61,7 @@ class MyApp extends StatelessWidget {
             statusBarColor: Color(0xff457b9d),
           ),
         ),
-        body: MyNewsPage(),
+        body: CharityPage(),
       ),
     );
   }
