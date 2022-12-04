@@ -1,6 +1,8 @@
 import 'package:charity/constants/constants.dart';
+import 'package:charity/screens/pages/charity_screen.dart';
 import 'package:charity/screens/pages/home_screen.dart';
-import 'package:charity/screens/pages/news_list_page.dart';
+import 'package:charity/screens/pages/news_list_screen.dart';
+import 'package:charity/screens/pages/profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:stylish_bottom_bar/stylish_bottom_bar.dart';
 
@@ -91,9 +93,9 @@ class _MainScreenState extends State<MainScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          // setState(() {
-          //   heart = !heart;
-          // });
+          Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) => CharityPage(),
+          ));
         },
         backgroundColor: blueDark,
         child: Container(
@@ -122,9 +124,7 @@ class _MainScreenState extends State<MainScreen> {
           color: blueDark,
         ),
         NewsListPage(),
-        Container(
-          color: blueLight,
-        )
+        Profile_Screen()
       ],
     );
   }

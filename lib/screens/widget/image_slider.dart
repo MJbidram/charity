@@ -2,6 +2,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:charity/constants/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class ImageSliderScreenTest extends StatefulWidget {
   const ImageSliderScreenTest({super.key});
@@ -11,6 +12,8 @@ class ImageSliderScreenTest extends StatefulWidget {
 }
 
 class _ImageSliderScreenTestState extends State<ImageSliderScreenTest> {
+  var controler = CarouselController();
+  int changePage = 0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,54 +32,79 @@ class _ImageSliderScreenTestState extends State<ImageSliderScreenTest> {
               height: AppBar().preferredSize.height,
             ),
             _getImageSlider(),
+            SizedBox(
+              height: 8,
+            ),
+            AnimatedSmoothIndicator(
+              activeIndex: changePage,
+              count: 5,
+              effect: ExpandingDotsEffect(
+                dotHeight: 10,
+                dotWidth: 10,
+                expansionFactor: 5,
+                dotColor: Colors.white,
+                activeDotColor: blueLight,
+              ),
+            ),
           ],
         ),
       ),
     );
   }
 
-  CarouselSlider _getImageSlider() {
-    return CarouselSlider(
-      options: CarouselOptions(
-        reverse: true,
-        height: 175,
-        autoPlay: true,
-        pauseAutoPlayInFiniteScroll: true,
-        enlargeCenterPage: true,
-      ),
-      items: [1, 2, 3, 4, 5].map((i) {
-        return Builder(
-          builder: (BuildContext context) {
-            return Container(
-              width: MediaQuery.of(context).size.width,
-              margin: EdgeInsets.symmetric(horizontal: 0),
-              decoration: BoxDecoration(
-                color: Colors.transparent,
-                borderRadius: BorderRadius.circular(16),
-                image: DecorationImage(
-                    image: AssetImage(
-                      'assets/images/item${i + 10}.jpg',
-                    ),
-                    fit: BoxFit.cover),
-              ),
-              child: Align(
-                alignment: AlignmentDirectional.bottomCenter,
-                child: Padding(
-                  padding: const EdgeInsets.only(bottom: 8.0),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      progressBar(),
-                      _getTitleText(),
-                    ],
+  Widget _getImageSlider() {
+    return Stack(
+      alignment: AlignmentDirectional.bottomCenter,
+      children: [
+        CarouselSlider(
+          carouselController: CarouselController(),
+          options: CarouselOptions(
+            reverse: true,
+            height: 175,
+            autoPlay: true,
+            pauseAutoPlayInFiniteScroll: true,
+            enlargeCenterPage: true,
+            onPageChanged: (index, reason) {
+              setState(() {
+                changePage = index;
+              });
+            },
+          ),
+          items: [1, 2, 3, 4, 5].map((i) {
+            return Builder(
+              builder: (BuildContext context) {
+                return Container(
+                  width: MediaQuery.of(context).size.width,
+                  margin: EdgeInsets.symmetric(horizontal: 0),
+                  decoration: BoxDecoration(
+                    color: Colors.transparent,
+                    borderRadius: BorderRadius.circular(16),
+                    image: DecorationImage(
+                        image: AssetImage(
+                          'assets/images/item${i + 10}.jpg',
+                        ),
+                        fit: BoxFit.cover),
                   ),
-                ),
-              ),
+                  child: Align(
+                    alignment: AlignmentDirectional.bottomCenter,
+                    child: Padding(
+                      padding: const EdgeInsets.only(bottom: 8.0),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          progressBar(),
+                          _getTitleText(),
+                        ],
+                      ),
+                    ),
+                  ),
+                );
+              },
             );
-          },
-        );
-      }).toList(),
+          }).toList(),
+        ),
+      ],
     );
   }
 

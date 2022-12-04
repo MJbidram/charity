@@ -1,5 +1,5 @@
 import 'package:charity/constants/constants.dart';
-import 'package:charity/screens/pages/news_page.dart';
+import 'package:charity/screens/pages/news_screen.dart';
 import 'package:flutter/material.dart';
 
 class News extends StatelessWidget {
