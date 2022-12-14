@@ -1,9 +1,30 @@
 import 'dart:ui';
 
 import 'package:charity/constants/constants.dart';
-import 'package:charity/screens/widget/botom_sheet_comments.dart';
+import 'package:dropdown_button2/custom_dropdown_button2.dart';
+import 'package:dropdown_button2/dropdown_button2.dart';
 
 import 'package:flutter/material.dart';
+
+final List<String> items = [
+  'Item1',
+  'Item2',
+  'Item3',
+  'Item4',
+  'Item5',
+  'Item6',
+  'Item7',
+  'Item8',
+  'Item1',
+  'Item2',
+  'Item3',
+  'Item4',
+  'Item5',
+  'Item6',
+  'Item7',
+  'Item8',
+];
+String? selectedValue;
 
 class CharityPage extends StatefulWidget {
   const CharityPage({super.key});
@@ -33,34 +54,28 @@ class _CharityPageState extends State<CharityPage> {
         resizeToAvoidBottomInset: true,
         backgroundColor: grey,
         //app bar
-        appBar: AppBar(
-          elevation: 0,
-          toolbarHeight: 175,
-          actions: [
-            Padding(
-              padding: const EdgeInsets.only(right: 8.0, top: 16.0),
-              child: Text(
-                'خیریه امام علی (ع) شهر گرگاب',
-                style: Theme.of(context).textTheme.headline1,
-              ),
+        appBar: PreferredSize(
+          preferredSize: Size.fromHeight(250),
+          child: AppBar(
+            elevation: 0,
+            toolbarHeight: 60,
+            title: Text(
+              shortName,
+              style: Theme.of(context).textTheme.headline1,
             ),
-          ],
-          leading: Icon(
-            Icons.notifications,
-            size: 32,
-          ),
-          backgroundColor: grey,
-          flexibleSpace: FlexibleSpaceBar(
-            collapseMode: CollapseMode.pin,
-            background: Container(
-              decoration: BoxDecoration(
-                gradient: blueGradient,
-                borderRadius: BorderRadius.vertical(
-                  bottom:
-                      Radius.elliptical(MediaQuery.of(context).size.width, 170),
+            actions: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Icon(
+                  Icons.notifications,
+                  size: 32,
                 ),
               ),
-              child: Container(
+            ],
+            backgroundColor: grey,
+            flexibleSpace: FlexibleSpaceBar(
+              collapseMode: CollapseMode.pin,
+              background: Container(
                 decoration: BoxDecoration(
                   gradient: blueGradient,
                   borderRadius: BorderRadius.vertical(
@@ -68,15 +83,30 @@ class _CharityPageState extends State<CharityPage> {
                         MediaQuery.of(context).size.width, 170),
                   ),
                 ),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.vertical(
-                    bottom: Radius.elliptical(
-                        MediaQuery.of(context).size.width, 170),
+                child: Container(
+                  decoration: BoxDecoration(
+                    gradient: blueGradient,
+                    borderRadius: BorderRadius.vertical(
+                      bottom: Radius.elliptical(
+                          MediaQuery.of(context).size.width, 170),
+                    ),
                   ),
-                  child: Image(
-                    fit: BoxFit.cover,
-                    image: AssetImage(
-                      'assets/images/item15.jpg',
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.vertical(
+                      bottom: Radius.elliptical(
+                          MediaQuery.of(context).size.width, 170),
+                    ),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.vertical(
+                        bottom: Radius.elliptical(
+                            MediaQuery.of(context).size.width, 170),
+                      ),
+                      child: Image(
+                        fit: BoxFit.cover,
+                        image: AssetImage(
+                          'assets/images/item15.jpg',
+                        ),
+                      ),
                     ),
                   ),
                 ),
@@ -121,6 +151,14 @@ class _CharityPageState extends State<CharityPage> {
             ),
           ),
           SizedBox(
+            height: 32,
+          ),
+          Text('تعیین مبلغ'),
+          SizedBox(
+            height: 16,
+          ),
+          textfild1(),
+          SizedBox(
             width: double.infinity,
             height: 16,
           ),
@@ -131,63 +169,7 @@ class _CharityPageState extends State<CharityPage> {
           SizedBox(
             height: 16,
           ),
-          Wrap(
-            spacing: 8,
-            runSpacing: 16,
-            // mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Container(
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 6),
-                  child: Text('صدقه'),
-                ),
-              ),
-              Container(
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 6),
-                  child: Text('متفرقه'),
-                ),
-              ),
-              Container(
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 6),
-                  child: Text('امور خیر'),
-                ),
-              ),
-              Container(
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 6),
-                  child: Text('پروژه های عمرانی'),
-                ),
-              ),
-              Container(
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 6),
-                  child: Text('کمک های خاص و شرعی'),
-                ),
-              ),
-            ],
-          ),
+          _getDropDownFild(context),
           SizedBox(
             height: 32,
           ),
@@ -198,125 +180,7 @@ class _CharityPageState extends State<CharityPage> {
           SizedBox(
             height: 16,
           ),
-          Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(15),
-              color: white,
-            ),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(
-                vertical: 16,
-                horizontal: 8,
-              ),
-              child: Wrap(
-                spacing: 8,
-                runSpacing: 16,
-                // mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Container(
-                    decoration: BoxDecoration(
-                      color: grey,
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 6),
-                      child: Text('صدقه'),
-                    ),
-                  ),
-                  Container(
-                    decoration: BoxDecoration(
-                      color: grey,
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 6),
-                      child: Text('متفرقه'),
-                    ),
-                  ),
-                  Container(
-                    decoration: BoxDecoration(
-                      color: grey,
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 6),
-                      child: Text('امور خیر'),
-                    ),
-                  ),
-                  Container(
-                    decoration: BoxDecoration(
-                      color: grey,
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 6),
-                      child: Text('پروژه های عمرانی'),
-                    ),
-                  ),
-                  Container(
-                    decoration: BoxDecoration(
-                      color: grey,
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 6),
-                      child: Text('کمک های خاص و شرعی'),
-                    ),
-                  ),
-                  Container(
-                    decoration: BoxDecoration(
-                      color: grey,
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 6),
-                      child: Text('صدقه'),
-                    ),
-                  ),
-                  Container(
-                    decoration: BoxDecoration(
-                      color: grey,
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 6),
-                      child: Text('متفرقه'),
-                    ),
-                  ),
-                  Container(
-                    decoration: BoxDecoration(
-                      color: grey,
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 6),
-                      child: Text('امور خیر'),
-                    ),
-                  ),
-                  Container(
-                    decoration: BoxDecoration(
-                      color: grey,
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 6),
-                      child: Text('پروژه های عمرانی'),
-                    ),
-                  ),
-                  Container(
-                    decoration: BoxDecoration(
-                      color: grey,
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 6),
-                      child: Text('کمک های خاص و شرعی'),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
+          _getDropDownFild(context),
           SizedBox(
             height: 32,
           ),
@@ -329,13 +193,11 @@ class _CharityPageState extends State<CharityPage> {
                   borderRadius: BorderRadius.circular(16),
                 ),
               ),
-              onPressed: () {
-                _getBottomSheetNavigation(context);
-              },
+              onPressed: () {},
               child:
                   Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                 Text(
-                  'تعیین مبلغ و پرداخت',
+                  'انتقال به صفحه پرداخت',
                   style: Theme.of(context).textTheme.headline4,
                 ),
                 SizedBox(
@@ -349,112 +211,6 @@ class _CharityPageState extends State<CharityPage> {
             ),
           ),
         ],
-      ),
-    );
-  }
-
-  Future<dynamic> _getBottomSheetNavigation(BuildContext context) {
-    return showModalBottomSheet(
-      barrierColor: Colors.transparent,
-      backgroundColor: Colors.transparent,
-      isScrollControlled: true,
-      context: context,
-      builder: (context) {
-        return Padding(
-          padding: EdgeInsets.only(
-            bottom: MediaQuery.of(context).viewInsets.bottom,
-          ),
-          child: DraggableScrollableSheet(
-            initialChildSize: 0.3,
-            minChildSize: 0.2,
-            maxChildSize: 0.3,
-            builder: (context, scrollController) {
-              return _bottomSheetCharity(scrollController);
-            },
-          ),
-        );
-      },
-    );
-  }
-
-  Widget _bottomSheetCharity(ScrollController controller) {
-    return ClipRRect(
-      borderRadius: BorderRadius.only(
-        topLeft: Radius.circular(36),
-        topRight: Radius.circular(36),
-      ),
-      child: Container(
-        decoration: BoxDecoration(
-            gradient: LinearGradient(
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-                colors: [
-              Color.fromARGB(102, 204, 204, 204),
-              Color.fromARGB(102, 143, 143, 143),
-            ])),
-        child: BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 30, sigmaY: 30),
-          child: Container(
-            padding: EdgeInsets.symmetric(horizontal: 40),
-            child: Padding(
-                padding: const EdgeInsets.only(top: 8),
-                child: CustomScrollView(
-                  controller: controller,
-                  slivers: [
-                    SliverToBoxAdapter(
-                      child: Container(
-                        margin: EdgeInsets.only(
-                            top: 10, bottom: 22, right: 125, left: 125),
-                        height: 5,
-                        width: 67,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(100),
-                            color: white),
-                      ),
-                    ),
-                    SliverToBoxAdapter(
-                      child: Text('تعیین مبلغ و پرداخت'),
-                    ),
-                    SliverPadding(
-                      padding: EdgeInsets.symmetric(vertical: 16),
-                      sliver: SliverToBoxAdapter(
-                        child: textfild1(),
-                      ),
-                    ),
-                    SliverToBoxAdapter(
-                      child: Container(
-                        height: 50,
-                        child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: blueDark,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(16),
-                            ),
-                          ),
-                          onPressed: () {},
-                          child: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  'پرداخت',
-                                  style: Theme.of(context).textTheme.headline4,
-                                ),
-                                SizedBox(
-                                  width: 4,
-                                ),
-                                Icon(
-                                  Icons.payment,
-                                  size: 24,
-                                ),
-                              ]),
-                        ),
-                      ),
-                    )
-                  ],
-                )),
-          ),
-        ),
       ),
     );
   }
@@ -473,7 +229,7 @@ class _CharityPageState extends State<CharityPage> {
         decoration: InputDecoration(
             contentPadding: EdgeInsets.symmetric(horizontal: 25, vertical: 16),
             enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(width: 3, color: grey),
+              borderSide: BorderSide(width: 1, color: Colors.grey),
               borderRadius: BorderRadius.all(Radius.circular(15)),
             ),
             focusedBorder: OutlineInputBorder(
@@ -499,5 +255,59 @@ class _CharityPageState extends State<CharityPage> {
     myFocusNode1.dispose();
 
     super.dispose();
+  }
+
+  Widget _getDropDownFild(BuildContext context) {
+    return Container(
+      child: DropdownButtonFormField2(
+        decoration: InputDecoration(
+          // label: Text('data'),
+
+          isDense: true,
+          contentPadding: EdgeInsets.zero,
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(15),
+          ),
+        ),
+        isExpanded: true,
+        hint: const Text(
+          'انتخاب',
+          style: TextStyle(fontSize: 14),
+        ),
+        icon: const Icon(
+          Icons.arrow_drop_down,
+          color: Colors.black45,
+        ),
+        dropdownMaxHeight: 200,
+        iconSize: 30,
+        buttonHeight: 50,
+        buttonPadding: const EdgeInsets.only(left: 20, right: 10),
+        dropdownDecoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(15),
+        ),
+        items: items
+            .map((item) => DropdownMenuItem<String>(
+                  value: item,
+                  child: Text(
+                    item,
+                    style: const TextStyle(
+                      fontSize: 14,
+                    ),
+                  ),
+                ))
+            .toList(),
+        validator: (value) {
+          if (value == null) {
+            return 'Please select gender.';
+          }
+        },
+        onChanged: (value) {
+          //Do something when changing the item if you want.
+        },
+        onSaved: (value) {
+          selectedValue = value.toString();
+        },
+      ),
+    );
   }
 }
