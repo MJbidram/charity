@@ -1,22 +1,18 @@
+import 'package:charity/constants/constants.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/container.dart';
 
 import '../models/models.dart';
 
 class Repositories {
   Future<HadisModel> getHadisData() async {
-    var response = await Dio()
-        .get('https://khapp.amiralmomenin-kheirieh.ir/api/v1/1/hadis');
+    var response = await Dio().get(ApiAddress.hadisAddress);
     var jsonObject = response.data;
     var hadis = HadisModel.fromeJsonMap(jsonObject);
     return hadis;
   }
 
   Future<List<PooyeshesModel>> getPooyeshesData() async {
-    var response = await Dio()
-        .get('https://khapp.amiralmomenin-kheirieh.ir/api/v1/1/pooyesh');
+    var response = await Dio().get(ApiAddress.pooyeshAddress);
 
     List<PooyeshesModel> pooyeshesList = response.data['data']
         .map((jsonObject) => PooyeshesModel.fromeJsonMap(jsonObject))
@@ -28,8 +24,7 @@ class Repositories {
   }
 
   Future<List<ProjectModel>> getprojectData() async {
-    var response = await Dio()
-        .get('https://khapp.amiralmomenin-kheirieh.ir/api/v1/1/project');
+    var response = await Dio().get(ApiAddress.projectAddress);
 
     List<ProjectModel> projectList = response.data['data']
         .map((jsonObject) => ProjectModel.fromeJsonMap(jsonObject))
@@ -42,8 +37,7 @@ class Repositories {
 
   // Future<List<Home>>
   Future<List> getHomeData() async {
-    var response =
-        await Dio().get('https://khapp.amiralmomenin-kheirieh.ir/api/v1/1');
+    var response = await Dio().get(ApiAddress.homeAddress);
 
     var datam = response.data;
 
@@ -66,27 +60,5 @@ class Repositories {
     print(homeProjectsList[0].titleProjectHome);
     return [homePooyeshList, homeProjectsList, hadis];
     // return projectList;
-  }
-}
-
-class MyTestApi extends StatefulWidget {
-  const MyTestApi({super.key});
-
-  @override
-  State<MyTestApi> createState() => _MyTestApiState();
-}
-
-class _MyTestApiState extends State<MyTestApi> {
-  var getdata = Repositories();
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    getdata.getHomeData();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold();
   }
 }
