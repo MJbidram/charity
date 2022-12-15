@@ -1,17 +1,32 @@
+import 'dart:ui';
+
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:charity/constants/constants.dart';
+import 'package:charity/models/home_screen_model.dart';
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
-class ImageSliderScreenTest extends StatefulWidget {
-  const ImageSliderScreenTest({super.key});
+class ImageSliderScreen extends StatefulWidget {
+  ImageSliderScreen({
+    super.key,
+    required this.myModelList,
+  });
+  List<dynamic> myModelList;
 
   @override
-  State<ImageSliderScreenTest> createState() => _ImageSliderScreenTestState();
+  State<ImageSliderScreen> createState() => _ImageSliderScreenState();
 }
 
-class _ImageSliderScreenTestState extends State<ImageSliderScreenTest> {
+class _ImageSliderScreenState extends State<ImageSliderScreen> {
+  List<dynamic>? pooyeshModel;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    pooyeshModel = widget.myModelList;
+  }
+
   var controler = CarouselController();
   int changePage = 0;
   @override
@@ -19,11 +34,11 @@ class _ImageSliderScreenTestState extends State<ImageSliderScreenTest> {
     return Scaffold(
       backgroundColor: grey,
       body: Container(
-        height: AppBar().preferredSize.height + 350,
+        height: AppBar().preferredSize.height + 275,
         decoration: BoxDecoration(
           gradient: blueGradient,
           borderRadius: BorderRadius.vertical(
-            bottom: Radius.elliptical(MediaQuery.of(context).size.width, 170),
+            bottom: Radius.elliptical(MediaQuery.of(context).size.width, 175),
           ),
         ),
         child: Column(
@@ -37,7 +52,7 @@ class _ImageSliderScreenTestState extends State<ImageSliderScreenTest> {
             ),
             AnimatedSmoothIndicator(
               activeIndex: changePage,
-              count: 5,
+              count: pooyeshModel!.length,
               effect: ExpandingDotsEffect(
                 dotHeight: 10,
                 dotWidth: 10,
@@ -56,9 +71,37 @@ class _ImageSliderScreenTestState extends State<ImageSliderScreenTest> {
     return Stack(
       alignment: AlignmentDirectional.bottomCenter,
       children: [
-        CarouselSlider(
-          carouselController: CarouselController(),
+        CarouselSlider.builder(
+          itemCount: pooyeshModel!.length,
+          itemBuilder: (context, index, realIndex) {
+            return Container(
+              width: MediaQuery.of(context).size.width,
+              margin: EdgeInsets.symmetric(horizontal: 0),
+              decoration: BoxDecoration(
+                color: Colors.transparent,
+                borderRadius: BorderRadius.circular(16),
+                image: DecorationImage(
+                    image: NetworkImage(pooyeshModel![index].pooyeshImageUrl),
+                    fit: BoxFit.cover),
+              ),
+              child: Align(
+                alignment: AlignmentDirectional.bottomCenter,
+                child: Padding(
+                  padding: const EdgeInsets.only(bottom: 8.0),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      progressBar(index),
+                      _getTitleText(index),
+                    ],
+                  ),
+                ),
+              ),
+            );
+          },
           options: CarouselOptions(
+            enableInfiniteScroll: true,
             reverse: true,
             height: 175,
             autoPlay: true,
@@ -70,49 +113,16 @@ class _ImageSliderScreenTestState extends State<ImageSliderScreenTest> {
               });
             },
           ),
-          items: [1, 2, 3, 4, 5].map((i) {
-            return Builder(
-              builder: (BuildContext context) {
-                return Container(
-                  width: MediaQuery.of(context).size.width,
-                  margin: EdgeInsets.symmetric(horizontal: 0),
-                  decoration: BoxDecoration(
-                    color: Colors.transparent,
-                    borderRadius: BorderRadius.circular(16),
-                    image: DecorationImage(
-                        image: AssetImage(
-                          'assets/images/item${i + 10}.jpg',
-                        ),
-                        fit: BoxFit.cover),
-                  ),
-                  child: Align(
-                    alignment: AlignmentDirectional.bottomCenter,
-                    child: Padding(
-                      padding: const EdgeInsets.only(bottom: 8.0),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          progressBar(),
-                          _getTitleText(),
-                        ],
-                      ),
-                    ),
-                  ),
-                );
-              },
-            );
-          }).toList(),
-        ),
+        )
       ],
     );
   }
 
-  Widget _getTitleText() {
+  Widget _getTitleText(int index) {
     return Stack(
       children: [
         Text(
-          'Outlined Text',
+          pooyeshModel![index].pooyeshTitle,
           style: TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.bold,
@@ -122,8 +132,8 @@ class _ImageSliderScreenTestState extends State<ImageSliderScreenTest> {
               ..color = Colors.black, // <-- Border color
           ),
         ),
-        const Text(
-          'Outlined Text',
+        Text(
+          pooyeshModel![index].pooyeshTitle,
           style: TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.bold,
@@ -134,7 +144,7 @@ class _ImageSliderScreenTestState extends State<ImageSliderScreenTest> {
     );
   }
 
-  Widget progressBar() {
+  Widget progressBar(int index) {
     return Container(
       margin: EdgeInsets.symmetric(
         vertical: 8,

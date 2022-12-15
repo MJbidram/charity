@@ -11,7 +11,7 @@ class Repositories {
     return hadis;
   }
 
-  void getPooyeshesData() async {
+  Future<List<PooyeshesModel>> getPooyeshesData() async {
     var response = await Dio()
         .get('https://khapp.amiralmomenin-kheirieh.ir/api/v1/1/pooyesh');
 
@@ -21,9 +21,10 @@ class Repositories {
         .cast<PooyeshesModel>();
 
     print(pooyeshesList[0].pooyeshTitle);
+    return pooyeshesList;
   }
 
-  void getprojectData() async {
+  Future<List<ProjectModel>> getprojectData() async {
     var response = await Dio()
         .get('https://khapp.amiralmomenin-kheirieh.ir/api/v1/1/project');
 
@@ -33,5 +34,6 @@ class Repositories {
         .cast<ProjectModel>();
 
     print(projectList[0].projectTitle);
+    return projectList;
   }
 }

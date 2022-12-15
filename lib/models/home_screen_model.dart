@@ -28,7 +28,7 @@ class HadisModel {
 }
 
 class PooyeshesModel {
-  String imageUrl;
+  String pooyeshImageUrl;
   String pooyeshTitle;
   int pooyeshId;
   String description;
@@ -39,7 +39,7 @@ class PooyeshesModel {
   PooyeshesModel(
     this.pooyeshId,
     this.pooyeshTitle,
-    this.imageUrl,
+    this.pooyeshImageUrl,
     this.description,
     this.amount,
     this.start,

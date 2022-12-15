@@ -1,15 +1,16 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:charity/bloc/home_bloc/home_bloc.dart';
 import 'package:charity/bloc/home_bloc/home_event.dart';
 import 'package:charity/bloc/home_bloc/home_state.dart';
 import 'package:charity/constants/constants.dart';
 import 'package:charity/repositories/repositories.dart';
-import 'package:charity/screens/pages/news_screen.dart';
 
-import 'package:charity/screens/widget/hadis_container.dart';
 import 'package:charity/screens/widget/image_slider.dart';
 import 'package:charity/screens/widget/news_cover.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:percent_indicator/percent_indicator.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class MyHomeScreen extends StatefulWidget {
   const MyHomeScreen({super.key});
@@ -19,6 +20,14 @@ class MyHomeScreen extends StatefulWidget {
 }
 
 class _MyHomeScreenState extends State<MyHomeScreen> {
+  late double height1;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+
+  int changePage = 0;
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -46,7 +55,7 @@ class _MyHomeScreenState extends State<MyHomeScreen> {
                 headerSliverBuilder: (context, innerBoxIsScrolled) {
                   return [
                     SliverAppBar(
-                      backgroundColor: blueLight,
+                      backgroundColor: blueDark,
                       pinned: true,
                       title: Text(
                         shortName,
@@ -64,8 +73,10 @@ class _MyHomeScreenState extends State<MyHomeScreen> {
                       expandedHeight: 275,
                       flexibleSpace: FlexibleSpaceBar(
                         background: Padding(
-                          padding: const EdgeInsets.only(top: 48),
-                          child: ImageSliderScreenTest(),
+                          padding: EdgeInsets.only(
+                              top: MediaQuery.of(context).viewPadding.top),
+                          child: ImageSliderScreen(
+                              myModelList: state.pooyeshModel),
                         ),
                       ),
                     ),
@@ -96,7 +107,6 @@ class _MyHomeScreenState extends State<MyHomeScreen> {
                             const EdgeInsets.only(right: 16, left: 16, top: 16),
                         child: Container(
                           width: MediaQuery.of(context).size.width,
-                          height: 175,
                           decoration: BoxDecoration(
                             gradient: blueGradient,
                             borderRadius: BorderRadius.circular(16),
@@ -107,14 +117,14 @@ class _MyHomeScreenState extends State<MyHomeScreen> {
                               children: [
                                 Text(
                                   state.teller,
-                                  style: Theme.of(context).textTheme.headline1,
+                                  style: Theme.of(context).textTheme.headline2,
                                 ),
                                 SizedBox(
                                   height: 8,
                                 ),
                                 Text(
                                   state.arabicText,
-                                  style: Theme.of(context).textTheme.headline2,
+                                  style: Theme.of(context).textTheme.headline4,
                                 ),
                                 SizedBox(
                                   height: 8,
@@ -127,6 +137,51 @@ class _MyHomeScreenState extends State<MyHomeScreen> {
                             ),
                           ),
                         ),
+                      ),
+                    ),
+                    SliverToBoxAdapter(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SizedBox(
+                            height: 16,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(right: 16.0),
+                            child: Text(
+                              'پروژه ها',
+                              style: Theme.of(context).textTheme.headline5,
+                            ),
+                          ),
+                          Container(
+                              margin: EdgeInsets.only(top: 8),
+                              decoration: BoxDecoration(gradient: blueGradient),
+                              child: Column(
+                                children: [
+                                  SizedBox(
+                                    height: 16,
+                                  ),
+                                  _getProjectSlider(state),
+                                  SizedBox(
+                                    height: 8,
+                                  ),
+                                  AnimatedSmoothIndicator(
+                                    activeIndex: changePage,
+                                    count: state.projectModel.length,
+                                    effect: ExpandingDotsEffect(
+                                      dotHeight: 10,
+                                      dotWidth: 10,
+                                      expansionFactor: 5,
+                                      dotColor: Colors.white,
+                                      activeDotColor: blueLight,
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 12,
+                                  ),
+                                ],
+                              )),
+                        ],
                       ),
                     ),
                     SliverToBoxAdapter(
@@ -177,6 +232,112 @@ class _MyHomeScreenState extends State<MyHomeScreen> {
             return Container();
           },
         ));
+  }
+
+  Widget _getProjectSlider(HomeLoadedState state) {
+    return Stack(
+      alignment: AlignmentDirectional.bottomCenter,
+      children: [
+        CarouselSlider.builder(
+          itemCount: state.projectModel.length,
+          itemBuilder: (context, index, realIndex) {
+            return Container(
+              width: MediaQuery.of(context).size.width,
+              margin: EdgeInsets.symmetric(horizontal: 0),
+              decoration: BoxDecoration(
+                color: Colors.transparent,
+                borderRadius: BorderRadius.circular(16),
+                image: DecorationImage(
+                    image:
+                        NetworkImage(state.projectModel[index].projectImageUrl),
+                    fit: BoxFit.cover),
+              ),
+              child: Align(
+                alignment: AlignmentDirectional.bottomCenter,
+                child: Padding(
+                  padding: const EdgeInsets.only(bottom: 8.0),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      progressBar(index, state),
+                      _getTitleProjectText(index, state),
+                    ],
+                  ),
+                ),
+              ),
+            );
+          },
+          options: CarouselOptions(
+            enableInfiniteScroll: true,
+            reverse: true,
+            height: 175,
+            autoPlay: true,
+            pauseAutoPlayInFiniteScroll: true,
+            enlargeCenterPage: true,
+            onPageChanged: (index, reason) {
+              setState(() {
+                changePage = index;
+              });
+            },
+          ),
+        )
+      ],
+    );
+  }
+
+  progressBar(int index, HomeLoadedState state) {
+    return Container(
+      margin: EdgeInsets.symmetric(
+        vertical: 8,
+      ),
+      child: LinearPercentIndicator(
+        center: Align(
+          alignment: Alignment.topCenter,
+          child: Text(
+            '50%',
+            style: Theme.of(context).textTheme.headline4,
+          ),
+        ),
+        width: MediaQuery.of(context).size.width / 1.4,
+        lineHeight: 18,
+        progressColor: Colors.red,
+        backgroundColor: Colors.grey[200],
+        percent: 70 / 100,
+        barRadius: Radius.circular(8),
+        animation: true,
+        animationDuration: 2000,
+        alignment: MainAxisAlignment.center,
+        padding: EdgeInsets.symmetric(horizontal: 8),
+        restartAnimation: false,
+      ),
+    );
+  }
+
+  _getTitleProjectText(int index, HomeLoadedState state) {
+    return Stack(
+      children: [
+        Text(
+          state.projectModel[index].projectTitle,
+          style: TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+            foreground: Paint()
+              ..style = PaintingStyle.stroke
+              ..strokeWidth = 1
+              ..color = Colors.black, // <-- Border color
+          ),
+        ),
+        Text(
+          state.projectModel[index].projectTitle,
+          style: TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+            color: Colors.white, // <-- Inner color
+          ),
+        ),
+      ],
+    );
   }
 
   Widget _getIcons() {
