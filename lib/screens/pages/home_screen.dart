@@ -248,8 +248,8 @@ class _MyHomeScreenState extends State<MyHomeScreen> {
                 color: Colors.transparent,
                 borderRadius: BorderRadius.circular(16),
                 image: DecorationImage(
-                    image:
-                        NetworkImage(state.projectModel[index].projectImageUrl),
+                    image: NetworkImage(
+                        state.projectModel[index].imageProjectHome),
                     fit: BoxFit.cover),
               ),
               child: Align(
@@ -295,15 +295,15 @@ class _MyHomeScreenState extends State<MyHomeScreen> {
         center: Align(
           alignment: Alignment.topCenter,
           child: Text(
-            '50%',
-            style: Theme.of(context).textTheme.headline4,
+            '${state.projectModel[index].pishraftProjectHome}' + '%',
+            style: Theme.of(context).textTheme.headline5,
           ),
         ),
         width: MediaQuery.of(context).size.width / 1.4,
         lineHeight: 18,
         progressColor: Colors.red,
         backgroundColor: Colors.grey[200],
-        percent: 70 / 100,
+        percent: state.projectModel[index].pishraftProjectHome / 100,
         barRadius: Radius.circular(8),
         animation: true,
         animationDuration: 2000,
@@ -318,7 +318,7 @@ class _MyHomeScreenState extends State<MyHomeScreen> {
     return Stack(
       children: [
         Text(
-          state.projectModel[index].projectTitle,
+          state.projectModel[index].titleProjectHome,
           style: TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.bold,
@@ -329,7 +329,7 @@ class _MyHomeScreenState extends State<MyHomeScreen> {
           ),
         ),
         Text(
-          state.projectModel[index].projectTitle,
+          state.projectModel[index].titleProjectHome,
           style: TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.bold,

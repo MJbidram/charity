@@ -7,16 +7,15 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   final Repositories _repositories;
   HomeBloc(this._repositories) : super(HomeLoadingState()) {
     on<LoadApiEvent>((event, emit) async {
-      final hadis = await _repositories.getHadisData();
-      final pooyeshes = await _repositories.getPooyeshesData();
-      final projects = await _repositories.getprojectData();
+      final homeData = await _repositories.getHomeData();
+
       emit(
         HomeLoadedState(
-          teller: hadis.teller,
-          arabicText: hadis.arabicText,
-          farsiText: hadis.farsiText,
-          pooyeshModel: pooyeshes,
-          projectModel: projects,
+          teller: homeData[2].teller,
+          arabicText: homeData[2].arabicText,
+          farsiText: homeData[2].farsiText,
+          pooyeshModel: homeData[0],
+          projectModel: homeData[1],
         ),
       );
     });

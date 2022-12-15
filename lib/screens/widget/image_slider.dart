@@ -2,7 +2,7 @@ import 'dart:ui';
 
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:charity/constants/constants.dart';
-import 'package:charity/models/home_screen_model.dart';
+import 'package:charity/models/models.dart';
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
@@ -81,7 +81,7 @@ class _ImageSliderScreenState extends State<ImageSliderScreen> {
                 color: Colors.transparent,
                 borderRadius: BorderRadius.circular(16),
                 image: DecorationImage(
-                    image: NetworkImage(pooyeshModel![index].pooyeshImageUrl),
+                    image: NetworkImage(pooyeshModel![index].imagePooyeshHome),
                     fit: BoxFit.cover),
               ),
               child: Align(
@@ -122,7 +122,7 @@ class _ImageSliderScreenState extends State<ImageSliderScreen> {
     return Stack(
       children: [
         Text(
-          pooyeshModel![index].pooyeshTitle,
+          pooyeshModel![index].titlePooyeshHome,
           style: TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.bold,
@@ -133,7 +133,7 @@ class _ImageSliderScreenState extends State<ImageSliderScreen> {
           ),
         ),
         Text(
-          pooyeshModel![index].pooyeshTitle,
+          pooyeshModel![index].titlePooyeshHome,
           style: TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.bold,

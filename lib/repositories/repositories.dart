@@ -1,6 +1,9 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter/src/widgets/container.dart';
 
-import '../models/home_screen_model.dart';
+import '../models/models.dart';
 
 class Repositories {
   Future<HadisModel> getHadisData() async {
@@ -35,5 +38,55 @@ class Repositories {
 
     print(projectList[0].projectTitle);
     return projectList;
+  }
+
+  // Future<List<Home>>
+  Future<List> getHomeData() async {
+    var response =
+        await Dio().get('https://khapp.amiralmomenin-kheirieh.ir/api/v1/1');
+
+    var datam = response.data;
+
+    List<HomePooyeshModel> homePooyeshList = response.data['data']['pooyeshes']
+        .map((jsonObject) => HomePooyeshModel.fromJsonMap(jsonObject))
+        .toList()
+        .cast<HomePooyeshModel>();
+
+    List<HomeProjectsModel> homeProjectsList = response.data['data']['projects']
+        .map((jsonObject) => HomeProjectsModel.fromJsonMap(jsonObject))
+        .toList()
+        .cast<HomeProjectsModel>();
+
+    var jsonObject = response.data['data']['hadis'];
+
+    var hadis = HadisModel.fromeJsonMap(jsonObject);
+
+    print('1');
+
+    print(homeProjectsList[0].titleProjectHome);
+    return [homePooyeshList, homeProjectsList, hadis];
+    // return projectList;
+  }
+}
+
+class MyTestApi extends StatefulWidget {
+  const MyTestApi({super.key});
+
+  @override
+  State<MyTestApi> createState() => _MyTestApiState();
+}
+
+class _MyTestApiState extends State<MyTestApi> {
+  var getdata = Repositories();
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getdata.getHomeData();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold();
   }
 }

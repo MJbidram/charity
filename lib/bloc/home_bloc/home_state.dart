@@ -1,4 +1,4 @@
-import 'package:charity/models/home_screen_model.dart';
+import 'package:charity/models/models.dart';
 import 'package:equatable/equatable.dart';
 
 abstract class HomeState extends Equatable {}
@@ -14,9 +14,9 @@ class HomeLoadedState extends HomeState {
   final String arabicText;
   final String farsiText;
 
-  List<PooyeshesModel> pooyeshModel;
+  List<HomePooyeshModel> pooyeshModel;
 
-  List<ProjectModel> projectModel;
+  List<HomeProjectsModel> projectModel;
 
   HomeLoadedState({
     required this.teller,

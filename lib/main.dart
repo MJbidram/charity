@@ -35,7 +35,6 @@ class MyApp extends StatelessWidget {
         Locale("fa", "IR"), // OR Locale('ar', 'AE') OR Other RTL locales
       ],
       locale: Locale("fa", "IR"),
-
       home: MultiRepositoryProvider(
         providers: [
           RepositoryProvider(
@@ -44,27 +43,6 @@ class MyApp extends StatelessWidget {
         ],
         child: MainScreen(),
       ),
-
-      // Scaffold(
-      //   appBar: AppBar(
-      //     toolbarHeight: 0,
-      //     elevation: 0,
-      //     systemOverlayStyle: const SystemUiOverlayStyle(
-      //       statusBarColor: Color.fromARGB(255, 9, 68, 105),
-      //     ),
-      //   ),
-
-      //   // body: CharityPage(),
-
-      //   body: TestBloc(),
-      // ),
-
-      // builder: (context, child) {
-      //   return Directionality(
-      //     textDirection: TextDirection.rtl,
-      //     child:
-      //   );
-      // },
       theme: ThemeData(
         fontFamily: 'VB',
         backgroundColor: Colors.grey[200],
@@ -112,39 +90,5 @@ class MyHttpOverrides extends HttpOverrides {
     return super.createHttpClient(context)
       ..badCertificateCallback =
           (X509Certificate cert, String host, int port) => true;
-  }
-}
-
-class HomeTestScreen extends StatelessWidget {
-  const HomeTestScreen({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => HomeBloc(
-        RepositoryProvider.of<Repositories>(context),
-      )..add(LoadApiEvent()),
-      child: Scaffold(
-        body: BlocBuilder<HomeBloc, HomeState>(
-          builder: (context, state) {
-            if (state is HomeLoadingState) {
-              return Center(
-                child: CircularProgressIndicator(),
-              );
-            }
-            if (state is HomeLoadedState) {
-              return Column(
-                children: [
-                  Text(state.arabicText),
-                  Text(state.farsiText),
-                  Text(state.teller),
-                ],
-              );
-            }
-            return Container();
-          },
-        ),
-      ),
-    );
   }
 }
