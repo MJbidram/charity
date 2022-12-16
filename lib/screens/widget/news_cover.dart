@@ -1,25 +1,28 @@
 import 'package:charity/constants/constants.dart';
+import 'package:charity/models/models.dart';
 import 'package:charity/screens/pages/news_screen.dart';
 import 'package:flutter/material.dart';
 
-class News extends StatelessWidget {
-  News({super.key});
+class News extends StatefulWidget {
+  News({
+    super.key,
+  });
+
+  @override
+  State<News> createState() => _NewsState();
+}
+
+class _NewsState extends State<News> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Builder(
       builder: (context) => _getCoevrNews(context),
-    );
-  }
-
-  Widget _getNewsList() {
-    return ListView.builder(
-      physics: NeverScrollableScrollPhysics(),
-      itemCount: 3,
-      shrinkWrap: true,
-      itemBuilder: (context, index) {
-        return _getCoevrNews(context);
-      },
     );
   }
 
@@ -89,46 +92,4 @@ class News extends StatelessWidget {
       ),
     );
   }
-
-  // Column oldCover(BuildContext context) {
-  //   return Column(
-  //     crossAxisAlignment: CrossAxisAlignment.start,
-  //     children: [
-  //       Container(
-  //         margin: EdgeInsets.symmetric(vertical: 16, horizontal: 10),
-  //         width: MediaQuery.of(context).size.width,
-  //         color: Colors.transparent,
-  //         child: Container(
-  //           height: 200,
-  //           decoration: BoxDecoration(
-  //             color: Colors.white,
-  //             borderRadius: BorderRadius.circular(20),
-  //           ),
-  //           child: Padding(
-  //             padding: EdgeInsets.symmetric(horizontal: 10),
-  //             child: Row(
-  //               mainAxisAlignment: MainAxisAlignment.center,
-  //               children: [
-  //                 SizedBox(
-  //                   width: 100,
-  //                   child: ClipRRect(
-  //                     child: FittedBox(
-  //                       fit: BoxFit.cover,
-  //                       child: Image(
-  //                         image: AssetImage(
-  //                           'assets/images/item15.jpg',
-  //                         ),
-  //                       ),
-  //                     ),
-  //                   ),
-  //                 ),
-  //                 Text('عنوان خبر در این جا قرار دارد'),
-  //               ],
-  //             ),
-  //           ),
-  //         ),
-  //       ),
-  //     ],
-  //   );
-  // }
 }

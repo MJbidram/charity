@@ -4,6 +4,7 @@ import 'package:charity/bloc/home_bloc/home_event.dart';
 import 'package:charity/bloc/home_bloc/home_state.dart';
 import 'package:charity/constants/constants.dart';
 import 'package:charity/repositories/repositories.dart';
+import 'package:charity/screens/pages/news_screen.dart';
 
 import 'package:charity/screens/widget/image_slider.dart';
 import 'package:charity/screens/widget/news_cover.dart';
@@ -221,8 +222,8 @@ class _MyHomeScreenState extends State<MyHomeScreen> {
                       padding: EdgeInsets.only(bottom: 80),
                       sliver: SliverList(
                         delegate: SliverChildBuilderDelegate((context, index) {
-                          return News();
-                        }, childCount: 3),
+                          return _getNewsCover(index, state);
+                        }, childCount: state.newsModl.length),
                       ),
                     )
                   ],
@@ -366,6 +367,74 @@ class _MyHomeScreenState extends State<MyHomeScreen> {
           ),
         ),
       ]),
+    );
+  }
+
+  Widget _getNewsCover(int index, HomeLoadedState state) {
+    return GestureDetector(
+      onTap: () {
+        Navigator.of(context)
+            .push(MaterialPageRoute(builder: (context) => MyNewsPage()));
+      },
+      child: Padding(
+        padding: EdgeInsets.only(right: 16, left: 16, bottom: 16),
+        child: Container(
+          decoration: BoxDecoration(
+            color: blueDark,
+            borderRadius: BorderRadius.circular(16),
+          ),
+          child: Row(
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              Expanded(
+                flex: 1,
+                child: Container(
+                  height: 175,
+                  decoration: BoxDecoration(
+                    gradient: blueGradient,
+                    // color: blueDark,
+                    borderRadius: BorderRadius.only(
+                      topRight: Radius.circular(16),
+                      bottomRight: Radius.circular(16),
+                    ),
+                  ),
+                  child: Center(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        state.newsModl[index].newsTitile,
+                        textAlign: TextAlign.center,
+                        style: Theme.of(context).textTheme.headline4,
+                        maxLines: 6,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              Expanded(
+                flex: 2,
+                child: Container(
+                  height: 175,
+                  decoration: BoxDecoration(
+                    color: blueDark,
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(16),
+                      bottomLeft: Radius.circular(16),
+                    ),
+                    child: Image.network(
+                      state.newsModl[index].newsImageUrl,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }

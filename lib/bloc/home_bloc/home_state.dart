@@ -1,4 +1,5 @@
 import 'package:charity/models/models.dart';
+
 import 'package:equatable/equatable.dart';
 
 abstract class HomeState extends Equatable {}
@@ -14,9 +15,11 @@ class HomeLoadedState extends HomeState {
   final String arabicText;
   final String farsiText;
 
-  List<HomePooyeshModel> pooyeshModel;
+  final List<HomePooyeshModel> pooyeshModel;
 
-  List<HomeProjectsModel> projectModel;
+  final List<HomeProjectsModel> projectModel;
+
+  final List<NewsModel> newsModl;
 
   HomeLoadedState({
     required this.teller,
@@ -24,6 +27,7 @@ class HomeLoadedState extends HomeState {
     required this.farsiText,
     required this.pooyeshModel,
     required this.projectModel,
+    required this.newsModl,
   });
   @override
   // TODO: implement props
@@ -33,5 +37,6 @@ class HomeLoadedState extends HomeState {
         farsiText,
         pooyeshModel,
         projectModel,
+        newsModl,
       ];
 }

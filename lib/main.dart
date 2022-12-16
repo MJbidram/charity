@@ -1,17 +1,12 @@
 import 'dart:io';
 
-import 'package:charity/bloc/home_bloc/home_bloc.dart';
-import 'package:charity/bloc/home_bloc/home_event.dart';
-import 'package:charity/bloc/home_bloc/home_state.dart';
 import 'package:charity/constants/constants.dart';
 import 'package:charity/repositories/repositories.dart';
-import 'package:charity/screens/pages/charity_screen.dart';
-import 'package:charity/screens/pages/home_screen.dart';
 
 import 'package:charity/screens/pages/main_screen.dart';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 

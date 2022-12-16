@@ -8,7 +8,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   HomeBloc(this._repositories) : super(HomeLoadingState()) {
     on<LoadApiEvent>((event, emit) async {
       final homeData = await _repositories.getHomeData();
-
+      final homeNews = await _repositories.gethomePageNews();
       emit(
         HomeLoadedState(
           teller: homeData[2].teller,
@@ -16,6 +16,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
           farsiText: homeData[2].farsiText,
           pooyeshModel: homeData[0],
           projectModel: homeData[1],
+          newsModl: homeNews,
         ),
       );
     });

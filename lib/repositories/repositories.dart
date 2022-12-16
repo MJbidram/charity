@@ -1,5 +1,8 @@
 import 'package:charity/constants/constants.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter/src/widgets/container.dart';
 
 import '../models/models.dart';
 
@@ -39,8 +42,6 @@ class Repositories {
   Future<List> getHomeData() async {
     var response = await Dio().get(ApiAddress.homeAddress);
 
-    var datam = response.data;
-
     List<HomePooyeshModel> homePooyeshList = response.data['data']['pooyeshes']
         .map((jsonObject) => HomePooyeshModel.fromJsonMap(jsonObject))
         .toList()
@@ -55,10 +56,37 @@ class Repositories {
 
     var hadis = HadisModel.fromeJsonMap(jsonObject);
 
-    print('1');
-
-    print(homeProjectsList[0].titleProjectHome);
     return [homePooyeshList, homeProjectsList, hadis];
-    // return projectList;
+  }
+
+  Future<List<NewsModel>> gethomePageNews() async {
+    var response = await Dio().get(ApiAddress.newsAddressHome);
+    List<NewsModel> homeNews = response.data
+        .map((jsonObject) => NewsModel.fromJsonObject(jsonObject))
+        .toList()
+        .cast<NewsModel>();
+    return homeNews;
+  }
+}
+
+class TestApi extends StatefulWidget {
+  const TestApi({super.key});
+
+  @override
+  State<TestApi> createState() => _TestApiState();
+}
+
+class _TestApiState extends State<TestApi> {
+  var api = Repositories();
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    api.gethomePageNews();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold();
   }
 }
