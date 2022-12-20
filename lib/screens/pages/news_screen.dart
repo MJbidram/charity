@@ -2,9 +2,9 @@ import 'package:charity/constants/constants.dart';
 import 'package:charity/screens/widget/botom_sheet_comments.dart';
 import 'package:flutter/material.dart';
 
-class MyNewsPage extends StatelessWidget {
-  const MyNewsPage({super.key});
-
+class NewsScreen extends StatelessWidget {
+  NewsScreen({super.key, required this.newsindex});
+  final int newsindex;
   @override
   Widget build(BuildContext context) {
     return Scaffold(

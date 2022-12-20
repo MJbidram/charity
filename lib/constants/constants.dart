@@ -28,6 +28,8 @@ class ApiAddress {
       'https://khapp.amiralmomenin-kheirieh.ir/api/v1/1/pooyesh';
   static String newsAddressHome =
       'https://kheiriehemamali.ir/blog/wp-json/wp/v2/posts?per_page=5';
+  static String newsAddress =
+      'https://kheiriehemamali.ir/blog/wp-json/wp/v2/posts';
   static String hadisAddress =
       'https://khapp.amiralmomenin-kheirieh.ir/api/v1/1/hadis';
 }

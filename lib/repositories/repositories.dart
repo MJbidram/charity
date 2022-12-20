@@ -1,8 +1,6 @@
 import 'package:charity/constants/constants.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/container.dart';
 
 import '../models/models.dart';
 
@@ -101,7 +99,37 @@ class Repositories {
     return [homePooyeshList, homeProjectsList, hadis];
   }
 
-  Future<List<NewsModel>> gethomePageNews() async {
+  Future<List<NewsModel>> getHomePageListNews() async {
+    late List<NewsModel> homeNews;
+
+    try {
+      var response = await Dio().get(ApiAddress.newsAddressHome);
+
+      if (response.statusCode == 200) {
+        homeNews = response.data
+            .map((jsonObject) => NewsModel.fromJsonObject(jsonObject))
+            .toList()
+            .cast<NewsModel>();
+      } else {
+        print('exception throwed in Try');
+      }
+    } on DioError catch (e) {
+      if (e.response != null) {
+        print('Dio error!');
+        print('STATUS: ${e.response?.statusCode}');
+        print('DATA: ${e.response?.data}');
+        print('HEADERS: ${e.response?.headers}');
+      } else {
+        print('Error sending request!');
+        print(e.message);
+      }
+    }
+    await dioPostHeader(ApiAddress.newsAddressHome);
+
+    return homeNews;
+  }
+
+  Future<List<NewsModel>> getNews() async {
     late List<NewsModel> homeNews;
 
     try {
@@ -156,7 +184,7 @@ class _TestApiState extends State<TestApi> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    api.gethomePageNews();
+    api.getHomePageListNews();
   }
 
   @override

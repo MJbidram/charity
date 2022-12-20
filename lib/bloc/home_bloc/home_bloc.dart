@@ -8,7 +8,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   HomeBloc(this._repositories) : super(HomeLoadingState()) {
     on<LoadApiEvent>((event, emit) async {
       final homeData = await _repositories.getHomeData();
-      final homeNews = await _repositories.gethomePageNews();
+      final homeNews = await _repositories.getHomePageListNews();
       emit(
         HomeLoadedState(
           teller: homeData[2].teller,

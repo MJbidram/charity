@@ -35,11 +35,11 @@ class _MyHomeScreenState extends State<MyHomeScreen> {
       create: (context) =>
           HomeBloc(RepositoryProvider.of<Repositories>(context))
             ..add(LoadApiEvent()),
-      child: scaffoldHomeScreen(),
+      child: homeScreen(),
     );
   }
 
-  Scaffold scaffoldHomeScreen() {
+  Scaffold homeScreen() {
     return Scaffold(
         extendBody: true,
         backgroundColor: grey,
@@ -373,8 +373,8 @@ class _MyHomeScreenState extends State<MyHomeScreen> {
   Widget _getNewsCover(int index, HomeLoadedState state) {
     return GestureDetector(
       onTap: () {
-        Navigator.of(context)
-            .push(MaterialPageRoute(builder: (context) => MyNewsPage()));
+        Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) => NewsScreen(newsindex: index)));
       },
       child: Padding(
         padding: EdgeInsets.only(right: 16, left: 16, bottom: 16),

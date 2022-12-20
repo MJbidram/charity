@@ -3,20 +3,29 @@ import 'package:charity/models/models.dart';
 import 'package:charity/screens/pages/news_screen.dart';
 import 'package:flutter/material.dart';
 
+import '../../bloc/home_bloc/home_state.dart';
+
 class News extends StatefulWidget {
   News({
     super.key,
+    required this.index,
+    required this.state,
   });
-
+  final int index;
+  final HomeLoadedState state;
   @override
   State<News> createState() => _NewsState();
 }
 
 class _NewsState extends State<News> {
+  late final int index;
+  late final HomeLoadedState state;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    index = widget.index;
+    state = widget.state;
   }
 
   @override
@@ -28,10 +37,10 @@ class _NewsState extends State<News> {
 
   Widget _getCoevrNews(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        Navigator.of(context)
-            .push(MaterialPageRoute(builder: (context) => MyNewsPage()));
-      },
+      // onTap: () {
+      //   Navigator.of(context)
+      //       .push(MaterialPageRoute(builder: (context) => NewsScreen()));
+      // },
       child: Padding(
         padding: EdgeInsets.only(right: 16, left: 16, bottom: 16),
         child: Container(
@@ -58,7 +67,7 @@ class _NewsState extends State<News> {
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Text(
-                        'تیتر خبر در اینجا قرار دارد',
+                        state.newsModl[index].newsTitile,
                         textAlign: TextAlign.center,
                         style: Theme.of(context).textTheme.headline2,
                       ),
@@ -79,8 +88,8 @@ class _NewsState extends State<News> {
                       topLeft: Radius.circular(16),
                       bottomLeft: Radius.circular(16),
                     ),
-                    child: Image.asset(
-                      'assets/images/item10.jpg',
+                    child: Image.network(
+                      state.newsModl[index].newsImageUrl,
                       fit: BoxFit.cover,
                     ),
                   ),
