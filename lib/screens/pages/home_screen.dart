@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:charity/bloc/home_bloc/home_bloc.dart';
 import 'package:charity/bloc/home_bloc/home_event.dart';
@@ -248,24 +249,41 @@ class _MyHomeScreenState extends State<MyHomeScreen> {
               decoration: BoxDecoration(
                 color: Colors.transparent,
                 borderRadius: BorderRadius.circular(16),
-                image: DecorationImage(
-                    image: NetworkImage(
-                        state.projectModel[index].imageProjectHome),
-                    fit: BoxFit.cover),
+                // image:
+
+                //  DecorationImage(
+                //     image: NetworkImage(
+                //         state.projectModel[index].imageProjectHome),
+                //     fit: BoxFit.cover),
               ),
-              child: Align(
-                alignment: AlignmentDirectional.bottomCenter,
-                child: Padding(
-                  padding: const EdgeInsets.only(bottom: 8.0),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      progressBar(index, state),
-                      _getTitleProjectText(index, state),
-                    ],
+              child: Stack(
+                fit: StackFit.expand,
+                children: [
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(16),
+                    child: CachedNetworkImage(
+                      imageUrl: state.projectModel[index].imageProjectHome,
+                      fit: BoxFit.cover,
+                      placeholder: (context, url) =>
+                          Center(child: CircularProgressIndicator()),
+                      errorWidget: (context, url, error) => Icon(Icons.error),
+                    ),
                   ),
-                ),
+                  Align(
+                    alignment: AlignmentDirectional.bottomCenter,
+                    child: Padding(
+                      padding: const EdgeInsets.only(bottom: 8.0),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          progressBar(index, state),
+                          _getTitleProjectText(index, state),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
               ),
             );
           },
@@ -424,10 +442,17 @@ class _MyHomeScreenState extends State<MyHomeScreen> {
                       topLeft: Radius.circular(16),
                       bottomLeft: Radius.circular(16),
                     ),
-                    child: Image.network(
-                      state.newsModl[index].newsImageUrl,
+                    child: CachedNetworkImage(
+                      imageUrl: state.newsModl[index].newsImageUrl,
                       fit: BoxFit.cover,
+                      placeholder: (context, url) =>
+                          Center(child: CircularProgressIndicator()),
+                      errorWidget: (context, url, error) => Icon(Icons.error),
                     ),
+                    // Image.network(
+                    //   state.newsModl[index].newsImageUrl,
+                    //   fit: BoxFit.cover,
+                    // ),
                   ),
                 ),
               ),

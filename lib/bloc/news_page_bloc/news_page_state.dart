@@ -1,5 +1,5 @@
 import 'package:charity/models/models.dart';
-import 'package:charity/screens/widget/news_cover.dart';
+
 import 'package:equatable/equatable.dart';
 
 abstract class NewsPageState extends Equatable {}

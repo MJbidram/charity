@@ -19,6 +19,7 @@ dependencies:
   stylish_bottom_bar: ^0.1.5
   smooth_page_indicator: ^1.0.0+2
   dropdown_button2: ^1.9.2
+  cached_network_image: ^3.2.3
   flutter_localizations:
     sdk: flutter
 

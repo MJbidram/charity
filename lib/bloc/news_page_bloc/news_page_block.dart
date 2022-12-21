@@ -7,7 +7,7 @@ class NewsPageBloc extends Bloc<NewsPageEvent, NewsPageState> {
   final Repositories _repositories;
   NewsPageBloc(this._repositories) : super(NewsPageLoadingState()) {
     on<LoadNewsApIEvent>((event, emit) async {
-      final _newsData = await _repositories.getHomePageListNews();
+      final _newsData = await _repositories.getNews();
       emit(NewsPageLoadedState(newsModel: _newsData));
     });
   }

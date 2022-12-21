@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:charity/constants/constants.dart';
 import 'package:charity/models/models.dart';
@@ -80,23 +81,38 @@ class _ImageSliderScreenState extends State<ImageSliderScreen> {
               decoration: BoxDecoration(
                 color: Colors.transparent,
                 borderRadius: BorderRadius.circular(16),
-                image: DecorationImage(
-                    image: NetworkImage(pooyeshModel![index].imagePooyeshHome),
-                    fit: BoxFit.cover),
+                // image: DecorationImage(
+                //     image: NetworkImage(pooyeshModel![index].imagePooyeshHome),
+                //     fit: BoxFit.cover),
               ),
-              child: Align(
-                alignment: AlignmentDirectional.bottomCenter,
-                child: Padding(
-                  padding: const EdgeInsets.only(bottom: 8.0),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      progressBar(index),
-                      _getTitleText(index),
-                    ],
+              child: Stack(
+                fit: StackFit.expand,
+                children: [
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(16),
+                    child: CachedNetworkImage(
+                      imageUrl: pooyeshModel![index].imagePooyeshHome,
+                      fit: BoxFit.cover,
+                      placeholder: (context, url) =>
+                          Center(child: CircularProgressIndicator()),
+                      errorWidget: (context, url, error) => Icon(Icons.error),
+                    ),
                   ),
-                ),
+                  Align(
+                    alignment: AlignmentDirectional.bottomCenter,
+                    child: Padding(
+                      padding: const EdgeInsets.only(bottom: 8.0),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          progressBar(index),
+                          _getTitleText(index),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
               ),
             );
           },

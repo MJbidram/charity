@@ -133,7 +133,7 @@ class Repositories {
     late List<NewsModel> homeNews;
 
     try {
-      var response = await Dio().get(ApiAddress.newsAddressHome);
+      var response = await Dio().get(ApiAddress.newsAddress);
 
       if (response.statusCode == 200) {
         homeNews = response.data
