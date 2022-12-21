@@ -4,8 +4,8 @@ import 'package:charity/repositories/repositories.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
-  final Repositories _repositories;
-  HomeBloc(this._repositories) : super(HomeLoadingState()) {
+  final Repositories _repositories = Repositories();
+  HomeBloc() : super(HomeLoadingState()) {
     on<LoadApiEvent>((event, emit) async {
       final homeData = await _repositories.getHomeData();
       final homeNews = await _repositories.getHomePageListNews();

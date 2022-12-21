@@ -16,10 +16,9 @@ class NewsListPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // return newsListScreen(context);
     return BlocProvider(
-      create: (context) =>
-          NewsPageBloc(RepositoryProvider.of<Repositories>(context))
-            ..add(LoadNewsApIEvent()),
+      create: (context) => NewsBloc()..add(LoadNewsApIEvent()),
       child: newsListScreen(context),
     );
   }
@@ -28,14 +27,14 @@ class NewsListPage extends StatelessWidget {
     return Scaffold(
         extendBody: true,
         backgroundColor: grey,
-        body: BlocBuilder<NewsPageBloc, NewsPageState>(
+        body: BlocBuilder<NewsBloc, NewsState>(
           builder: (context, state) {
-            if (state == NewsPageLoadingState) {
+            if (state == NewsLoadingState) {
               return Center(
                 child: CircularProgressIndicator(),
               );
             }
-            if (state is NewsPageLoadedState) {
+            if (state is NewsLoadedState) {
               return body(context, state);
             }
             return Container();
@@ -43,7 +42,7 @@ class NewsListPage extends StatelessWidget {
         ));
   }
 
-  CustomScrollView body(BuildContext context, NewsPageLoadedState state) {
+  CustomScrollView body(BuildContext context, NewsLoadedState state) {
     return CustomScrollView(
       slivers: [
         SliverAppBar(
@@ -76,8 +75,7 @@ class NewsListPage extends StatelessWidget {
     );
   }
 
-  Widget _getCoverNews(
-      int index, NewsPageLoadedState state, BuildContext context) {
+  Widget _getCoverNews(int index, NewsLoadedState state, BuildContext context) {
     return GestureDetector(
       // onTap: () {
       //   Navigator.of(context)

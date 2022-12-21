@@ -130,13 +130,13 @@ class Repositories {
   }
 
   Future<List<NewsModel>> getNews() async {
-    late List<NewsModel> homeNews;
+    late List<NewsModel> newsPage;
 
     try {
       var response = await Dio().get(ApiAddress.newsAddress);
 
       if (response.statusCode == 200) {
-        homeNews = response.data
+        newsPage = response.data
             .map((jsonObject) => NewsModel.fromJsonObject(jsonObject))
             .toList()
             .cast<NewsModel>();
@@ -155,8 +155,9 @@ class Repositories {
       }
     }
     await dioPostHeader(ApiAddress.newsAddressHome);
+    print(newsPage.length);
 
-    return homeNews;
+    return newsPage;
   }
 
   Future<void> dioPostHeader(String address) async {
@@ -182,9 +183,8 @@ class _TestApiState extends State<TestApi> {
   var api = Repositories();
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    api.getHomePageListNews();
+    api.getNews();
   }
 
   @override

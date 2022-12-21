@@ -33,9 +33,7 @@ class _MyHomeScreenState extends State<MyHomeScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) =>
-          HomeBloc(RepositoryProvider.of<Repositories>(context))
-            ..add(LoadApiEvent()),
+      create: (context) => HomeBloc()..add(LoadApiEvent()),
       child: homeScreen(),
     );
   }

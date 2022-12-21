@@ -1,12 +1,78 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:charity/bloc/home_bloc/home_event.dart';
+import 'package:charity/bloc/home_bloc/home_state.dart';
+import 'package:charity/bloc/news_page_bloc/news_page_block.dart';
+import 'package:charity/bloc/news_page_bloc/news_page_event.dart';
+import 'package:charity/bloc/news_page_bloc/news_page_state.dart';
 import 'package:charity/constants/constants.dart';
+import 'package:charity/repositories/repositories.dart';
 import 'package:charity/screens/widget/botom_sheet_comments.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:percent_indicator/percent_indicator.dart';
 
 class NewsScreen extends StatelessWidget {
   NewsScreen({super.key, required this.newsindex});
-  final int newsindex;
+  int newsindex;
+
   @override
   Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (context) => NewsBloc()..add(LoadNewsApIEvent()),
+      child: BlocBuilder<NewsBloc, NewsState>(
+        builder: (context, state) {
+          if (state is NewsLoadingState) {
+            return Scaffold(
+              body: Center(
+                child: CircularProgressIndicator(),
+              ),
+            );
+          }
+          if (state is NewsLoadedState) {
+            return _getBody(context, state);
+          }
+          return Container();
+        },
+      ),
+    );
+
+    // Scaffold(
+    //   body: BlocBuilder<NewsBloc, NewsState>(
+    //     builder: (context, state) {
+    //       if (state is NewsLoadingState) {
+    //         return Container(
+    //           color: Colors.amber,
+    //         );
+    //       } else {
+    //         return Container(
+    //           color: Colors.red,
+    //         );
+    //       }
+    //     },
+    //   ),
+    // );
+
+    // BlocProvider(
+    //   create: (context) =>
+    //       NewsPageBloc(RepositoryProvider.of<Repositories>(context))
+    //         ..add(LoadNewsApIEvent()),
+    //   child: BlocBuilder<NewsPageBloc, NewsPageState>(
+    //     builder: (context, state) {
+    //       if (state is HomeLoadingState) {
+    //         return Center(
+    //           child: CircularProgressIndicator(),
+    //         );
+    //       }
+    //       if (state is NewsPageLoadedState) {
+    //         return _getBody(context, state);
+    //       }
+    //       return Container();
+    //     },
+    //   ),
+    // );
+  }
+
+  Scaffold _getBody(BuildContext context, NewsLoadedState state) {
     return Scaffold(
       backgroundColor: white,
 
@@ -59,11 +125,12 @@ class NewsScreen extends StatelessWidget {
                       bottom: Radius.elliptical(
                           MediaQuery.of(context).size.width, 170),
                     ),
-                    child: Image(
+                    child: CachedNetworkImage(
+                      imageUrl: state.newsModel[newsindex].newsImageUrl,
                       fit: BoxFit.cover,
-                      image: AssetImage(
-                        'assets/images/item15.jpg',
-                      ),
+                      placeholder: (context, url) =>
+                          Center(child: CircularProgressIndicator()),
+                      errorWidget: (context, url, error) => Icon(Icons.error),
                     ),
                   ),
                 ),
@@ -92,7 +159,8 @@ class NewsScreen extends StatelessWidget {
                       width: 4,
                     ),
                     Text(
-                      'زمان انتشار',
+                      // '111',
+                      state.newsModel[newsindex].newsDate,
                       style: TextStyle(fontFamily: 'Vl', fontSize: 14),
                     ),
                     Spacer(),
@@ -128,7 +196,8 @@ class NewsScreen extends StatelessWidget {
               child: Align(
                 alignment: AlignmentDirectional.center,
                 child: Text(
-                  'موضوع خبر',
+                  // 'dafaf',
+                  state.newsModel[newsindex].newsTitile,
                   style: Theme.of(context).textTheme.headline5,
                   textDirection: TextDirection.rtl,
                   textAlign: TextAlign.justify,
@@ -140,7 +209,8 @@ class NewsScreen extends StatelessWidget {
             padding: EdgeInsets.only(bottom: 32, right: 16, left: 16),
             sliver: SliverToBoxAdapter(
               child: Text(
-                newsTest,
+                // 'fdafdadaf',
+                state.newsModel[newsindex].newsText,
                 style: Theme.of(context).textTheme.headline6,
                 textDirection: TextDirection.rtl,
                 textAlign: TextAlign.justify,

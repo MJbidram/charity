@@ -1,10 +1,10 @@
 import 'package:equatable/equatable.dart';
 
-abstract class NewsPageEvent extends Equatable {
-  const NewsPageEvent();
+abstract class NewsEvent extends Equatable {
+  const NewsEvent();
 }
 
-class LoadNewsApIEvent extends NewsPageEvent {
+class LoadNewsApIEvent extends NewsEvent {
   @override
   // TODO: implement props
   List<Object?> get props => [];

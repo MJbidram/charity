@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:charity/bloc/home_bloc/home_bloc.dart';
+import 'package:charity/bloc/news_page_bloc/news_page_block.dart';
 import 'package:charity/constants/constants.dart';
 import 'package:charity/repositories/repositories.dart';
 
@@ -12,7 +14,14 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 
 void main(List<String> args) {
   HttpOverrides.global = MyHttpOverrides();
-  runApp(MyApp());
+  runApp(MultiBlocProvider(providers: [
+    BlocProvider(
+      create: (context) => HomeBloc(),
+    ),
+    BlocProvider(
+      create: (context) => NewsBloc(),
+    ),
+  ], child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -30,14 +39,19 @@ class MyApp extends StatelessWidget {
         Locale("fa", "IR"), // OR Locale('ar', 'AE') OR Other RTL locales
       ],
       locale: Locale("fa", "IR"),
-      home: MultiRepositoryProvider(
-        providers: [
-          RepositoryProvider(
-            create: (context) => Repositories(),
-          )
-        ],
-        child: MainScreen(),
-      ),
+      home: MainScreen(),
+
+      // MultiRepositoryProvider(
+      //   providers: [
+      //     RepositoryProvider(
+      //       create: (context) => Repositories(),
+      //     ),
+
+      //   ],
+      //   child:
+      //       // TestApi(),
+      //       MainScreen(),
+      // ),
       theme: ThemeData(
         fontFamily: 'VB',
         backgroundColor: Colors.grey[200],

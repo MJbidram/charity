@@ -2,18 +2,18 @@ import 'package:charity/models/models.dart';
 
 import 'package:equatable/equatable.dart';
 
-abstract class NewsPageState extends Equatable {}
+abstract class NewsState extends Equatable {}
 
-class NewsPageLoadingState extends NewsPageState {
+class NewsLoadingState extends NewsState {
   @override
   // TODO: implement props
   List<Object?> get props => [];
 }
 
-class NewsPageLoadedState extends NewsPageState {
+class NewsLoadedState extends NewsState {
   final List<NewsModel> newsModel;
 
-  NewsPageLoadedState({
+  NewsLoadedState({
     required this.newsModel,
   });
 
