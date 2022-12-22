@@ -9,6 +9,7 @@ import 'package:charity/repositories/repositories.dart';
 import 'package:charity/screens/widget/botom_sheet_comments.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 
 class NewsScreen extends StatelessWidget {
@@ -195,27 +196,33 @@ class NewsScreen extends StatelessWidget {
             sliver: SliverToBoxAdapter(
               child: Align(
                 alignment: AlignmentDirectional.center,
-                child: Text(
-                  // 'dafaf',
-                  state.newsModel[newsindex].newsTitile,
-                  style: Theme.of(context).textTheme.headline5,
-                  textDirection: TextDirection.rtl,
-                  textAlign: TextAlign.justify,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: Text(
+                    // 'dafaf',
+                    state.newsModel[newsindex].newsTitile,
+                    style: Theme.of(context).textTheme.headline5,
+                    textDirection: TextDirection.rtl,
+                    textAlign: TextAlign.justify,
+                  ),
                 ),
               ),
             ),
           ),
           SliverPadding(
-            padding: EdgeInsets.only(bottom: 32, right: 16, left: 16),
+            padding: EdgeInsets.only(bottom: 32, right: 12, left: 12),
             sliver: SliverToBoxAdapter(
-              child: Text(
-                // 'fdafdadaf',
-                state.newsModel[newsindex].newsText,
-                style: Theme.of(context).textTheme.headline6,
-                textDirection: TextDirection.rtl,
-                textAlign: TextAlign.justify,
-              ),
-            ),
+                child: Html(
+              data: state.newsModel[newsindex].newsText,
+            )
+                // Text(
+                //   // 'fdafdadaf',
+                //   state.newsModel[newsindex].newsText,
+                //   style: Theme.of(context).textTheme.headline6,
+                //   textDirection: TextDirection.rtl,
+                //   textAlign: TextAlign.justify,
+                // ),
+                ),
           ),
           SliverPadding(
             padding: EdgeInsets.only(bottom: 16, right: 16, left: 16),

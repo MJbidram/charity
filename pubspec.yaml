@@ -20,6 +20,7 @@ dependencies:
   smooth_page_indicator: ^1.0.0+2
   dropdown_button2: ^1.9.2
   cached_network_image: ^3.2.3
+  flutter_html: ^2.2.1
   flutter_localizations:
     sdk: flutter
 
