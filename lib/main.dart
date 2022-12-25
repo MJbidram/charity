@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:charity/bloc/home_bloc/home_bloc.dart';
 import 'package:charity/bloc/news_page_bloc/news_page_block.dart';
 import 'package:charity/constants/constants.dart';
+import 'package:charity/screens/pages/login_screen.dart';
 import 'package:charity/screens/pages/signup_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -34,7 +35,7 @@ class MyApp extends StatelessWidget {
         Locale("fa", "IR"), // OR Locale('ar', 'AE') OR Other RTL locales
       ],
       locale: Locale("fa", "IR"),
-      home: SignUpScreen(),
+      home: LoginScreen(),
 
       // MultiRepositoryProvider(
       //   providers: [
