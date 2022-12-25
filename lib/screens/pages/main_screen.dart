@@ -50,11 +50,11 @@ class _MainScreenState extends State<MainScreen> {
                   title: Text('صفحه اصلی')),
               AnimatedBarItems(
                   icon: Icon(
-                    Icons.live_tv,
+                    Icons.waving_hand_rounded,
                   ),
                   backgroundColor: Colors.amber,
                   selectedColor: blueDark,
-                  title: Text('رسانه')),
+                  title: Text('درخواست')),
               // BubbleBarItem(icon: Icon(Icons.home), title: Text('Home')),
               // BubbleBarItem(icon: Icon(Icons.add_circle_outline), title: Text('Add')),
               // BubbleBarItem(icon: Icon(Icons.person), title: Text('Profile')),
