@@ -12,6 +12,8 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  String? errorText;
+  bool visibelCheckInformation = false;
   String? name;
   FocusNode focusNodePhone = FocusNode();
   TextEditingController phoneController = TextEditingController();
@@ -43,13 +45,11 @@ class _LoginScreenState extends State<LoginScreen> {
     String pass,
   ) async {
     print('phone:' + phone);
-
     print('pass:' + pass);
 
     try {
       Response response = await post(
-          Uri.parse(
-              'https://khapp.amiralmomenin-kheirieh.ir/api/v1/1/register'),
+          Uri.parse('https://khapp.amiralmomenin-kheirieh.ir/api/v1/1/login'),
           body: {
             'phone': phone,
             'password': pass,
@@ -59,7 +59,35 @@ class _LoginScreenState extends State<LoginScreen> {
       if (response.statusCode == 200) {
         var data = jsonDecode(response.body.toString());
         print(data);
-        print('account creat sucssesfully');
+        print(data['status']);
+        if (data['status'].toString() == 'error') {
+          setState(() {
+            visibelCheckInformation = true;
+            errorText = data['errors'].toString();
+            errorText = errorText!.replaceAll(',', '\n');
+            List le = [
+              'phone',
+              'password',
+              ']',
+              '[',
+              ':',
+              '{',
+              '}',
+              '',
+              'massage',
+            ];
+            for (var i = 0; i < le.length; i++) {
+              errorText = errorText!.replaceAll(le[i], '');
+            }
+
+            // errorText = errorText!.replaceAll('phone', '');
+            // errorText = errorText!.replaceAll('password', '');
+            // errorText = errorText!.replaceAll(']', '');
+            // errorText = errorText!.replaceAll('[', '');
+            // errorText = errorText!.replaceAll('{', '');
+            // errorText = errorText!.replaceAll('{', '');
+          });
+        }
       } else
         (print('faild'));
     } catch (e) {
@@ -100,6 +128,23 @@ class _LoginScreenState extends State<LoginScreen> {
                         TextInputType.number),
                     _getTextfild(focusNodePassword, 'رمز عبور',
                         passwordController, TextInputType.visiblePassword),
+                    Align(
+                      alignment: AlignmentDirectional.centerStart,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 24),
+                        child: Visibility(
+                          visible: visibelCheckInformation,
+                          child: Text(
+                            errorText ?? 'بدون خطا',
+                            textAlign: TextAlign.start,
+                            style: TextStyle(
+                                color: Colors.red,
+                                fontFamily: 'VM',
+                                fontSize: 14),
+                          ),
+                        ),
+                      ),
+                    ),
                     Container(
                       margin: EdgeInsets.only(
                           top: 24, right: 24, left: 24, bottom: 8),
@@ -107,6 +152,10 @@ class _LoginScreenState extends State<LoginScreen> {
                       width: MediaQuery.of(context).size.width,
                       child: ElevatedButton(
                         onPressed: () {
+                          setState(() {
+                            visibelCheckInformation = false;
+                          });
+
                           phone = phoneController.text.toString().trim();
 
                           password = passwordController.text.toString();
