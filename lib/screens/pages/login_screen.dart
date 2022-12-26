@@ -1,7 +1,9 @@
 import 'dart:convert';
 
 import 'package:charity/constants/constants.dart';
+import 'package:charity/screens/pages/main_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:http/http.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -25,6 +27,10 @@ class _LoginScreenState extends State<LoginScreen> {
   String? password;
 
   final String divaiceName = 'android';
+
+  bool dontClickLogin = true;
+  var box = Hive.box('information');
+
   @override
   void initState() {
     // TODO: implement initState
@@ -63,6 +69,7 @@ class _LoginScreenState extends State<LoginScreen> {
         if (data['status'].toString() == 'error') {
           setState(() {
             visibelCheckInformation = true;
+            dontClickLogin = true;
             errorText = data['errors'].toString();
             errorText = errorText!.replaceAll(',', '\n');
             List le = [
@@ -79,15 +86,17 @@ class _LoginScreenState extends State<LoginScreen> {
             for (var i = 0; i < le.length; i++) {
               errorText = errorText!.replaceAll(le[i], '');
             }
-
-            // errorText = errorText!.replaceAll('phone', '');
-            // errorText = errorText!.replaceAll('password', '');
-            // errorText = errorText!.replaceAll(']', '');
-            // errorText = errorText!.replaceAll('[', '');
-            // errorText = errorText!.replaceAll('{', '');
-            // errorText = errorText!.replaceAll('{', '');
           });
         }
+        print('logedin');
+        await box.put('token', data['data']['token']);
+        await box.put('name', data['data']['name']);
+        Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(
+              builder: (context) => MainScreen(),
+            ),
+            (route) => false);
       } else
         (print('faild'));
     } catch (e) {
@@ -98,6 +107,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: Directionality(
         textDirection: TextDirection.rtl,
         child: Scaffold(
@@ -145,64 +155,80 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       ),
                     ),
-                    Container(
-                      margin: EdgeInsets.only(
-                          top: 24, right: 24, left: 24, bottom: 8),
-                      height: 55,
-                      width: MediaQuery.of(context).size.width,
-                      child: ElevatedButton(
-                        onPressed: () {
-                          setState(() {
-                            visibelCheckInformation = false;
-                          });
+                    Visibility(
+                      visible: !dontClickLogin,
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: CircularProgressIndicator(),
+                      ),
+                    ),
+                    Visibility(
+                      visible: dontClickLogin,
+                      child: Container(
+                        margin: EdgeInsets.only(
+                            top: 24, right: 24, left: 24, bottom: 8),
+                        height: 55,
+                        width: MediaQuery.of(context).size.width,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            setState(() {
+                              visibelCheckInformation = false;
+                              dontClickLogin = false;
+                            });
 
-                          phone = phoneController.text.toString().trim();
+                            phone = phoneController.text.toString().trim();
 
-                          password = passwordController.text.toString();
+                            password = passwordController.text.toString();
 
-                          login(phone!, password!);
-                        },
-                        child: Text(
-                          'ثبت نام',
-                          style: TextStyle(fontSize: 16, fontFamily: 'VB'),
-                        ),
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: blueDark,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(32),
+                            login(phone!, password!);
+                          },
+                          child: Text(
+                            'ورود',
+                            style: TextStyle(fontSize: 16, fontFamily: 'VB'),
+                          ),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: blueDark,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(32),
+                            ),
                           ),
                         ),
                       ),
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Column(
-                          children: [
-                            SizedBox(
-                              height: 2,
-                            ),
-                            Text(
-                              'قبلا ثبت نام کرده اید؟',
+                    Visibility(
+                      visible: dontClickLogin,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Column(
+                            children: [
+                              SizedBox(
+                                height: 2,
+                              ),
+                              Text(
+                                'حساب کاربری ندارید؟',
+                                style: TextStyle(
+                                    color: Colors.grey,
+                                    fontSize: 16,
+                                    fontFamily: 'VM'),
+                              ),
+                            ],
+                          ),
+                          InkWell(
+                            onTap: (() {
+                              Navigator.pop(context);
+                            }),
+                            child: Text(
+                              ' ثبت نام',
                               style: TextStyle(
-                                  color: Colors.grey,
+                                  color: blueDark,
                                   fontSize: 16,
                                   fontFamily: 'VM'),
                             ),
-                          ],
-                        ),
-                        InkWell(
-                          onTap: (() {}),
-                          child: Text(
-                            ' ورود',
-                            style: TextStyle(
-                                color: blueDark,
-                                fontSize: 16,
-                                fontFamily: 'VM'),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ],
                 ),

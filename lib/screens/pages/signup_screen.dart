@@ -1,8 +1,12 @@
 import 'dart:convert';
 
 import 'package:charity/constants/constants.dart';
+import 'package:charity/screens/pages/login_screen.dart';
+import 'package:charity/screens/pages/main_screen.dart';
 import 'package:flutter/material.dart';
+// import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -12,6 +16,8 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
+  String? errorText;
+  bool visibelCheckInformation = false;
   FocusNode focusNodeName = FocusNode();
   TextEditingController nameController = TextEditingController();
   String? name;
@@ -28,6 +34,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
   TextEditingController confirmPasswordController = TextEditingController();
   String? configPassword;
   final String divaiceName = 'android';
+  var box = Hive.box('information');
+  // final storage = new FlutterSecureStorage();
+  bool dontTapRegister = true;
   @override
   void initState() {
     // TODO: implement initState
@@ -72,8 +81,42 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
       if (response.statusCode == 200) {
         var data = jsonDecode(response.body.toString());
+        if (data['status'].toString() == 'error') {
+          setState(() {
+            dontTapRegister = true;
+            visibelCheckInformation = true;
+            errorText = data['errors'].toString();
+            errorText = errorText!.replaceAll(',', '\n');
+            List le = [
+              'phone',
+              'password',
+              ']',
+              '[',
+              ': ',
+              '{',
+              '}',
+              '',
+              'massage',
+              'email',
+            ];
+            for (var i = 0; i < le.length; i++) {
+              errorText = errorText!.replaceAll(le[i], '');
+            }
+          });
+        }
         print(data);
+        print(data['data']['token']);
+        box.put('token', data['data']['token']);
+        box.put('name', data['data']['name']);
+        // await storage.write(key: 'token', value: data['data']['token']);
+        // await storage.write(key: 'name', value: data['data']['name']);
         print('account creat sucssesfully');
+        Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(
+              builder: (context) => MainScreen(),
+            ),
+            (route) => false);
       } else
         (print('faild'));
     } catch (e) {
@@ -84,6 +127,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: Directionality(
         textDirection: TextDirection.rtl,
         child: Scaffold(
@@ -123,64 +167,105 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         'تکرار رمز عبور',
                         confirmPasswordController,
                         TextInputType.visiblePassword),
-                    Container(
-                      margin: EdgeInsets.only(
-                          top: 24, right: 24, left: 24, bottom: 8),
-                      height: 55,
-                      width: MediaQuery.of(context).size.width,
-                      child: ElevatedButton(
-                        onPressed: () {
-                          name = nameController.text.toString().trim();
-                          phone = phoneController.text.toString().trim();
-                          emailAddress = emailController.text.toString().trim();
-                          password = passwordController.text.toString();
-                          configPassword =
-                              confirmPasswordController.text.toString();
-
-                          login(name!, phone!, emailAddress!, password!,
-                              configPassword!);
-                        },
-                        child: Text(
-                          'ثبت نام',
-                          style: TextStyle(fontSize: 16, fontFamily: 'VB'),
-                        ),
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: blueDark,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(32),
+                    Align(
+                      alignment: AlignmentDirectional.centerStart,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 24),
+                        child: Visibility(
+                          visible: visibelCheckInformation,
+                          child: Text(
+                            errorText ?? 'بدون خطا',
+                            textAlign: TextAlign.start,
+                            style: TextStyle(
+                                color: Colors.red,
+                                fontFamily: 'VM',
+                                fontSize: 14),
                           ),
                         ),
                       ),
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Column(
-                          children: [
-                            SizedBox(
-                              height: 2,
+                    Visibility(
+                      visible: !dontTapRegister,
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: CircularProgressIndicator(),
+                      ),
+                    ),
+                    Visibility(
+                      visible: dontTapRegister,
+                      child: Container(
+                        margin: EdgeInsets.only(
+                            top: 24, right: 24, left: 24, bottom: 8),
+                        height: 55,
+                        width: MediaQuery.of(context).size.width,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            setState(() {
+                              dontTapRegister = false;
+                              visibelCheckInformation = false;
+                            });
+                            name = nameController.text.toString().trim();
+                            phone = phoneController.text.toString().trim();
+                            emailAddress =
+                                emailController.text.toString().trim();
+                            password = passwordController.text.toString();
+                            configPassword =
+                                confirmPasswordController.text.toString();
+
+                            login(name!, phone!, emailAddress!, password!,
+                                configPassword!);
+                          },
+                          child: Text(
+                            'ثبت نام',
+                            style: TextStyle(fontSize: 16, fontFamily: 'VB'),
+                          ),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: blueDark,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(32),
                             ),
-                            Text(
-                              'قبلا ثبت نام کرده اید؟',
+                          ),
+                        ),
+                      ),
+                    ),
+                    Visibility(
+                      visible: dontTapRegister,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Column(
+                            children: [
+                              SizedBox(
+                                height: 2,
+                              ),
+                              Text(
+                                'قبلا ثبت نام کرده اید؟',
+                                style: TextStyle(
+                                    color: Colors.grey,
+                                    fontSize: 16,
+                                    fontFamily: 'VM'),
+                              ),
+                            ],
+                          ),
+                          InkWell(
+                            onTap: (() {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => LoginScreen(),
+                                  ));
+                            }),
+                            child: Text(
+                              ' ورود',
                               style: TextStyle(
-                                  color: Colors.grey,
+                                  color: blueDark,
                                   fontSize: 16,
                                   fontFamily: 'VM'),
                             ),
-                          ],
-                        ),
-                        InkWell(
-                          onTap: (() {}),
-                          child: Text(
-                            ' ورود',
-                            style: TextStyle(
-                                color: blueDark,
-                                fontSize: 16,
-                                fontFamily: 'VM'),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ],
                 ),

@@ -8,7 +8,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
-void main(List<String> args) {
+import 'package:hive_flutter/hive_flutter.dart';
+
+void main(List<String> args) async {
+  await Hive.initFlutter();
+  var box = await Hive.openBox('information');
+
   HttpOverrides.global = MyHttpOverrides();
   runApp(MultiBlocProvider(providers: [
     BlocProvider(
@@ -35,7 +40,7 @@ class MyApp extends StatelessWidget {
         Locale("fa", "IR"), // OR Locale('ar', 'AE') OR Other RTL locales
       ],
       locale: Locale("fa", "IR"),
-      home: LoginScreen(),
+      home: SignUpScreen(),
 
       // MultiRepositoryProvider(
       //   providers: [

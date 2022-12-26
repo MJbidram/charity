@@ -28,10 +28,14 @@ dependencies:
   dio: ^4.0.6
   flutter_bloc: ^8.1.1
   equatable: ^2.0.5
-
+  hive: ^2.0.4
+  hive_flutter: ^1.1.0
+  # flutter_secure_storage: ^6.1.0
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  hive_generator: ^1.1.0
+  build_runner: ^2.1.2
 
 
 flutter:
