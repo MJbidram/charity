@@ -1,11 +1,15 @@
 import 'package:charity/constants/constants.dart';
+import 'package:charity/screens/pages/login_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 class Profile_Screen extends StatelessWidget {
   const Profile_Screen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    var box = Hive.box('information');
+
     return Scaffold(
       extendBody: true,
       backgroundColor: grey,
@@ -61,7 +65,7 @@ class Profile_Screen extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Text(
-                        'محمدجواد بیدرام',
+                        box.get('name') ?? 'name',
                         style: Theme.of(context).textTheme.headline5,
                       ),
                       Text(
@@ -195,7 +199,15 @@ class Profile_Screen extends StatelessWidget {
                   ),
                 ),
                 TextButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    box.delete('information');
+                    Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => LoginScreen(),
+                        ),
+                        (route) => false);
+                  },
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
