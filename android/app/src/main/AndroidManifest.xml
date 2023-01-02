@@ -1,8 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.charity">
    <application
-   
-        android:label="charity"
+        
+        android:label="خیریه امام علی(ع)"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
@@ -33,4 +33,5 @@
             android:value="2" />
     </application>
     <uses-permission android:name="android.permission.INTERNET"/>
+    
 </manifest>

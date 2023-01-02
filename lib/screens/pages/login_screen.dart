@@ -6,6 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:http/http.dart';
 
+import '../../data/repository/authentication_repository.dart';
+import '../../util/auth_manager.dart';
+
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
@@ -46,197 +49,175 @@ class _LoginScreenState extends State<LoginScreen> {
     });
   }
 
-  void login(
-    String phone,
-    String pass,
-  ) async {
-    print('phone:' + phone);
-    print('pass:' + pass);
-
-    try {
-      Response response = await post(
-          Uri.parse('https://khapp.amiralmomenin-kheirieh.ir/api/v1/1/login'),
-          body: {
-            'phone': phone,
-            'password': pass,
-            'device_name': divaiceName,
-          });
-
-      if (response.statusCode == 200) {
-        var data = jsonDecode(response.body.toString());
-        print(data);
-        print(data['status']);
-        if (data['status'].toString() == 'error') {
-          setState(() {
-            visibelCheckInformation = true;
-            dontClickLogin = true;
-            errorText = data['errors'].toString();
-            errorText = errorText!.replaceAll(',', '\n');
-            List le = [
-              'phone',
-              'password',
-              ']',
-              '[',
-              ':',
-              '{',
-              '}',
-              '',
-              'massage',
-            ];
-            for (var i = 0; i < le.length; i++) {
-              errorText = errorText!.replaceAll(le[i], '');
-            }
-          });
-        }
-        print('logedin');
-        await box.put('token', data['data']['token']);
-        await box.put('name', data['data']['name']);
-        Navigator.pushAndRemoveUntil(
-            context,
-            MaterialPageRoute(
-              builder: (context) => MainScreen(),
-            ),
-            (route) => false);
-      } else
-        (print('faild'));
-    } catch (e) {
-      print(e.toString());
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Directionality(
-        textDirection: TextDirection.rtl,
-        child: Scaffold(
-          body: Center(
-            child: SafeArea(
-              child: SingleChildScrollView(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    SizedBox(
-                      height: 60,
-                      width: 60,
-                      child: Image.asset('assets/images/logo.png'),
-                    ),
-                    SizedBox(
-                      height: 8,
-                    ),
-                    Text(
-                      'ورود',
-                      style: TextStyle(
-                          fontFamily: 'VB', fontSize: 18, color: blueDark),
-                    ),
-                    SizedBox(
-                      height: 16,
-                    ),
-                    _getTextfild(focusNodePhone, 'شماره تلفن', phoneController,
-                        TextInputType.number),
-                    _getTextfild(focusNodePassword, 'رمز عبور',
-                        passwordController, TextInputType.visiblePassword),
-                    Align(
-                      alignment: AlignmentDirectional.centerStart,
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 24),
-                        child: Visibility(
-                          visible: visibelCheckInformation,
-                          child: Text(
-                            errorText ?? 'بدون خطا',
-                            textAlign: TextAlign.start,
-                            style: TextStyle(
-                                color: Colors.red,
-                                fontFamily: 'VM',
-                                fontSize: 14),
+    AuthManager.readauth();
+    var registererrors = AuthenticationRepository.loginErrorModel;
+    List<String> loginTextErrors = [
+      registererrors.phone ?? '',
+      registererrors.password ?? '',
+      registererrors.message ?? '',
+      registererrors.unknow ?? '',
+    ];
+
+    return ValueListenableBuilder(
+      valueListenable: AuthManager.authChangeNotifire,
+      builder: (context, value, child) {
+        if (value == null || value.isEmpty) {
+          return Directionality(
+            textDirection: TextDirection.rtl,
+            child: Scaffold(
+              body: Center(
+                child: SafeArea(
+                  child: SingleChildScrollView(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SizedBox(
+                          height: 60,
+                          width: 60,
+                          child: Image.asset('assets/images/logo.png'),
+                        ),
+                        SizedBox(
+                          height: 8,
+                        ),
+                        Text(
+                          'ورود',
+                          style: TextStyle(
+                              fontFamily: 'VB', fontSize: 18, color: blueDark),
+                        ),
+                        SizedBox(
+                          height: 16,
+                        ),
+                        _getTextfild(focusNodePhone, 'شماره تلفن',
+                            phoneController, TextInputType.number),
+                        _getTextfild(focusNodePassword, 'رمز عبور',
+                            passwordController, TextInputType.visiblePassword),
+                        Align(
+                          alignment: AlignmentDirectional.centerStart,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 24),
+                            child: Visibility(
+                                visible: visibelCheckInformation,
+                                child: SizedBox(
+                                  height: 120,
+                                  child: ListView.builder(
+                                    shrinkWrap: true,
+                                    itemCount: loginTextErrors.length,
+                                    itemBuilder: (context, index) {
+                                      return Text(
+                                        loginTextErrors[index],
+                                        textAlign: TextAlign.start,
+                                        style: TextStyle(
+                                            color: Colors.red,
+                                            fontFamily: 'VM',
+                                            fontSize: 14),
+                                      );
+                                    },
+                                  ),
+                                )),
                           ),
                         ),
-                      ),
-                    ),
-                    Visibility(
-                      visible: !dontClickLogin,
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: CircularProgressIndicator(),
-                      ),
-                    ),
-                    Visibility(
-                      visible: dontClickLogin,
-                      child: Container(
-                        margin: EdgeInsets.only(
-                            top: 24, right: 24, left: 24, bottom: 8),
-                        height: 55,
-                        width: MediaQuery.of(context).size.width,
-                        child: ElevatedButton(
-                          onPressed: () {
-                            setState(() {
-                              visibelCheckInformation = false;
-                              dontClickLogin = false;
-                            });
-
-                            phone = phoneController.text.toString().trim();
-
-                            password = passwordController.text.toString();
-
-                            login(phone!, password!);
-                          },
-                          child: Text(
-                            'ورود',
-                            style: TextStyle(fontSize: 16, fontFamily: 'VB'),
+                        Visibility(
+                          visible: !dontClickLogin,
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: CircularProgressIndicator(),
                           ),
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: blueDark,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(32),
+                        ),
+                        Visibility(
+                          visible: dontClickLogin,
+                          child: Container(
+                            margin: EdgeInsets.only(
+                                top: 24, right: 24, left: 24, bottom: 8),
+                            height: 55,
+                            width: MediaQuery.of(context).size.width,
+                            child: ElevatedButton(
+                              onPressed: () async {
+                                setState(() {
+                                  visibelCheckInformation = false;
+                                  dontClickLogin = false;
+                                });
+
+                                phone = phoneController.text.toString().trim();
+
+                                password = passwordController.text.toString();
+
+                                var either = await AuthenticationRepository()
+                                    .login(phone!, password!, 'android');
+                                either.fold((erroreMessage) {
+                                  erroreMessage?.forEach((element) {
+                                    if (element != null) {
+                                      if (element.isNotEmpty) print(element);
+                                    } else
+                                      (print(''));
+                                  });
+                                  setState(() {
+                                    visibelCheckInformation = true;
+                                    dontClickLogin = true;
+                                  });
+                                }, (successMessage) => print(successMessage));
+                              },
+                              child: Text(
+                                'ورود',
+                                style:
+                                    TextStyle(fontSize: 16, fontFamily: 'VB'),
+                              ),
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: blueDark,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(32),
+                                ),
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                    ),
-                    Visibility(
-                      visible: dontClickLogin,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Column(
+                        Visibility(
+                          visible: dontClickLogin,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              SizedBox(
-                                height: 2,
+                              Column(
+                                children: [
+                                  SizedBox(
+                                    height: 2,
+                                  ),
+                                  Text(
+                                    'حساب کاربری ندارید؟',
+                                    style: TextStyle(
+                                        color: Colors.grey,
+                                        fontSize: 16,
+                                        fontFamily: 'VM'),
+                                  ),
+                                ],
                               ),
-                              Text(
-                                'حساب کاربری ندارید؟',
-                                style: TextStyle(
-                                    color: Colors.grey,
-                                    fontSize: 16,
-                                    fontFamily: 'VM'),
+                              InkWell(
+                                onTap: (() {
+                                  Navigator.pop(context);
+                                }),
+                                child: Text(
+                                  ' ثبت نام',
+                                  style: TextStyle(
+                                      color: blueDark,
+                                      fontSize: 16,
+                                      fontFamily: 'VM'),
+                                ),
                               ),
                             ],
                           ),
-                          InkWell(
-                            onTap: (() {
-                              Navigator.pop(context);
-                            }),
-                            child: Text(
-                              ' ثبت نام',
-                              style: TextStyle(
-                                  color: blueDark,
-                                  fontSize: 16,
-                                  fontFamily: 'VM'),
-                            ),
-                          ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
-                  ],
+                  ),
                 ),
               ),
             ),
-          ),
-        ),
-      ),
+          );
+        } else
+          return MainScreen();
+      },
     );
   }
 

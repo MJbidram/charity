@@ -128,14 +128,12 @@ class NewsListPage extends StatelessWidget {
                       topLeft: Radius.circular(16),
                       bottomLeft: Radius.circular(16),
                     ),
-                    child: Expanded(
-                      child: CachedNetworkImage(
-                        imageUrl: state.newsModel[index].newsImageUrl,
-                        fit: BoxFit.cover,
-                        placeholder: (context, url) =>
-                            Center(child: CircularProgressIndicator()),
-                        errorWidget: (context, url, error) => Icon(Icons.error),
-                      ),
+                    child: CachedNetworkImage(
+                      imageUrl: state.newsModel[index].newsImageUrl,
+                      fit: BoxFit.cover,
+                      placeholder: (context, url) =>
+                          Center(child: CircularProgressIndicator()),
+                      errorWidget: (context, url, error) => Icon(Icons.error),
                     ),
                   ),
                 ),

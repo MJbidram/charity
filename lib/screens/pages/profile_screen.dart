@@ -1,5 +1,6 @@
 import 'package:charity/constants/constants.dart';
 import 'package:charity/screens/pages/login_screen.dart';
+import 'package:charity/util/auth_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
@@ -8,7 +9,7 @@ class Profile_Screen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var box = Hive.box('information');
+    // var box = Hive.box('information');
 
     return Scaffold(
       extendBody: true,
@@ -65,7 +66,8 @@ class Profile_Screen extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Text(
-                        box.get('name') ?? 'name',
+                        // box.get('name') ?? 'name',
+                        'dd',
                         style: Theme.of(context).textTheme.headline5,
                       ),
                       Text(
@@ -199,8 +201,10 @@ class Profile_Screen extends StatelessWidget {
                   ),
                 ),
                 TextButton(
-                  onPressed: () {
-                    box.delete('information');
+                  onPressed: () async {
+                    await AuthManager.logout();
+
+                    // box.delete('information');
                     Navigator.pushAndRemoveUntil(
                         context,
                         MaterialPageRoute(

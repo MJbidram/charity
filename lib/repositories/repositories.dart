@@ -1,4 +1,5 @@
 import 'package:charity/constants/constants.dart';
+import 'package:charity/di/di.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
@@ -9,10 +10,11 @@ class Repositories {
     'Content-type': 'application/json',
     'Accept': 'application/json',
   };
+  final Dio _dio = locator.get();
   Future<HadisModel> getHadisData() async {
     late HadisModel hadis;
     try {
-      var response = await Dio().get(ApiAddress.hadisAddress);
+      var response = await _dio.get(ApiAddress.hadisAddress);
 
       if (response.statusCode == 200) {
         var jsonObject = response.data;
@@ -35,7 +37,7 @@ class Repositories {
   }
 
   Future<List<PooyeshesModel>> getPooyeshesData() async {
-    var response = await Dio().get(ApiAddress.pooyeshAddress);
+    var response = await _dio.get(ApiAddress.pooyeshAddress);
 
     List<PooyeshesModel> pooyeshesList = response.data['data']
         .map((jsonObject) => PooyeshesModel.fromeJsonMap(jsonObject))
@@ -47,7 +49,7 @@ class Repositories {
   }
 
   Future<List<ProjectModel>> getprojectData() async {
-    var response = await Dio().get(ApiAddress.projectAddress);
+    var response = await _dio.get(ApiAddress.projectAddress);
 
     List<ProjectModel> projectList = response.data['data']
         .map((jsonObject) => ProjectModel.fromeJsonMap(jsonObject))
@@ -64,7 +66,7 @@ class Repositories {
     late List<HomeProjectsModel> homeProjectsList;
     late HadisModel hadis;
     try {
-      var response = await Dio().get(ApiAddress.homeAddress);
+      var response = await _dio.get(ApiAddress.homeAddress);
 
       if (response.statusCode == 200) {
         homePooyeshList = response.data['data']['pooyeshes']
@@ -94,7 +96,7 @@ class Repositories {
         print(e.message);
       }
     }
-    await dioPostHeader(ApiAddress.homeAddress);
+    await dioPostHeader(ApiAddress.baseApiUrl);
 
     return [homePooyeshList, homeProjectsList, hadis];
   }

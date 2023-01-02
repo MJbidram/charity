@@ -2,16 +2,22 @@ import 'dart:io';
 import 'package:charity/bloc/home_bloc/home_bloc.dart';
 import 'package:charity/bloc/news_page_bloc/news_page_block.dart';
 import 'package:charity/constants/constants.dart';
-import 'package:charity/screens/pages/login_screen.dart';
+import 'package:charity/data/repository/authentication_repository.dart';
+import 'package:charity/di/di.dart';
+
 import 'package:charity/screens/pages/main_screen.dart';
 import 'package:charity/screens/pages/signup_screen.dart';
+import 'package:charity/util/auth_manager.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'package:hive_flutter/hive_flutter.dart';
 
 void main(List<String> args) async {
+  await getItInit();
   await Hive.initFlutter();
   var box = await Hive.openBox('information');
 
@@ -35,23 +41,21 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   Widget page = MainScreen();
-  var box = Hive.box('information');
+
+  // var box = Hive.box('information');
   @override
   void initState() {
     // TODO: implement initState
+    checkLogin();
     super.initState();
   }
 
   void checkLogin() async {
-    String token = await box.get('token');
-    if (token != null) {
-      setState(() {
-        page = MainScreen();
-      });
-    } else
-      (setState(() {
-        page = SignUpScreen();
-      }));
+    if (AuthManager.isLogin() == true) {
+      page = MainScreen();
+    } else {
+      page = SignUpScreen();
+    }
   }
 
   @override
@@ -114,5 +118,69 @@ class MyHttpOverrides extends HttpOverrides {
     return super.createHttpClient(context)
       ..badCertificateCallback =
           (X509Certificate cert, String host, int port) => true;
+  }
+}
+
+class MyWidget extends StatelessWidget {
+  const MyWidget({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Scaffold(
+        body: SafeArea(
+            child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            ElevatedButton(
+              onPressed: () async {
+                var either = await AuthenticationRepository()
+                    .login('09131111114', '123456781', 'android');
+
+                either.fold((erroreMessage) {
+                  erroreMessage?.forEach((element) {
+                    if (element != null) if (element.isNotEmpty)
+                      print(element);
+                    else
+                      (print('خطای ناشناخته'));
+                  });
+                }, (successMessage) => print(successMessage));
+                final bool islogedin = await AuthManager.isLogin();
+                print('fffff :: ${islogedin}');
+              },
+              child: Text('Login'),
+            ),
+            ElevatedButton(
+              onPressed: () async {
+                AuthManager.logout();
+                final bool islogedin = await AuthManager.isLogin();
+                print('${islogedin}');
+              },
+              child: Text('logout'),
+            ),
+            ElevatedButton(
+              onPressed: () async {
+                var either = await AuthenticationRepository().register(
+                  'mjb',
+                  '09132211113',
+                  'mjb322@gmail.com',
+                  'deviceName',
+                  '123456738',
+                  '123456738',
+                );
+                either.fold((erroreMessage) {
+                  erroreMessage?.forEach((element) {
+                    if (element!.isNotEmpty) print(element);
+                  });
+                }, (successMessage) => print(successMessage));
+                final bool islogedin = await AuthManager.isLogin();
+                print('fffff :: ${islogedin}');
+              },
+              child: Text('register'),
+            ),
+          ],
+        )),
+      ),
+    );
   }
 }
