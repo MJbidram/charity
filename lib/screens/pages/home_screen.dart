@@ -4,15 +4,14 @@ import 'package:charity/bloc/home_bloc/home_bloc.dart';
 import 'package:charity/bloc/home_bloc/home_event.dart';
 import 'package:charity/bloc/home_bloc/home_state.dart';
 import 'package:charity/constants/constants.dart';
-import 'package:charity/repositories/repositories.dart';
 import 'package:charity/screens/pages/news_screen.dart';
-
 import 'package:charity/screens/widget/image_slider.dart';
-import 'package:charity/screens/widget/news_cover.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+
+import '../../models/charity_model.dart';
 
 class MyHomeScreen extends StatefulWidget {
   const MyHomeScreen({super.key});
@@ -25,7 +24,6 @@ class _MyHomeScreenState extends State<MyHomeScreen> {
   late double height1;
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
   }
 
@@ -45,7 +43,7 @@ class _MyHomeScreenState extends State<MyHomeScreen> {
         body: BlocBuilder<HomeBloc, HomeState>(
           builder: (context, state) {
             if (state is HomeLoadingState) {
-              return Center(
+              return const Center(
                 child: CircularProgressIndicator(),
               );
             }
@@ -61,9 +59,9 @@ class _MyHomeScreenState extends State<MyHomeScreen> {
                         shortName,
                         style: Theme.of(context).textTheme.headline1,
                       ),
-                      actions: [
+                      actions: const [
                         Padding(
-                          padding: const EdgeInsets.all(8.0),
+                          padding: EdgeInsets.all(8.0),
                           child: Icon(
                             Icons.notifications,
                             size: 32,
@@ -85,7 +83,7 @@ class _MyHomeScreenState extends State<MyHomeScreen> {
                 body: CustomScrollView(
                   slivers: [
                     SliverPadding(
-                      padding: EdgeInsets.only(top: 20),
+                      padding: const EdgeInsets.only(top: 20),
                       sliver: SliverGrid(
                         delegate: SliverChildBuilderDelegate(
                           (context, index) {
@@ -93,7 +91,8 @@ class _MyHomeScreenState extends State<MyHomeScreen> {
                           },
                           childCount: 8,
                         ),
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 4,
                           crossAxisSpacing: 18,
                           mainAxisSpacing: 18,
@@ -119,14 +118,14 @@ class _MyHomeScreenState extends State<MyHomeScreen> {
                                   state.teller,
                                   style: Theme.of(context).textTheme.headline2,
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   height: 8,
                                 ),
                                 Text(
                                   state.arabicText,
                                   style: Theme.of(context).textTheme.headline4,
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   height: 8,
                                 ),
                                 Text(
@@ -143,7 +142,7 @@ class _MyHomeScreenState extends State<MyHomeScreen> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          SizedBox(
+                          const SizedBox(
                             height: 16,
                           ),
                           Padding(
@@ -154,15 +153,15 @@ class _MyHomeScreenState extends State<MyHomeScreen> {
                             ),
                           ),
                           Container(
-                              margin: EdgeInsets.only(top: 8),
+                              margin: const EdgeInsets.only(top: 8),
                               decoration: BoxDecoration(gradient: blueGradient),
                               child: Column(
                                 children: [
-                                  SizedBox(
+                                  const SizedBox(
                                     height: 16,
                                   ),
                                   _getProjectSlider(state),
-                                  SizedBox(
+                                  const SizedBox(
                                     height: 8,
                                   ),
                                   AnimatedSmoothIndicator(
@@ -176,7 +175,7 @@ class _MyHomeScreenState extends State<MyHomeScreen> {
                                       activeDotColor: blueLight,
                                     ),
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     height: 12,
                                   ),
                                 ],
@@ -186,7 +185,8 @@ class _MyHomeScreenState extends State<MyHomeScreen> {
                     ),
                     SliverToBoxAdapter(
                       child: Padding(
-                        padding: EdgeInsets.only(top: 16, right: 16, left: 16),
+                        padding:
+                            const EdgeInsets.only(top: 16, right: 16, left: 16),
                         child: Align(
                             alignment: Alignment.topRight,
                             child: Row(
@@ -203,7 +203,7 @@ class _MyHomeScreenState extends State<MyHomeScreen> {
                                     ),
                                   ),
                                 ),
-                                Spacer(),
+                                const Spacer(),
                                 Text(
                                   'اخبار',
                                   style: TextStyle(
@@ -218,7 +218,7 @@ class _MyHomeScreenState extends State<MyHomeScreen> {
                       ),
                     ),
                     SliverPadding(
-                      padding: EdgeInsets.only(bottom: 80),
+                      padding: const EdgeInsets.only(bottom: 80),
                       sliver: SliverList(
                         delegate: SliverChildBuilderDelegate((context, index) {
                           return _getNewsCover(index, state);
@@ -243,7 +243,7 @@ class _MyHomeScreenState extends State<MyHomeScreen> {
           itemBuilder: (context, index, realIndex) {
             return Container(
               width: MediaQuery.of(context).size.width,
-              margin: EdgeInsets.symmetric(horizontal: 0),
+              margin: const EdgeInsets.symmetric(horizontal: 0),
               decoration: BoxDecoration(
                 color: Colors.transparent,
                 borderRadius: BorderRadius.circular(16),
@@ -263,8 +263,9 @@ class _MyHomeScreenState extends State<MyHomeScreen> {
                       imageUrl: state.projectModel[index].imageProjectHome,
                       fit: BoxFit.cover,
                       placeholder: (context, url) =>
-                          Center(child: CircularProgressIndicator()),
-                      errorWidget: (context, url, error) => Icon(Icons.error),
+                          const Center(child: CircularProgressIndicator()),
+                      errorWidget: (context, url, error) =>
+                          const Icon(Icons.error),
                     ),
                   ),
                   Align(
@@ -305,7 +306,7 @@ class _MyHomeScreenState extends State<MyHomeScreen> {
 
   progressBar(int index, HomeLoadedState state) {
     return Container(
-      margin: EdgeInsets.symmetric(
+      margin: const EdgeInsets.symmetric(
         vertical: 8,
       ),
       child: LinearPercentIndicator(
@@ -321,11 +322,11 @@ class _MyHomeScreenState extends State<MyHomeScreen> {
         progressColor: Colors.red,
         backgroundColor: Colors.grey[200],
         percent: state.projectModel[index].pishraftProjectHome / 100,
-        barRadius: Radius.circular(8),
+        barRadius: const Radius.circular(8),
         animation: true,
         animationDuration: 2000,
         alignment: MainAxisAlignment.center,
-        padding: EdgeInsets.symmetric(horizontal: 8),
+        padding: const EdgeInsets.symmetric(horizontal: 8),
         restartAnimation: false,
       ),
     );
@@ -347,7 +348,7 @@ class _MyHomeScreenState extends State<MyHomeScreen> {
         ),
         Text(
           state.projectModel[index].titleProjectHome,
-          style: TextStyle(
+          style: const TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.bold,
             color: Colors.white, // <-- Inner color
@@ -367,16 +368,16 @@ class _MyHomeScreenState extends State<MyHomeScreen> {
             gradient: blueGradient,
             borderRadius: BorderRadius.circular(16),
           ),
-          child: Icon(
+          child: const Icon(
             Icons.sim_card,
             color: Colors.white,
             size: 34,
           ),
         ),
-        SizedBox(
+        const SizedBox(
           height: 8,
         ),
-        Text(
+        const Text(
           'test',
           style: TextStyle(
             fontSize: 14,
@@ -393,7 +394,7 @@ class _MyHomeScreenState extends State<MyHomeScreen> {
             builder: (context) => NewsScreen(newsindex: index)));
       },
       child: Padding(
-        padding: EdgeInsets.only(right: 16, left: 16, bottom: 16),
+        padding: const EdgeInsets.only(right: 16, left: 16, bottom: 16),
         child: Container(
           decoration: BoxDecoration(
             color: blueDark,
@@ -409,7 +410,7 @@ class _MyHomeScreenState extends State<MyHomeScreen> {
                   decoration: BoxDecoration(
                     gradient: blueGradient,
                     // color: blueDark,
-                    borderRadius: BorderRadius.only(
+                    borderRadius: const BorderRadius.only(
                       topRight: Radius.circular(16),
                       bottomRight: Radius.circular(16),
                     ),
@@ -436,7 +437,7 @@ class _MyHomeScreenState extends State<MyHomeScreen> {
                     borderRadius: BorderRadius.circular(16),
                   ),
                   child: ClipRRect(
-                    borderRadius: BorderRadius.only(
+                    borderRadius: const BorderRadius.only(
                       topLeft: Radius.circular(16),
                       bottomLeft: Radius.circular(16),
                     ),
@@ -444,8 +445,9 @@ class _MyHomeScreenState extends State<MyHomeScreen> {
                       imageUrl: state.newsModl[index].newsImageUrl,
                       fit: BoxFit.cover,
                       placeholder: (context, url) =>
-                          Center(child: CircularProgressIndicator()),
-                      errorWidget: (context, url, error) => Icon(Icons.error),
+                          const Center(child: CircularProgressIndicator()),
+                      errorWidget: (context, url, error) =>
+                          const Icon(Icons.error),
                     ),
                     // Image.network(
                     //   state.newsModl[index].newsImageUrl,

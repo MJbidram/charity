@@ -1,5 +1,6 @@
 import 'package:charity/constants/constants.dart';
 import 'package:charity/data/datasource/authentication_dataSource.dart';
+import 'package:charity/data/datasource/charity_datasource.dart';
 import 'package:charity/data/repository/authentication_repository.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -21,4 +22,8 @@ Future<void> getItInit() async {
   //repository
 
   locator.registerFactory<IAuthRepository>(() => AuthenticationRepository());
+
+  // get Charity Types
+
+  locator.registerFactory<CharityDatasource>(() => CharityRemote());
 }

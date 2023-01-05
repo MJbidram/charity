@@ -6,6 +6,9 @@ import 'package:charity/screens/pages/profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:stylish_bottom_bar/stylish_bottom_bar.dart';
 
+import '../../data/repository/charity_repository.dart';
+import '../../models/charity_model.dart';
+
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
 
@@ -14,10 +17,17 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
+  List<CharityModel>? items = [];
+
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
+    getFirstCharityType();
+  }
+
+  getFirstCharityType() async {
+    var either = await CharityRepository().getFirstTyp();
+    either.fold((l) => print(l), (r) => items = r);
   }
 
   int _selectedBottomNavigationItem = 0;
@@ -26,14 +36,14 @@ class _MainScreenState extends State<MainScreen> {
     return Scaffold(
       extendBody: true,
       bottomNavigationBar: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(15),
             topRight: Radius.circular(15),
           ),
         ),
         child: ClipRRect(
-          borderRadius: BorderRadius.only(
+          borderRadius: const BorderRadius.only(
             topLeft: Radius.circular(15),
             topRight: Radius.circular(15),
           ),
@@ -42,36 +52,36 @@ class _MainScreenState extends State<MainScreen> {
 
             items: [
               AnimatedBarItems(
-                  icon: Icon(
+                  icon: const Icon(
                     Icons.home,
                   ),
                   selectedColor: blueDark,
                   backgroundColor: Colors.amber,
-                  title: Text('صفحه اصلی')),
+                  title: const Text('صفحه اصلی')),
               AnimatedBarItems(
-                  icon: Icon(
+                  icon: const Icon(
                     Icons.waving_hand_rounded,
                   ),
                   backgroundColor: Colors.amber,
                   selectedColor: blueDark,
-                  title: Text('درخواست')),
+                  title: const Text('درخواست')),
               // BubbleBarItem(icon: Icon(Icons.home), title: Text('Home')),
               // BubbleBarItem(icon: Icon(Icons.add_circle_outline), title: Text('Add')),
               // BubbleBarItem(icon: Icon(Icons.person), title: Text('Profile')),
               AnimatedBarItems(
-                  icon: Icon(
+                  icon: const Icon(
                     Icons.feed,
                   ),
                   backgroundColor: Colors.amber,
                   selectedColor: blueDark,
-                  title: Text('اخبار')),
+                  title: const Text('اخبار')),
               AnimatedBarItems(
-                  icon: Icon(
+                  icon: const Icon(
                     Icons.person,
                   ),
                   backgroundColor: Colors.amber,
                   selectedColor: blueDark,
-                  title: Text('حساب کاربری')),
+                  title: const Text('حساب کاربری')),
             ],
 
             iconSize: 32,
@@ -100,7 +110,7 @@ class _MainScreenState extends State<MainScreen> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.of(context).push(MaterialPageRoute(
-            builder: (context) => CharityPage(),
+            builder: (context) => CharityPage(items: items),
           ));
         },
         backgroundColor: blueDark,
@@ -109,7 +119,7 @@ class _MainScreenState extends State<MainScreen> {
           width: 60,
           decoration:
               BoxDecoration(shape: BoxShape.circle, gradient: blueGradient),
-          child: Icon(
+          child: const Icon(
             Icons.handshake,
             color: Colors.white,
             size: 40,
@@ -125,12 +135,12 @@ class _MainScreenState extends State<MainScreen> {
     return IndexedStack(
       index: _selectedBottomNavigationItem,
       children: [
-        MyHomeScreen(),
+        const MyHomeScreen(),
         Container(
           color: blueDark,
         ),
         NewsListPage(),
-        Profile_Screen()
+        const Profile_Screen()
       ],
     );
   }

@@ -36,41 +36,6 @@ class NewsScreen extends StatelessWidget {
         },
       ),
     );
-
-    // Scaffold(
-    //   body: BlocBuilder<NewsBloc, NewsState>(
-    //     builder: (context, state) {
-    //       if (state is NewsLoadingState) {
-    //         return Container(
-    //           color: Colors.amber,
-    //         );
-    //       } else {
-    //         return Container(
-    //           color: Colors.red,
-    //         );
-    //       }
-    //     },
-    //   ),
-    // );
-
-    // BlocProvider(
-    //   create: (context) =>
-    //       NewsPageBloc(RepositoryProvider.of<Repositories>(context))
-    //         ..add(LoadNewsApIEvent()),
-    //   child: BlocBuilder<NewsPageBloc, NewsPageState>(
-    //     builder: (context, state) {
-    //       if (state is HomeLoadingState) {
-    //         return Center(
-    //           child: CircularProgressIndicator(),
-    //         );
-    //       }
-    //       if (state is NewsPageLoadedState) {
-    //         return _getBody(context, state);
-    //       }
-    //       return Container();
-    //     },
-    //   ),
-    // );
   }
 
   Scaffold _getBody(BuildContext context, NewsLoadedState state) {

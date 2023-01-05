@@ -7,6 +7,7 @@ import 'package:charity/bloc/news_page_bloc/news_page_event.dart';
 import 'package:charity/bloc/news_page_bloc/news_page_state.dart';
 import 'package:charity/constants/constants.dart';
 import 'package:charity/repositories/repositories.dart';
+import 'package:charity/screens/pages/news_screen.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -77,10 +78,12 @@ class NewsListPage extends StatelessWidget {
 
   Widget _getCoverNews(int index, NewsLoadedState state, BuildContext context) {
     return GestureDetector(
-      // onTap: () {
-      //   Navigator.of(context)
-      //       .push(MaterialPageRoute(builder: (context) => NewsScreen()));
-      // },
+      onTap: () {
+        Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) => NewsScreen(
+                  newsindex: index,
+                )));
+      },
       child: Padding(
         padding: EdgeInsets.only(right: 16, left: 16, bottom: 16),
         child: Container(

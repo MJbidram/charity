@@ -1,6 +1,7 @@
 import 'dart:ffi';
 
 import 'package:charity/di/di.dart';
+import 'package:charity/main.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
@@ -23,6 +24,7 @@ class AuthManager {
   static Future<void> logout() async {
     await _secureStorage.deleteAll();
     authChangeNotifire.value = null;
+    MyApp.pageValuNotifire.value = 3;
   }
 
   static Future<bool> isLogin() async {

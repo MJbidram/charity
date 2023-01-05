@@ -1,40 +1,27 @@
 import 'dart:ui';
 
 import 'package:charity/constants/constants.dart';
+import 'package:charity/data/repository/charity_repository.dart';
+import 'package:charity/models/charity_model.dart';
 import 'package:dropdown_button2/custom_dropdown_button2.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 
 import 'package:flutter/material.dart';
 
-final List<String> items = [
-  'Item1',
-  'Item2',
-  'Item3',
-  'Item4',
-  'Item5',
-  'Item6',
-  'Item7',
-  'Item8',
-  'Item1',
-  'Item2',
-  'Item3',
-  'Item4',
-  'Item5',
-  'Item6',
-  'Item7',
-  'Item8',
-];
 String? selectedValue;
 
 class CharityPage extends StatefulWidget {
-  const CharityPage({super.key});
-
+  CharityPage({super.key, required this.items});
+  List<CharityModel>? items;
   @override
   State<CharityPage> createState() => _CharityPageState();
 }
 
 class _CharityPageState extends State<CharityPage> {
   FocusNode myFocusNode1 = FocusNode();
+  List<CharityModel>? itemsCharity;
+
+  String firstType = '';
 
   @override
   void initState() {
@@ -44,6 +31,7 @@ class _CharityPageState extends State<CharityPage> {
     myFocusNode1.addListener(() {
       setState(() {});
     });
+    itemsCharity = widget.items;
   }
 
   @override
@@ -114,17 +102,7 @@ class _CharityPageState extends State<CharityPage> {
             ),
           ),
         ),
-        // body:
 
-        //  NestedScrollView(
-        //   headerSliverBuilder: (context, innerBoxIsScrolled) {
-        //     return [
-        //       // SliverAppBar(
-        //       //   expandedHeight: 200,
-
-        //       // )
-        //     ];
-        //   },
         body: SingleChildScrollView(child: _getCharityPageBody(context)),
         // ),
       ),
@@ -166,22 +144,22 @@ class _CharityPageState extends State<CharityPage> {
             'نوع و موارد مصرف:',
             style: Theme.of(context).textTheme.headline5,
           ),
-          SizedBox(
+          const SizedBox(
             height: 16,
           ),
-          _getDropDownFild(context),
-          SizedBox(
+          _getDropDownFildFirest(context),
+          const SizedBox(
             height: 32,
           ),
           Text(
             'انتخاب نوع جزئی تر:',
             style: Theme.of(context).textTheme.headline5,
           ),
-          SizedBox(
+          const SizedBox(
             height: 16,
           ),
-          _getDropDownFild(context),
-          SizedBox(
+          _getDropDownFildsecand(context),
+          const SizedBox(
             height: 32,
           ),
           Container(
@@ -200,10 +178,10 @@ class _CharityPageState extends State<CharityPage> {
                   'انتقال به صفحه پرداخت',
                   style: Theme.of(context).textTheme.headline4,
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 4,
                 ),
-                Icon(
+                const Icon(
                   Icons.payment,
                   size: 24,
                 ),
@@ -227,8 +205,9 @@ class _CharityPageState extends State<CharityPage> {
           fontSize: 16,
         ),
         decoration: InputDecoration(
-            contentPadding: EdgeInsets.symmetric(horizontal: 25, vertical: 16),
-            enabledBorder: OutlineInputBorder(
+            contentPadding:
+                const EdgeInsets.symmetric(horizontal: 25, vertical: 16),
+            enabledBorder: const OutlineInputBorder(
               borderSide: BorderSide(width: 1, color: Colors.grey),
               borderRadius: BorderRadius.all(Radius.circular(15)),
             ),
@@ -237,7 +216,7 @@ class _CharityPageState extends State<CharityPage> {
                 color: blueDark,
                 width: 3,
               ),
-              borderRadius: BorderRadius.all(Radius.circular(15)),
+              borderRadius: const BorderRadius.all(Radius.circular(15)),
             ),
             labelText: '  مبلغ  ',
             labelStyle: TextStyle(
@@ -251,63 +230,131 @@ class _CharityPageState extends State<CharityPage> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
     myFocusNode1.dispose();
 
     super.dispose();
   }
 
-  Widget _getDropDownFild(BuildContext context) {
-    return Container(
-      child: DropdownButtonFormField2(
-        decoration: InputDecoration(
-          // label: Text('data'),
+  DropdownButtonFormField2 _getDropDownFildFirest(BuildContext context) {
+    return DropdownButtonFormField2(
+      decoration: InputDecoration(
+        // label: Text('data'),
 
-          isDense: true,
-          contentPadding: EdgeInsets.zero,
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(15),
-          ),
-        ),
-        isExpanded: true,
-        hint: const Text(
-          'انتخاب',
-          style: TextStyle(fontSize: 14),
-        ),
-        icon: const Icon(
-          Icons.arrow_drop_down,
-          color: Colors.black45,
-        ),
-        dropdownMaxHeight: 200,
-        iconSize: 30,
-        buttonHeight: 50,
-        buttonPadding: const EdgeInsets.only(left: 20, right: 10),
-        dropdownDecoration: BoxDecoration(
+        isDense: true,
+        contentPadding: EdgeInsets.zero,
+        border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(15),
         ),
-        items: items
-            .map((item) => DropdownMenuItem<String>(
-                  value: item,
-                  child: Text(
-                    item,
-                    style: const TextStyle(
-                      fontSize: 14,
-                    ),
-                  ),
-                ))
-            .toList(),
-        validator: (value) {
-          if (value == null) {
-            return 'Please select gender.';
-          }
-        },
-        onChanged: (value) {
-          //Do something when changing the item if you want.
-        },
-        onSaved: (value) {
-          selectedValue = value.toString();
-        },
       ),
+      isExpanded: true,
+      hint: const Text(
+        'انتخاب',
+        style: TextStyle(fontSize: 14),
+      ),
+      icon: const Icon(
+        Icons.arrow_drop_down,
+        color: Colors.black45,
+      ),
+      dropdownMaxHeight: 200,
+      iconSize: 30,
+      buttonHeight: 50,
+      buttonPadding: const EdgeInsets.only(left: 20, right: 10),
+      dropdownDecoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(15),
+      ),
+      items: itemsCharity
+          ?.map((item) => DropdownMenuItem<String>(
+                value: item.id!.toString(),
+                child: Text(
+                  item.title,
+                  style: const TextStyle(
+                    fontSize: 14,
+                  ),
+                ),
+              ))
+          .toList(),
+      validator: (value) {
+        if (value == null) {
+          return 'Please select gender.';
+        }
+      },
+      onChanged: (value) {
+        setState(() {
+          firstType = value;
+          // _getSecandTyps(firstType);
+        });
+      },
+      onSaved: (value) {
+        selectedValue = value.toString();
+      },
+    );
+  }
+
+  DropdownButtonFormField2 _getDropDownFildsecand(BuildContext context) {
+    return DropdownButtonFormField2(
+      decoration: InputDecoration(
+        // label: Text('data'),
+
+        isDense: true,
+        contentPadding: EdgeInsets.zero,
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(15),
+        ),
+      ),
+      isExpanded: true,
+      hint: const Text(
+        'انتخاب',
+        style: TextStyle(fontSize: 14),
+      ),
+      icon: const Icon(
+        Icons.arrow_drop_down,
+        color: Colors.black45,
+      ),
+      dropdownMaxHeight: 200,
+      iconSize: 30,
+      buttonHeight: 50,
+      buttonPadding: const EdgeInsets.only(left: 20, right: 10),
+      dropdownDecoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(15),
+      ),
+      items: charityModelSecand
+              ?.map((item) => DropdownMenuItem<String>(
+                    value: item.sub!.toString(),
+                    child: Text(
+                      item.title!,
+                      style: const TextStyle(
+                        fontSize: 14,
+                      ),
+                    ),
+                  ))
+              .toList() ??
+          [],
+      validator: (value) {
+        if (value == null) {
+          return 'Please select gender.';
+        }
+      },
+      onChanged: (value) {
+        print('${itemsCharity![0].title}');
+      },
+      onSaved: (value) {
+        selectedValue = value.toString();
+      },
+    );
+  }
+
+  String? secandType;
+  List<CharityModelSecand>? charityModelSecand;
+  void _getSecandTyps(String firstType) async {
+    var eithr = await CharityRepository().getSecandTyp(firstType);
+    eithr.fold(
+      (l) => print(l),
+      (r) {
+        print('charity model is :: ${r}');
+        setState(() {
+          charityModelSecand = r;
+        });
+      },
     );
   }
 }

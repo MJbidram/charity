@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:charity/data/datasource/authentication_dataSource.dart';
 import 'package:charity/di/di.dart';
 import 'package:charity/util/auth_manager.dart';
@@ -32,19 +30,19 @@ class AuthenticationRepository implements IAuthRepository {
   List<String?>? errorRegister;
   static RegisterErrorModel registerErrorModel =
       RegisterErrorModel('', '', '', '', '');
-  var nameRegisterE;
-  var phoneRegisterE;
-  var emailRegisterE;
-  var passwordRegisterE;
-  var unknowRegisterE;
+  dynamic nameRegisterE;
+  dynamic phoneRegisterE;
+  dynamic emailRegisterE;
+  dynamic passwordRegisterE;
+  dynamic unknowRegisterE;
   //loginExseptions
   List<String?>? errorLogin;
   static LoginErrorModel loginErrorModel = LoginErrorModel('', '', '', '');
 
-  var phoneLoginE;
-  var passwordLoginE;
-  var unknowLoginE;
-  var messageLoginE;
+  dynamic phoneLoginE;
+  dynamic passwordLoginE;
+  dynamic unknowLoginE;
+  dynamic messageLoginE;
   @override
   Future<Either<List<String?>?, String>> register(
       String username,
@@ -59,7 +57,7 @@ class AuthenticationRepository implements IAuthRepository {
 
       if (AuthenticationRemote.checkRegisterErrors['status'] == 'success') {
         AuthManager.saveToken(_token);
-        print('oth ==  ' + _token);
+
         return right('ثبت نام انجام شد');
       } else {
         // AuthenticationRemote.checkerrors;
@@ -172,6 +170,7 @@ class AuthenticationRepository implements IAuthRepository {
       }
     } on ApiException catch (ex) {
       loginErrorModel.unknow = ex.message;
+
       return left(errorLogin);
     }
   }

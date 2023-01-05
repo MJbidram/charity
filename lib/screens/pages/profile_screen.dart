@@ -1,4 +1,5 @@
 import 'package:charity/constants/constants.dart';
+import 'package:charity/main.dart';
 import 'package:charity/screens/pages/login_screen.dart';
 import 'package:charity/util/auth_manager.dart';
 import 'package:flutter/material.dart';
@@ -44,11 +45,11 @@ class Profile_Screen extends StatelessWidget {
                             child: Container(
                               height: 70,
                               width: 70,
-                              decoration: BoxDecoration(
+                              decoration: const BoxDecoration(
                                 // color: Colors.amber,
                                 shape: BoxShape.circle,
                               ),
-                              child: Icon(
+                              child: const Icon(
                                 Icons.person,
                                 size: 70,
                                 color: Colors.grey,
@@ -60,7 +61,7 @@ class Profile_Screen extends StatelessWidget {
             ),
           ),
           SliverPadding(
-              padding: EdgeInsets.only(top: 8, bottom: 32),
+              padding: const EdgeInsets.only(top: 8, bottom: 32),
               sliver: SliverToBoxAdapter(
                 child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -86,15 +87,15 @@ class Profile_Screen extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Padding(
-                        padding: EdgeInsets.only(right: 45),
+                        padding: const EdgeInsets.only(right: 45),
                         child: Text(
                           'ویرایش پروفایل',
                           style: Theme.of(context).textTheme.headline6,
                           textAlign: TextAlign.start,
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 40),
+                      const Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 40),
                         child: Divider(
                           color: Colors.grey,
                           height: 15,
@@ -117,8 +118,8 @@ class Profile_Screen extends StatelessWidget {
                           textAlign: TextAlign.start,
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 40),
+                      const Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 40),
                         child: Divider(
                           color: Colors.grey,
                           height: 15,
@@ -141,8 +142,8 @@ class Profile_Screen extends StatelessWidget {
                           textAlign: TextAlign.start,
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 40),
+                      const Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 40),
                         child: Divider(
                           color: Colors.grey,
                           height: 15,
@@ -158,15 +159,15 @@ class Profile_Screen extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Padding(
-                        padding: EdgeInsets.only(right: 45),
+                        padding: const EdgeInsets.only(right: 45),
                         child: Text(
                           'درباره ما ',
                           style: Theme.of(context).textTheme.headline6,
                           textAlign: TextAlign.start,
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 40),
+                      const Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 40),
                         child: Divider(
                           color: Colors.grey,
                           height: 15,
@@ -189,8 +190,8 @@ class Profile_Screen extends StatelessWidget {
                           textAlign: TextAlign.start,
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 40),
+                      const Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 40),
                         child: Divider(
                           color: Colors.grey,
                           height: 15,
@@ -204,13 +205,7 @@ class Profile_Screen extends StatelessWidget {
                   onPressed: () async {
                     await AuthManager.logout();
 
-                    // box.delete('information');
-                    Navigator.pushAndRemoveUntil(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => LoginScreen(),
-                        ),
-                        (route) => false);
+                    MyApp.pageValuNotifire.value = 3;
                   },
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -223,8 +218,8 @@ class Profile_Screen extends StatelessWidget {
                           textAlign: TextAlign.start,
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 40),
+                      const Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 40),
                         child: Divider(
                           color: Colors.grey,
                           height: 15,
