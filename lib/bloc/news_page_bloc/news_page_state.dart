@@ -2,6 +2,8 @@ import 'package:charity/models/models.dart';
 
 import 'package:equatable/equatable.dart';
 
+import '../../models/news_model.dart';
+
 abstract class NewsState extends Equatable {}
 
 class NewsLoadingState extends NewsState {

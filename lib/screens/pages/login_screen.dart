@@ -9,7 +9,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:http/http.dart';
 
 import '../../data/repository/authentication_repository.dart';
-import '../../di/util/auth_manager.dart';
+import '../../util/auth_manager.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});

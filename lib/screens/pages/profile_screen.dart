@@ -1,7 +1,7 @@
 import 'package:charity/constants/constants.dart';
 import 'package:charity/main.dart';
 import 'package:charity/screens/pages/login_screen.dart';
-import 'package:charity/di/util/auth_manager.dart';
+import 'package:charity/util/auth_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 

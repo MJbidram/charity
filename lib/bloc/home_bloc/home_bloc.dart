@@ -1,10 +1,10 @@
 import 'package:charity/bloc/home_bloc/home_event.dart';
 import 'package:charity/bloc/home_bloc/home_state.dart';
-import 'package:charity/repositories/repositories.dart';
+import 'package:charity/data/repositories/home_repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
-  final Repositories _repositories = Repositories();
+  final HomeRepository _repositories = HomeRepository();
   HomeBloc() : super(HomeLoadingState()) {
     on<LoadApiEvent>((event, emit) async {
       final homeData = await _repositories.getHomeData();

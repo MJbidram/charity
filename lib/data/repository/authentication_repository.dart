@@ -1,10 +1,10 @@
 import 'package:charity/data/datasource/authentication_dataSource.dart';
 import 'package:charity/di/di.dart';
-import 'package:charity/di/util/auth_manager.dart';
+import 'package:charity/util/auth_manager.dart';
 
 import 'package:dartz/dartz.dart';
 
-import '../../di/util/api_exception.dart';
+import '../../util/api_exception.dart';
 
 abstract class IAuthRepository {
   Future<Either<List<String?>?, String>> register(

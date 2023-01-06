@@ -7,7 +7,7 @@ import 'package:charity/di/di.dart';
 import 'package:charity/screens/pages/login_screen.dart';
 import 'package:charity/screens/pages/main_screen.dart';
 import 'package:charity/screens/pages/signup_screen.dart';
-import 'package:charity/di/util/auth_manager.dart';
+import 'package:charity/util/auth_manager.dart';
 import 'package:charity/screens/pages/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

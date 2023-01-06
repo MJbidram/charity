@@ -1,6 +1,7 @@
-import 'package:charity/models/models.dart';
-
 import 'package:equatable/equatable.dart';
+
+import '../../models/home_models.dart';
+import '../../models/news_model.dart';
 
 abstract class HomeState extends Equatable {}
 

@@ -6,7 +6,7 @@ import 'package:charity/bloc/news_page_bloc/news_page_block.dart';
 import 'package:charity/bloc/news_page_bloc/news_page_event.dart';
 import 'package:charity/bloc/news_page_bloc/news_page_state.dart';
 import 'package:charity/constants/constants.dart';
-import 'package:charity/repositories/repositories.dart';
+import 'package:charity/data/repositories/repositories.dart';
 import 'package:charity/screens/pages/news_screen.dart';
 
 import 'package:flutter/material.dart';
