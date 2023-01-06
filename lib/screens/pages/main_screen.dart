@@ -140,7 +140,7 @@ class _MainScreenState extends State<MainScreen> {
           color: blueDark,
         ),
         NewsListPage(),
-        const Profile_Screen()
+        const ProfileScreen()
       ],
     );
   }

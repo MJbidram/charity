@@ -2,7 +2,7 @@ import 'dart:ffi';
 
 import 'package:charity/constants/constants.dart';
 import 'package:charity/di/di.dart';
-import 'package:charity/util/api_exception.dart';
+import 'package:charity/di/util/api_exception.dart';
 import 'package:dio/dio.dart';
 
 abstract class IAuthenticationDataSurce {

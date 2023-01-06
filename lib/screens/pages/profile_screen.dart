@@ -1,12 +1,12 @@
 import 'package:charity/constants/constants.dart';
 import 'package:charity/main.dart';
 import 'package:charity/screens/pages/login_screen.dart';
-import 'package:charity/util/auth_manager.dart';
+import 'package:charity/di/util/auth_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
-class Profile_Screen extends StatelessWidget {
-  const Profile_Screen({super.key});
+class ProfileScreen extends StatelessWidget {
+  const ProfileScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -68,7 +68,7 @@ class Profile_Screen extends StatelessWidget {
                     children: [
                       Text(
                         // box.get('name') ?? 'name',
-                        'dd',
+                        'MJ.B',
                         style: Theme.of(context).textTheme.headline5,
                       ),
                       Text(
@@ -111,7 +111,7 @@ class Profile_Screen extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Padding(
-                        padding: EdgeInsets.only(right: 45),
+                        padding: const EdgeInsets.only(right: 45),
                         child: Text(
                           'تغییر رمز ورود',
                           style: Theme.of(context).textTheme.headline6,
@@ -135,7 +135,7 @@ class Profile_Screen extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Padding(
-                        padding: EdgeInsets.only(right: 45),
+                        padding: const EdgeInsets.only(right: 45),
                         child: Text(
                           'لیست پرداخت ها ',
                           style: Theme.of(context).textTheme.headline6,
@@ -183,7 +183,7 @@ class Profile_Screen extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Padding(
-                        padding: EdgeInsets.only(right: 45),
+                        padding: const EdgeInsets.only(right: 45),
                         child: Text(
                           'ارتباط با ما ',
                           style: Theme.of(context).textTheme.headline6,
@@ -205,13 +205,18 @@ class Profile_Screen extends StatelessWidget {
                   onPressed: () async {
                     await AuthManager.logout();
 
-                    MyApp.pageValuNotifire.value = 3;
+                    Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const LoginScreen(),
+                        ),
+                        (route) => false);
                   },
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Padding(
-                        padding: EdgeInsets.only(right: 45),
+                        padding: const EdgeInsets.only(right: 45),
                         child: Text(
                           'خروج ',
                           style: Theme.of(context).textTheme.headline6,

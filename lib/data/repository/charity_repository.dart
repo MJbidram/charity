@@ -1,7 +1,7 @@
 import 'package:charity/data/datasource/charity_datasource.dart';
 import 'package:charity/di/di.dart';
 import 'package:charity/models/charity_model.dart';
-import 'package:charity/util/api_exception.dart';
+import 'package:charity/di/util/api_exception.dart';
 import 'package:dartz/dartz.dart';
 
 abstract class MyCharityRepository {

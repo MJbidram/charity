@@ -24,7 +24,6 @@ class AuthManager {
   static Future<void> logout() async {
     await _secureStorage.deleteAll();
     authChangeNotifire.value = null;
-    MyApp.pageValuNotifire.value = 3;
   }
 
   static Future<bool> isLogin() async {

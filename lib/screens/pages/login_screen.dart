@@ -3,12 +3,13 @@ import 'dart:convert';
 import 'package:charity/constants/constants.dart';
 import 'package:charity/main.dart';
 import 'package:charity/screens/pages/main_screen.dart';
+import 'package:charity/screens/pages/signup_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:http/http.dart';
 
 import '../../data/repository/authentication_repository.dart';
-import '../../util/auth_manager.dart';
+import '../../di/util/auth_manager.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -80,7 +81,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     width: 60,
                     child: Image.asset('assets/images/logo.png'),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 8,
                   ),
                   Text(
@@ -88,7 +89,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     style: TextStyle(
                         fontFamily: 'VB', fontSize: 18, color: blueDark),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 16,
                   ),
                   _getTextfild(focusNodePhone, 'شماره تلفن', phoneController,
@@ -110,7 +111,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 return Text(
                                   loginTextErrors[index],
                                   textAlign: TextAlign.start,
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                       color: Colors.red,
                                       fontFamily: 'VM',
                                       fontSize: 14),
@@ -122,15 +123,15 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   Visibility(
                     visible: !dontClickLogin,
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
+                    child: const Padding(
+                      padding: EdgeInsets.all(8.0),
                       child: CircularProgressIndicator(),
                     ),
                   ),
                   Visibility(
                     visible: dontClickLogin,
                     child: Container(
-                      margin: EdgeInsets.only(
+                      margin: const EdgeInsets.only(
                           top: 24, right: 24, left: 24, bottom: 8),
                       height: 55,
                       width: MediaQuery.of(context).size.width,
@@ -160,24 +161,23 @@ class _LoginScreenState extends State<LoginScreen> {
                               dontClickLogin = true;
                             });
                           }, (successMessage) {
-                            setState(() {
-                              print(successMessage);
-
-                              MyApp.pageValuNotifire.value = 1;
-
-                              dontClickLogin = true;
-                            });
+                            Navigator.pushAndRemoveUntil(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const MainScreen(),
+                                ),
+                                (route) => false);
                           });
                         },
-                        child: Text(
-                          'ورود',
-                          style: TextStyle(fontSize: 16, fontFamily: 'VB'),
-                        ),
                         style: ElevatedButton.styleFrom(
                           backgroundColor: blueDark,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(32),
                           ),
+                        ),
+                        child: const Text(
+                          'ورود',
+                          style: TextStyle(fontSize: 16, fontFamily: 'VB'),
                         ),
                       ),
                     ),
@@ -204,8 +204,12 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                         InkWell(
                           onTap: (() {
-                            MyApp.pageValuNotifire.value = 2;
-                            MyApp.pageValuNotifire.notifyListeners();
+                            Navigator.pushAndRemoveUntil(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const SignUpScreen(),
+                                ),
+                                (route) => false);
                           }),
                           child: Text(
                             ' ثبت نام',
@@ -245,8 +249,9 @@ class _LoginScreenState extends State<LoginScreen> {
           fontSize: 16,
         ),
         decoration: InputDecoration(
-          contentPadding: EdgeInsets.symmetric(horizontal: 25, vertical: 12),
-          enabledBorder: OutlineInputBorder(
+          contentPadding:
+              const EdgeInsets.symmetric(horizontal: 25, vertical: 12),
+          enabledBorder: const OutlineInputBorder(
             borderSide: BorderSide(width: 1, color: Colors.grey),
             borderRadius: BorderRadius.all(Radius.circular(15)),
           ),
@@ -255,7 +260,7 @@ class _LoginScreenState extends State<LoginScreen> {
               color: blueDark,
               width: 3,
             ),
-            borderRadius: BorderRadius.all(Radius.circular(15)),
+            borderRadius: const BorderRadius.all(Radius.circular(15)),
           ),
           labelText: '  $hintText  ',
           labelStyle: TextStyle(

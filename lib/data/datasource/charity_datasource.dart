@@ -1,12 +1,13 @@
 import 'package:charity/constants/constants.dart';
 import 'package:charity/di/di.dart';
 import 'package:charity/models/charity_model.dart';
-import 'package:charity/util/api_exception.dart';
+import 'package:charity/di/util/api_exception.dart';
 import 'package:dio/dio.dart';
 
 abstract class CharityDatasource {
   Future<List<CharityModel>> getTyps();
   Future<List<CharityModelSecand>> getSecandTyps(String firstType);
+  Future<List<String>> openPaymentPage(String type, String amount);
 }
 
 class CharityRemote implements CharityDatasource {
@@ -48,5 +49,11 @@ class CharityRemote implements CharityDatasource {
     } catch (e) {
       throw ApiException(0, e.toString());
     }
+  }
+
+  @override
+  Future<List<String>> openPaymentPage(String type, String amount) {
+    // TODO: implement openPaymentPage
+    throw UnimplementedError();
   }
 }

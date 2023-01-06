@@ -6,8 +6,8 @@ import 'package:charity/data/repository/authentication_repository.dart';
 import 'package:charity/main.dart';
 import 'package:charity/screens/pages/login_screen.dart';
 import 'package:charity/screens/pages/main_screen.dart';
-import 'package:charity/util/api_exception.dart';
-import 'package:charity/util/auth_manager.dart';
+import 'package:charity/di/util/api_exception.dart';
+import 'package:charity/di/util/auth_manager.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -197,20 +197,20 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           }, (successMessage) {
                             setState(() {
                               print(successMessage);
-                              MyApp.pageValuNotifire.value = 1;
+
                               dontTapRegister = true;
                             });
                           });
                         },
-                        child: Text(
-                          'ثبت نام',
-                          style: TextStyle(fontSize: 16, fontFamily: 'VB'),
-                        ),
                         style: ElevatedButton.styleFrom(
                           backgroundColor: blueDark,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(32),
                           ),
+                        ),
+                        child: const Text(
+                          'ثبت نام',
+                          style: TextStyle(fontSize: 16, fontFamily: 'VB'),
                         ),
                       ),
                     ),
@@ -238,8 +238,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         InkWell(
                           onTap: (() {
                             setState(() {
-                              MyApp.pageValuNotifire.value = 3;
-                              MyApp.pageValuNotifire.notifyListeners();
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => const LoginScreen(),
+                                  ));
                             });
                           }),
                           child: Text(
@@ -306,7 +309,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
     focusNodeName.dispose();
     focusNodePhone.dispose();
     focusNodeEmail.dispose();
