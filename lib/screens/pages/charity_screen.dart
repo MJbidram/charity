@@ -22,6 +22,7 @@ class CharityPage extends StatefulWidget {
 class _CharityPageState extends State<CharityPage> {
   FocusNode myFocusNode1 = FocusNode();
   List<CharityModel>? itemsCharity;
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   String firstType = '';
 
@@ -53,9 +54,9 @@ class _CharityPageState extends State<CharityPage> {
               shortName,
               style: Theme.of(context).textTheme.headline1,
             ),
-            actions: [
+            actions: const [
               Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: EdgeInsets.all(8.0),
                 child: Icon(
                   Icons.notifications,
                   size: 32,
@@ -91,7 +92,7 @@ class _CharityPageState extends State<CharityPage> {
                         bottom: Radius.elliptical(
                             MediaQuery.of(context).size.width, 170),
                       ),
-                      child: Image(
+                      child: const Image(
                         fit: BoxFit.cover,
                         image: AssetImage(
                           'assets/images/item15.jpg',
@@ -130,15 +131,15 @@ class _CharityPageState extends State<CharityPage> {
                   )),
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 32,
           ),
-          Text('تعیین مبلغ'),
-          SizedBox(
+          const Text('تعیین مبلغ'),
+          const SizedBox(
             height: 16,
           ),
-          textfild1(),
-          SizedBox(
+          amountTextFild(),
+          const SizedBox(
             width: double.infinity,
             height: 16,
           ),
@@ -174,6 +175,10 @@ class _CharityPageState extends State<CharityPage> {
                 ),
               ),
               onPressed: () async {
+                if (!_formKey.currentState!.validate()) {
+                  return;
+                }
+
                 PayLinkModel? payLinkModel;
                 String _amount = amount.text.toString();
                 String? token = await AuthManager.readauth();
@@ -208,38 +213,74 @@ class _CharityPageState extends State<CharityPage> {
     );
   }
 
-  Widget textfild1() {
+  Widget amountTextFild() {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 0),
-      child: TextField(
-        controller: amount,
-        focusNode: myFocusNode1,
-        keyboardType: TextInputType.emailAddress,
-        style: TextStyle(
-          color: blueDark,
-          fontFamily: 'GM',
-          fontSize: 16,
-        ),
-        decoration: InputDecoration(
-            contentPadding:
-                const EdgeInsets.symmetric(horizontal: 25, vertical: 16),
-            enabledBorder: const OutlineInputBorder(
-              borderSide: BorderSide(width: 1, color: Colors.grey),
-              borderRadius: BorderRadius.all(Radius.circular(15)),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(
-                color: blueDark,
-                width: 3,
+      child: Form(
+        key: _formKey,
+        child: TextFormField(
+          validator: (value) {
+            if (value!.isNotEmpty &&
+                value.length >= 4 &&
+                !value.contains('.') &&
+                !value.contains('-')) {
+              return null;
+            } else if (value.isNotEmpty && value.length < 4) {
+              return 'مقدار وارد شده کم تر از حد مجاز است!';
+            } else if (value.contains('.') || value.contains('-')) {
+              return 'مبلغ مجاز نیست';
+            } else {
+              return 'ابتدا مبلغ را وارد کنید';
+            }
+          },
+          controller: amount,
+          focusNode: myFocusNode1,
+          keyboardType: TextInputType.number,
+          style: TextStyle(
+            color: blueDark,
+            fontFamily: 'GM',
+            fontSize: 16,
+          ),
+          onChanged: (value) {
+            if (!_formKey.currentState!.validate()) {
+              return;
+            }
+          },
+          decoration: InputDecoration(
+              focusedErrorBorder: const OutlineInputBorder(
+                borderSide: BorderSide(
+                  color: Colors.red,
+                  width: 3,
+                ),
+                borderRadius: BorderRadius.all(Radius.circular(15)),
               ),
-              borderRadius: const BorderRadius.all(Radius.circular(15)),
-            ),
-            labelText: '  مبلغ  ',
-            labelStyle: TextStyle(
-              fontFamily: 'GM',
-              color: myFocusNode1.hasFocus ? blueDark : Colors.grey,
-              fontSize: 18,
-            )),
+              errorBorder: const OutlineInputBorder(
+                borderSide: BorderSide(
+                  color: Colors.red,
+                  width: 3,
+                ),
+                borderRadius: BorderRadius.all(Radius.circular(15)),
+              ),
+              contentPadding:
+                  const EdgeInsets.symmetric(horizontal: 25, vertical: 16),
+              enabledBorder: const OutlineInputBorder(
+                borderSide: BorderSide(width: 1, color: Colors.grey),
+                borderRadius: BorderRadius.all(Radius.circular(15)),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderSide: BorderSide(
+                  color: blueDark,
+                  width: 3,
+                ),
+                borderRadius: const BorderRadius.all(Radius.circular(15)),
+              ),
+              labelText: '  مبلغ (تومان)  ',
+              labelStyle: TextStyle(
+                fontFamily: 'GM',
+                color: myFocusNode1.hasFocus ? blueDark : Colors.grey,
+                fontSize: 18,
+              )),
+        ),
       ),
     );
   }
