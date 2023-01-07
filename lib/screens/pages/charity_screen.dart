@@ -1,14 +1,16 @@
-import 'dart:ui';
-
 import 'package:charity/constants/constants.dart';
 import 'package:charity/data/repository/charity_repository.dart';
+import 'package:charity/data/repository/payment_repository.dart';
+import 'package:charity/di/di.dart';
 import 'package:charity/models/charity_model.dart';
-import 'package:dropdown_button2/custom_dropdown_button2.dart';
+import 'package:charity/models/pay_link_model.dart';
+import 'package:charity/util/auth_manager.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 
 import 'package:flutter/material.dart';
 
 String? selectedValue;
+TextEditingController amount = TextEditingController();
 
 class CharityPage extends StatefulWidget {
   CharityPage({super.key, required this.items});
@@ -171,7 +173,20 @@ class _CharityPageState extends State<CharityPage> {
                   borderRadius: BorderRadius.circular(16),
                 ),
               ),
-              onPressed: () {},
+              onPressed: () async {
+                PayLinkModel? payLinkModel;
+                String _amount = amount.text.toString();
+                String? token = await AuthManager.readauth();
+                IpaymentRepository paymentRepository = locator.get();
+                var either = await paymentRepository.getPaymentData(
+                    '1', _amount, token!);
+                either.fold((l) => print(l), (r) async {
+                  payLinkModel = r;
+                  var either2 =
+                      await paymentRepository.launchUrlForPayment(r.url);
+                  either2.fold((l) => print(l), (r) => print(r));
+                });
+              },
               child:
                   Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                 Text(
@@ -197,6 +212,7 @@ class _CharityPageState extends State<CharityPage> {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 0),
       child: TextField(
+        controller: amount,
         focusNode: myFocusNode1,
         keyboardType: TextInputType.emailAddress,
         style: TextStyle(

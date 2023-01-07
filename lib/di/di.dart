@@ -7,6 +7,9 @@ import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_it/get_it.dart';
 
+import '../data/datasource/payment_datasource.dart';
+import '../data/repository/payment_repository.dart';
+
 var locator = GetIt.instance;
 
 Future<void> getItInit() async {
@@ -30,4 +33,8 @@ Future<void> getItInit() async {
 
   // get Home data
   // locator.registerFactory<HomeDataSource>(() => HomeDataRemote());
+
+  //payment
+  locator.registerFactory<IPaymentOperation>(() => PaymentOperation());
+  locator.registerFactory<IpaymentRepository>(() => PaymentRepository());
 }
