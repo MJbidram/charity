@@ -39,7 +39,7 @@ class CharityModelSecand {
     return CharityModelSecand(
       id: jsonObject['id'],
       typeName: jsonObject['type_name'],
-      optionalSubSelect: jsonObject['optional_sub_select'] ?? '',
+      optionalSubSelect: jsonObject['optional_sub_select'] ?? -1,
       sub: jsonObject['sub'] ?? 0,
       title: jsonObject['title'],
     );

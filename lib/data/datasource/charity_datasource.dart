@@ -36,12 +36,12 @@ class CharityRemote implements CharityDatasource {
     try {
       final response = await _dio.get(ApiAddress.secandType + firstType);
       if (response.statusCode == 200) {
-        print('{${response.data['data']}}');
-        var eee = response.data['data'][firstType];
-        return response.data['data'][firstType]
+        var responseData = response.data['data']
             .map((jsonObject) => CharityModelSecand.fromJsonMap(jsonObject))
             .toList()
             .cast<CharityModelSecand>();
+        print('$responseData');
+        return responseData;
       } else
         throw ApiException(response.statusCode, response.statusMessage);
     } on DioError catch (e) {

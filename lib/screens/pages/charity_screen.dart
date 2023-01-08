@@ -8,6 +8,7 @@ import 'package:charity/util/auth_manager.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
 
 String? selectedValue;
 TextEditingController amount = TextEditingController();
@@ -25,7 +26,9 @@ class _CharityPageState extends State<CharityPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   String firstType = '';
-
+  String secandType = '';
+  bool needSecandType = true;
+  bool allowpayment = false;
   @override
   void initState() {
     // TODO: implement initState
@@ -113,102 +116,108 @@ class _CharityPageState extends State<CharityPage> {
   }
 
   Widget _getCharityPageBody(BuildContext context) {
+    var _box = Hive.box('information');
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 22),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(top: 16),
-            child: Align(
-              alignment: AlignmentDirectional.topCenter,
-              child: Text('پرداخت و نیکو کاری',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontFamily: 'VB',
-                    fontSize: 18,
-                    color: blueDark,
-                  )),
-            ),
-          ),
-          const SizedBox(
-            height: 32,
-          ),
-          const Text('تعیین مبلغ'),
-          const SizedBox(
-            height: 16,
-          ),
-          amountTextFild(),
-          const SizedBox(
-            width: double.infinity,
-            height: 16,
-          ),
-          Text(
-            'نوع و موارد مصرف:',
-            style: Theme.of(context).textTheme.headline5,
-          ),
-          const SizedBox(
-            height: 16,
-          ),
-          _getDropDownFildFirest(context),
-          const SizedBox(
-            height: 32,
-          ),
-          Text(
-            'انتخاب نوع جزئی تر:',
-            style: Theme.of(context).textTheme.headline5,
-          ),
-          const SizedBox(
-            height: 16,
-          ),
-          _getDropDownFildsecand(context),
-          const SizedBox(
-            height: 32,
-          ),
-          Container(
-            height: 50,
-            child: ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: blueDark,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(16),
-                ),
+      child: Form(
+        key: _formKey,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(top: 16),
+              child: Align(
+                alignment: AlignmentDirectional.topCenter,
+                child: Text('پرداخت و نیکو کاری',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontFamily: 'VB',
+                      fontSize: 18,
+                      color: blueDark,
+                    )),
               ),
-              onPressed: () async {
-                if (!_formKey.currentState!.validate()) {
-                  return;
-                }
-
-                PayLinkModel? payLinkModel;
-                String _amount = amount.text.toString();
-                String? token = await AuthManager.readauth();
-                IpaymentRepository paymentRepository = locator.get();
-                var either = await paymentRepository.getPaymentData(
-                    '1', _amount, token!);
-                either.fold((l) => print(l), (r) async {
-                  payLinkModel = r;
-                  var either2 =
-                      await paymentRepository.launchUrlForPayment(r.url);
-                  either2.fold((l) => print(l), (r) => print(r));
-                });
-              },
-              child:
-                  Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                Text(
-                  'انتقال به صفحه پرداخت',
-                  style: Theme.of(context).textTheme.headline4,
-                ),
-                const SizedBox(
-                  width: 4,
-                ),
-                const Icon(
-                  Icons.payment,
-                  size: 24,
-                ),
-              ]),
             ),
-          ),
-        ],
+            const SizedBox(
+              height: 32,
+            ),
+            const Text('تعیین مبلغ'),
+            const SizedBox(
+              height: 16,
+            ),
+            amountTextFild(),
+            const SizedBox(
+              width: double.infinity,
+              height: 16,
+            ),
+            Text(
+              'نوع و موارد مصرف:',
+              style: Theme.of(context).textTheme.headline5,
+            ),
+            const SizedBox(
+              height: 16,
+            ),
+            _getDropDownFildFirest(context),
+            const SizedBox(
+              height: 32,
+            ),
+            Text(
+              'انتخاب نوع جزئی تر:',
+              style: Theme.of(context).textTheme.headline5,
+            ),
+            const SizedBox(
+              height: 16,
+            ),
+            _getDropDownFildsecand(context),
+            const SizedBox(
+              height: 32,
+            ),
+            SizedBox(
+              height: 50,
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: blueDark,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                ),
+                onPressed: () async {
+                  if (!_formKey.currentState!.validate()) {
+                    return;
+                  }
+
+                  PayLinkModel? payLinkModel;
+                  String _amount = amount.text.toString();
+                  String? token = await AuthManager.readauth();
+                  IpaymentRepository paymentRepository = locator.get();
+                  var either = await paymentRepository.getPaymentData(
+                      '1', _amount, token!);
+                  either.fold((l) => print(l), (r) async {
+                    payLinkModel = r;
+                    await _box.put('factorId', r.faktoorId);
+                    var either2 =
+                        await paymentRepository.launchUrlForPayment(r.url);
+                    either2.fold((l) => print(l), (r) => print(r));
+                  });
+                },
+                child:
+                    Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                  Text(
+                    'انتقال به صفحه پرداخت',
+                    style: Theme.of(context).textTheme.headline4,
+                  ),
+                  const SizedBox(
+                    width: 4,
+                  ),
+                  const Icon(
+                    Icons.payment,
+                    size: 24,
+                  ),
+                ]),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -217,7 +226,6 @@ class _CharityPageState extends State<CharityPage> {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 0),
       child: Form(
-        key: _formKey,
         child: TextFormField(
           validator: (value) {
             if (value!.isNotEmpty &&
@@ -241,11 +249,7 @@ class _CharityPageState extends State<CharityPage> {
             fontFamily: 'GM',
             fontSize: 16,
           ),
-          onChanged: (value) {
-            if (!_formKey.currentState!.validate()) {
-              return;
-            }
-          },
+          onChanged: (value) {},
           decoration: InputDecoration(
               focusedErrorBorder: const OutlineInputBorder(
                 borderSide: BorderSide(
@@ -285,14 +289,7 @@ class _CharityPageState extends State<CharityPage> {
     );
   }
 
-  @override
-  void dispose() {
-    myFocusNode1.dispose();
-
-    super.dispose();
-  }
-
-  DropdownButtonFormField2 _getDropDownFildFirest(BuildContext context) {
+  Widget _getDropDownFildFirest(BuildContext context) {
     return DropdownButtonFormField2(
       decoration: InputDecoration(
         // label: Text('data'),
@@ -332,13 +329,12 @@ class _CharityPageState extends State<CharityPage> {
           .toList(),
       validator: (value) {
         if (value == null) {
-          return 'Please select gender.';
+          return 'لطفا نوع صدقه خود را انتخاب کنید';
         }
       },
       onChanged: (value) {
         setState(() {
-          firstType = value;
-          // _getSecandTyps(firstType);
+          _getSecandTyps(value!);
         });
       },
       onSaved: (value) {
@@ -347,7 +343,7 @@ class _CharityPageState extends State<CharityPage> {
     );
   }
 
-  DropdownButtonFormField2 _getDropDownFildsecand(BuildContext context) {
+  Widget _getDropDownFildsecand(BuildContext context) {
     return DropdownButtonFormField2(
       decoration: InputDecoration(
         // label: Text('data'),
@@ -376,7 +372,7 @@ class _CharityPageState extends State<CharityPage> {
       ),
       items: charityModelSecand
               ?.map((item) => DropdownMenuItem<String>(
-                    value: item.sub!.toString(),
+                    value: item.id!.toString(),
                     child: Text(
                       item.title!,
                       style: const TextStyle(
@@ -387,25 +383,25 @@ class _CharityPageState extends State<CharityPage> {
               .toList() ??
           [],
       validator: (value) {
-        if (value == null) {
-          return 'Please select gender.';
+        if (value == null && needSecandType) {
+          return 'لطفا نوع جزئی تر را انتخاب کنید';
         }
       },
-      onChanged: (value) {
-        print('${itemsCharity![0].title}');
-      },
+      onChanged: (value) {},
       onSaved: (value) {
         selectedValue = value.toString();
       },
     );
   }
 
-  String? secandType;
   List<CharityModelSecand>? charityModelSecand;
   void _getSecandTyps(String firstType) async {
     var eithr = await CharityRepository().getSecandTyp(firstType);
     eithr.fold(
-      (l) => print(l),
+      (l) {
+        print(l);
+        print('fdafdasfadf');
+      },
       (r) {
         print('charity model is :: ${r}');
         setState(() {
@@ -413,5 +409,12 @@ class _CharityPageState extends State<CharityPage> {
         });
       },
     );
+  }
+
+  @override
+  void dispose() {
+    myFocusNode1.dispose();
+
+    super.dispose();
   }
 }
