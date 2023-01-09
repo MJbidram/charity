@@ -5,17 +5,17 @@ import 'package:charity/util/api_exception.dart';
 import 'package:dartz/dartz.dart';
 
 abstract class MyCharityRepository {
-  Future<Either<String, List<CharityModel>?>> getFirstTyp();
+  Future<Either<String, List<CharityModelFirst>?>> getFirstTyp();
   Future<Either<String, List<CharityModelSecand>?>> getSecandTyp(
       String firstType);
 }
 
 class CharityRepository implements MyCharityRepository {
   final CharityDatasource _charityDatasource = locator.get();
-  List<CharityModel>? _charityModel;
+  List<CharityModelFirst>? _charityModel;
   List<CharityModelSecand>? _charityModelSecand;
   @override
-  Future<Either<String, List<CharityModel>?>> getFirstTyp() async {
+  Future<Either<String, List<CharityModelFirst>?>> getFirstTyp() async {
     try {
       _charityModel = await _charityDatasource.getTyps();
 

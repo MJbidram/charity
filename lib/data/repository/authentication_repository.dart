@@ -28,8 +28,8 @@ class AuthenticationRepository implements IAuthRepository {
 
   //RegisterExseptions
   List<String?>? errorRegister;
-  static RegisterErrorModel registerErrorModel =
-      RegisterErrorModel('', '', '', '', '');
+  static RegisterErrorModel? registerErrorModel;
+
   dynamic nameRegisterE;
   dynamic phoneRegisterE;
   dynamic emailRegisterE;
@@ -45,12 +45,13 @@ class AuthenticationRepository implements IAuthRepository {
   dynamic messageLoginE;
   @override
   Future<Either<List<String?>?, String>> register(
-      String username,
-      String phone,
-      String email,
-      String deviceName,
-      String password,
-      String paswordConfirm) async {
+    String username,
+    String phone,
+    String email,
+    String deviceName,
+    String password,
+    String paswordConfirm,
+  ) async {
     try {
       String _token = await _dataSurce.register(
           username, phone, email, deviceName, password, paswordConfirm);
@@ -96,22 +97,23 @@ class AuthenticationRepository implements IAuthRepository {
 
         unknowRegisterE = '';
 
-        registerErrorModel.name = nameRegisterE;
-        registerErrorModel.phone = phoneRegisterE;
-        registerErrorModel.email = emailRegisterE;
-        registerErrorModel.password = passwordRegisterE;
-        registerErrorModel.unknow = unknowRegisterE;
+        registerErrorModel!.name = nameRegisterE;
+        registerErrorModel!.phone = phoneRegisterE;
+        registerErrorModel!.email = emailRegisterE;
+        registerErrorModel!.password = passwordRegisterE;
+        registerErrorModel!.unknow = unknowRegisterE;
         errorRegister = [
-          registerErrorModel.name,
-          registerErrorModel.phone,
-          registerErrorModel.email,
-          registerErrorModel.password,
-          registerErrorModel.unknow,
+          registerErrorModel!.name,
+          registerErrorModel!.phone,
+          registerErrorModel!.email,
+          registerErrorModel!.password,
+          registerErrorModel!.unknow,
         ];
+
         return left(errorRegister);
       }
     } on ApiException catch (ex) {
-      registerErrorModel.unknow = ex.message;
+      registerErrorModel!.unknow = ex.message;
       return left(errorRegister);
     }
   }

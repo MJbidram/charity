@@ -15,26 +15,26 @@ TextEditingController amount = TextEditingController();
 
 class CharityPage extends StatefulWidget {
   CharityPage({super.key, required this.items});
-  List<CharityModel>? items;
+  List<CharityModelFirst>? items;
   @override
   State<CharityPage> createState() => _CharityPageState();
 }
 
 class _CharityPageState extends State<CharityPage> {
-  FocusNode myFocusNode1 = FocusNode();
-  List<CharityModel>? itemsCharity;
+  FocusNode _myFocusNode1 = FocusNode();
+  List<CharityModelFirst>? itemsCharity;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   String firstType = '';
   String secandType = '';
   bool needSecandType = true;
-  bool allowpayment = false;
+  String? idType;
   @override
   void initState() {
     // TODO: implement initState
 
     super.initState();
-    myFocusNode1.addListener(() {
+    _myFocusNode1.addListener(() {
       setState(() {});
     });
     itemsCharity = widget.items;
@@ -190,8 +190,9 @@ class _CharityPageState extends State<CharityPage> {
                   String _amount = amount.text.toString();
                   String? token = await AuthManager.readauth();
                   IpaymentRepository paymentRepository = locator.get();
+                  print(idType);
                   var either = await paymentRepository.getPaymentData(
-                      '1', _amount, token!);
+                      '2', _amount, token!);
                   either.fold((l) => print(l), (r) async {
                     payLinkModel = r;
                     await _box.put('factorId', r.faktoorId);
@@ -242,7 +243,7 @@ class _CharityPageState extends State<CharityPage> {
             }
           },
           controller: amount,
-          focusNode: myFocusNode1,
+          focusNode: _myFocusNode1,
           keyboardType: TextInputType.number,
           style: TextStyle(
             color: blueDark,
@@ -281,7 +282,7 @@ class _CharityPageState extends State<CharityPage> {
               labelText: '  مبلغ (تومان)  ',
               labelStyle: TextStyle(
                 fontFamily: 'GM',
-                color: myFocusNode1.hasFocus ? blueDark : Colors.grey,
+                color: _myFocusNode1.hasFocus ? blueDark : Colors.grey,
                 fontSize: 18,
               )),
         ),
@@ -336,6 +337,9 @@ class _CharityPageState extends State<CharityPage> {
         setState(() {
           _getSecandTyps(value!);
         });
+        if (!needSecandType) {
+          idType = value.toString();
+        }
       },
       onSaved: (value) {
         selectedValue = value.toString();
@@ -387,7 +391,11 @@ class _CharityPageState extends State<CharityPage> {
           return 'لطفا نوع جزئی تر را انتخاب کنید';
         }
       },
-      onChanged: (value) {},
+      onChanged: (value) {
+        if (needSecandType) {
+          idType = value.toString();
+        }
+      },
       onSaved: (value) {
         selectedValue = value.toString();
       },
@@ -413,7 +421,7 @@ class _CharityPageState extends State<CharityPage> {
 
   @override
   void dispose() {
-    myFocusNode1.dispose();
+    _myFocusNode1.dispose();
 
     super.dispose();
   }

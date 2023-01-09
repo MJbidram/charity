@@ -17,7 +17,7 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  List<CharityModel>? items = [];
+  List<CharityModelFirst>? items = [];
 
   @override
   void initState() {

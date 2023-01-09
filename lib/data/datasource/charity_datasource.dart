@@ -5,7 +5,7 @@ import 'package:charity/util/api_exception.dart';
 import 'package:dio/dio.dart';
 
 abstract class CharityDatasource {
-  Future<List<CharityModel>> getTyps();
+  Future<List<CharityModelFirst>> getTyps();
   Future<List<CharityModelSecand>> getSecandTyps(String firstType);
   Future<List<String>> openPaymentPage(String type, String amount);
 }
@@ -13,15 +13,15 @@ abstract class CharityDatasource {
 class CharityRemote implements CharityDatasource {
   final Dio _dio = locator.get();
   @override
-  Future<List<CharityModel>> getTyps() async {
+  Future<List<CharityModelFirst>> getTyps() async {
     try {
       final response = await _dio.get(ApiAddress.type);
       if (response.statusCode == 200) {
         print('{${response.data['data']}}');
         return response.data['data']
-            .map((jsonObject) => CharityModel.fromJsonMap(jsonObject))
+            .map((jsonObject) => CharityModelFirst.fromJsonMap(jsonObject))
             .toList()
-            .cast<CharityModel>();
+            .cast<CharityModelFirst>();
       } else
         throw ApiException(response.statusCode, response.statusMessage);
     } on DioError catch (e) {

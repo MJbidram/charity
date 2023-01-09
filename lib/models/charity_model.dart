@@ -1,18 +1,18 @@
-class CharityModel {
+class CharityModelFirst {
   int? id;
   String? typeName;
   int? sub;
   int? optionalSubSelect;
   String title;
 
-  CharityModel(
+  CharityModelFirst(
       {required this.id,
       required this.typeName,
       required this.sub,
       required this.optionalSubSelect,
       required this.title});
-  factory CharityModel.fromJsonMap(Map<String, dynamic> jsonObject) {
-    return CharityModel(
+  factory CharityModelFirst.fromJsonMap(Map<String, dynamic> jsonObject) {
+    return CharityModelFirst(
       id: jsonObject['id'],
       typeName: jsonObject['type_name'],
       optionalSubSelect: jsonObject['optional_sub_select'],
