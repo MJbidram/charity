@@ -19,9 +19,11 @@ class PaymentRepository implements IpaymentRepository {
   @override
   Future<Either<String, PayLinkModel>> getPaymentData(
       String type, String amount, String token) async {
+    print('token ::  ' + token);
     try {
       final response =
           await _paymentOperation.getPaymentData(type, amount, token);
+      print('response.faktoorId   :  ' + '${response.faktoorId}');
       return right(response);
     } catch (e) {
       return left(e.toString());

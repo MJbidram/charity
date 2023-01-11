@@ -4,11 +4,14 @@ import 'package:charity/data/repository/payment_repository.dart';
 import 'package:charity/di/di.dart';
 import 'package:charity/models/charity_model.dart';
 import 'package:charity/models/pay_link_model.dart';
+import 'package:charity/screens/widget/category_amunt_used.dart';
 import 'package:charity/util/auth_manager.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
+
+import '../widget/category_items.dart';
 
 String? selectedValue;
 TextEditingController amount = TextEditingController();
@@ -148,6 +151,64 @@ class _CharityPageState extends State<CharityPage> {
             amountTextFild(),
             const SizedBox(
               width: double.infinity,
+              height: 16,
+            ),
+            Align(
+              alignment: AlignmentDirectional.center,
+              child: Wrap(
+                spacing: 10,
+                runSpacing: 15,
+                alignment: WrapAlignment.center,
+                children: [
+                  AmountUsed(
+                    amountText: '۵,۰۰۰',
+                    amountValue: '5000',
+                    onTap: () {
+                      setState(() {
+                        amount.text = '5000';
+                      });
+                    },
+                  ),
+                  AmountUsed(
+                    amountText: '۱۰,۰۰۰',
+                    amountValue: '10000',
+                    onTap: () {
+                      setState(() {
+                        amount.text = '10000';
+                      });
+                    },
+                  ),
+                  AmountUsed(
+                    amountText: '۲۰,۰۰۰',
+                    amountValue: '20000',
+                    onTap: () {
+                      setState(() {
+                        amount.text = '20000';
+                      });
+                    },
+                  ),
+                  AmountUsed(
+                    amountText: '۵۰,۰۰۰',
+                    amountValue: '50000',
+                    onTap: () {
+                      setState(() {
+                        amount.text = '50000';
+                      });
+                    },
+                  ),
+                  AmountUsed(
+                    amountText: '۱۰۰,۰۰۰',
+                    amountValue: '100000',
+                    onTap: () {
+                      setState(() {
+                        amount.text = '100000';
+                      });
+                    },
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(
               height: 16,
             ),
             Text(
