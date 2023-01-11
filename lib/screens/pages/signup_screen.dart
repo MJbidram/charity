@@ -43,7 +43,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   TextEditingController confirmPasswordController = TextEditingController();
   String? configPassword;
   final String divaiceName = 'android';
-  var box = Hive.box('information');
+
   bool dontTapRegister = true;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   String passwordCheck = '';
@@ -73,9 +73,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   @override
   Widget build(BuildContext context) {
+    var box = Hive.box('information');
     var registererrors = AuthenticationRepository.registerErrorModel;
     List<String> registerTexterrors = [
-      registererrors!.name ?? '',
+      registererrors.name ?? '',
       registererrors.phone ?? '',
       registererrors.password ?? '',
       registererrors.email ?? '',
@@ -233,6 +234,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               }, (successMessage) {
                                 setState(() {
                                   print(successMessage);
+                                  box.put('name', name);
+                                  box.put('phone', phone);
+                                  box.put('email', emailAddress);
                                   dontTapRegister = true;
                                   Navigator.pushAndRemoveUntil(
                                       context,

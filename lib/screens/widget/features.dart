@@ -44,7 +44,7 @@ class MyfeaturesTest extends StatelessWidget {
             ),
             // AssetImage('images/logo.jpg'),
           ),
-          Text(
+          const Text(
             'test',
             style: TextStyle(
               fontSize: 16,

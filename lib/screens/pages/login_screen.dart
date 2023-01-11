@@ -179,6 +179,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               });
                             }, (successMessage) {
                               print(successMessage);
+
                               setState(() {
                                 dontClickLogin = true;
                               });

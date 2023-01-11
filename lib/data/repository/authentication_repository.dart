@@ -28,7 +28,8 @@ class AuthenticationRepository implements IAuthRepository {
 
   //RegisterExseptions
   List<String?>? errorRegister;
-  static RegisterErrorModel? registerErrorModel;
+  static RegisterErrorModel registerErrorModel =
+      RegisterErrorModel('', '', '', '', '');
 
   dynamic nameRegisterE;
   dynamic phoneRegisterE;
@@ -97,23 +98,23 @@ class AuthenticationRepository implements IAuthRepository {
 
         unknowRegisterE = '';
 
-        registerErrorModel!.name = nameRegisterE;
-        registerErrorModel!.phone = phoneRegisterE;
-        registerErrorModel!.email = emailRegisterE;
-        registerErrorModel!.password = passwordRegisterE;
-        registerErrorModel!.unknow = unknowRegisterE;
+        registerErrorModel.name = nameRegisterE;
+        registerErrorModel.phone = phoneRegisterE;
+        registerErrorModel.email = emailRegisterE;
+        registerErrorModel.password = passwordRegisterE;
+        registerErrorModel.unknow = unknowRegisterE;
         errorRegister = [
-          registerErrorModel!.name,
-          registerErrorModel!.phone,
-          registerErrorModel!.email,
-          registerErrorModel!.password,
-          registerErrorModel!.unknow,
+          registerErrorModel.name,
+          registerErrorModel.phone,
+          registerErrorModel.email,
+          registerErrorModel.password,
+          registerErrorModel.unknow,
         ];
 
         return left(errorRegister);
       }
     } on ApiException catch (ex) {
-      registerErrorModel!.unknow = ex.message;
+      registerErrorModel.unknow = ex.message;
       return left(errorRegister);
     }
   }
@@ -128,7 +129,6 @@ class AuthenticationRepository implements IAuthRepository {
       String? _token = await _dataSurce.login(phone, password, device);
       if (_token.isNotEmpty) {
         AuthManager.saveToken(_token);
-        print('oth2 ==  ' + _token);
 
         return right('ورود موفقیت آمیز');
       } else {

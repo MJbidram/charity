@@ -2,8 +2,10 @@ import 'dart:ffi';
 
 import 'package:charity/constants/constants.dart';
 import 'package:charity/di/di.dart';
+import 'package:charity/models/information_model.dart';
 import 'package:charity/util/api_exception.dart';
 import 'package:dio/dio.dart';
+import 'package:hive/hive.dart';
 
 abstract class IAuthenticationDataSurce {
   Future<String> register(
@@ -19,6 +21,7 @@ abstract class IAuthenticationDataSurce {
 }
 
 class AuthenticationRemote implements IAuthenticationDataSurce {
+  var box = Hive.box('information');
   static var checkRegisterErrors;
   static var checkLoginErrors;
   final Dio _dio = locator.get();
@@ -44,7 +47,12 @@ class AuthenticationRemote implements IAuthenticationDataSurce {
 
       checkRegisterErrors = response.data;
       if (response.statusCode == 200 && response.data['status'] == 'success') {
-        return response.data['data']['token'];
+        var token = response.data['data']['token'];
+
+        box.put('name', username);
+        box.put('email', email);
+        box.put('phone', phone);
+        return token;
       } else
         return '';
     } on DioError catch (ex) {
@@ -65,6 +73,11 @@ class AuthenticationRemote implements IAuthenticationDataSurce {
       checkLoginErrors = response.data;
 
       if (response.statusCode == 200 && response.data['status'] == 'success') {
+        var name = response.data['data']['name'];
+        var email = response.data['data']['email'];
+        box.put('name', name);
+        box.put('email', email ?? 'null');
+        box.put('phone', phone);
         return response.data['data']['token'];
       } else
         return '';

@@ -10,7 +10,7 @@ class ProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // var box = Hive.box('information');
+    var box = Hive.box('information');
 
     return Scaffold(
       extendBody: true,
@@ -67,12 +67,11 @@ class ProfileScreen extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Text(
-                        // box.get('name') ?? 'name',
-                        'MJ.B',
+                        box.get('name') ?? 'ناشناس',
                         style: Theme.of(context).textTheme.headline5,
                       ),
                       Text(
-                        '۰۹۱۲۳۴۵۶۷۸۹',
+                        box.get('phone') ?? '__',
                         style: Theme.of(context).textTheme.headline6,
                       )
                     ]),
