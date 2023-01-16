@@ -1,16 +1,12 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:charity/bloc/home_bloc/home_event.dart';
-import 'package:charity/bloc/home_bloc/home_state.dart';
 import 'package:charity/bloc/news_page_bloc/news_page_block.dart';
 import 'package:charity/bloc/news_page_bloc/news_page_event.dart';
 import 'package:charity/bloc/news_page_bloc/news_page_state.dart';
 import 'package:charity/constants/constants.dart';
-import 'package:charity/data/repositories/repositories.dart';
 import 'package:charity/screens/widget/botom_sheet_comments.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_html/flutter_html.dart';
-import 'package:percent_indicator/percent_indicator.dart';
 
 class NewsScreen extends StatelessWidget {
   NewsScreen({super.key, required this.newsindex});
@@ -23,7 +19,7 @@ class NewsScreen extends StatelessWidget {
       child: BlocBuilder<NewsBloc, NewsState>(
         builder: (context, state) {
           if (state is NewsLoadingState) {
-            return Scaffold(
+            return const Scaffold(
               body: Center(
                 child: CircularProgressIndicator(),
               ),
@@ -45,7 +41,7 @@ class NewsScreen extends StatelessWidget {
       // appBar: _const_appbar(context),
 
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(250),
+        preferredSize: const Size.fromHeight(250),
         child: AppBar(
           elevation: 0,
           toolbarHeight: 60,
@@ -53,9 +49,9 @@ class NewsScreen extends StatelessWidget {
             shortName,
             style: Theme.of(context).textTheme.headline1,
           ),
-          actions: [
+          actions: const [
             Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: EdgeInsets.all(8.0),
               child: Icon(
                 Icons.notifications,
                 size: 32,
@@ -95,8 +91,9 @@ class NewsScreen extends StatelessWidget {
                       imageUrl: state.newsModel[newsindex].newsImageUrl,
                       fit: BoxFit.cover,
                       placeholder: (context, url) =>
-                          Center(child: CircularProgressIndicator()),
-                      errorWidget: (context, url, error) => Icon(Icons.error),
+                          const Center(child: CircularProgressIndicator()),
+                      errorWidget: (context, url, error) =>
+                          const Icon(Icons.error),
                     ),
                   ),
                 ),
@@ -109,7 +106,7 @@ class NewsScreen extends StatelessWidget {
       body: CustomScrollView(
         slivers: [
           SliverPadding(
-            padding: EdgeInsets.symmetric(
+            padding: const EdgeInsets.symmetric(
               vertical: 32,
               horizontal: 16,
             ),
@@ -120,17 +117,17 @@ class NewsScreen extends StatelessWidget {
                   textDirection: TextDirection.rtl,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Icon(Icons.timer_outlined),
-                    SizedBox(
+                    const Icon(Icons.timer_outlined),
+                    const SizedBox(
                       width: 4,
                     ),
                     Text(
                       // '111',
                       state.newsModel[newsindex].newsDate,
-                      style: TextStyle(fontFamily: 'Vl', fontSize: 14),
+                      style: const TextStyle(fontFamily: 'Vl', fontSize: 14),
                     ),
-                    Spacer(),
-                    Icon(Icons.question_answer_outlined),
+                    const Spacer(),
+                    const Icon(Icons.question_answer_outlined),
                     Text(
                       '0',
                       style: TextStyle(
@@ -141,21 +138,21 @@ class NewsScreen extends StatelessWidget {
                       style: TextStyle(
                           fontSize: 12, fontFamily: 'VL', color: black),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 16,
                     ),
-                    Icon(Icons.favorite_outline),
-                    SizedBox(
+                    const Icon(Icons.favorite_outline),
+                    const SizedBox(
                       width: 16,
                     ),
-                    Icon(Icons.bookmark_add_outlined)
+                    const Icon(Icons.bookmark_add_outlined)
                   ],
                 ),
               ),
             ),
           ),
           SliverPadding(
-            padding: EdgeInsets.only(
+            padding: const EdgeInsets.only(
               bottom: 16,
             ),
             sliver: SliverToBoxAdapter(
@@ -175,7 +172,7 @@ class NewsScreen extends StatelessWidget {
             ),
           ),
           SliverPadding(
-            padding: EdgeInsets.only(bottom: 32, right: 12, left: 12),
+            padding: const EdgeInsets.only(bottom: 32, right: 12, left: 12),
             sliver: SliverToBoxAdapter(
                 child: Html(
               data: state.newsModel[newsindex].newsText,
@@ -190,7 +187,7 @@ class NewsScreen extends StatelessWidget {
                 ),
           ),
           SliverPadding(
-            padding: EdgeInsets.only(bottom: 16, right: 16, left: 16),
+            padding: const EdgeInsets.only(bottom: 16, right: 16, left: 16),
             sliver: SliverToBoxAdapter(
                 child: Container(
               height: 50,
@@ -210,10 +207,10 @@ class NewsScreen extends StatelessWidget {
                     'مشاهده و افزودن دیدگاه',
                     style: Theme.of(context).textTheme.headline4,
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 4,
                   ),
-                  Icon(
+                  const Icon(
                     Icons.question_answer_outlined,
                     size: 24,
                   ),
@@ -228,7 +225,7 @@ class NewsScreen extends StatelessWidget {
 
   PreferredSize _const_appbar(BuildContext context) {
     return PreferredSize(
-      preferredSize: Size.fromHeight(250),
+      preferredSize: const Size.fromHeight(250),
       child: AppBar(
         elevation: 0,
         toolbarHeight: 60,
@@ -236,9 +233,9 @@ class NewsScreen extends StatelessWidget {
           shortName,
           style: Theme.of(context).textTheme.headline1,
         ),
-        actions: [
+        actions: const [
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: EdgeInsets.all(8.0),
             child: Icon(
               Icons.notifications,
               size: 32,
@@ -269,7 +266,7 @@ class NewsScreen extends StatelessWidget {
                   bottom:
                       Radius.elliptical(MediaQuery.of(context).size.width, 170),
                 ),
-                child: Image(
+                child: const Image(
                   fit: BoxFit.cover,
                   image: AssetImage(
                     'assets/images/item15.jpg',

@@ -17,17 +17,9 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  List<CharityModelFirst>? items = [];
-
   @override
   void initState() {
     super.initState();
-    getFirstCharityType();
-  }
-
-  getFirstCharityType() async {
-    var either = await CharityRepository().getFirstTyp();
-    either.fold((l) => print(l), (r) => items = r);
   }
 
   int _selectedBottomNavigationItem = 0;
@@ -110,7 +102,7 @@ class _MainScreenState extends State<MainScreen> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.of(context).push(MaterialPageRoute(
-            builder: (context) => CharityPage(items: items),
+            builder: (context) => CharityPage(),
           ));
         },
         backgroundColor: blueDark,

@@ -1,24 +1,25 @@
-import 'dart:async';
 import 'dart:io';
+import 'package:charity/bloc/charity_bloc/chrity_bloc.dart';
 import 'package:charity/bloc/home_bloc/home_bloc.dart';
 import 'package:charity/bloc/news_page_bloc/news_page_block.dart';
 import 'package:charity/constants/constants.dart';
 import 'package:charity/di/di.dart';
-import 'package:charity/screens/pages/login_screen.dart';
-import 'package:charity/screens/pages/main_screen.dart';
-import 'package:charity/screens/pages/signup_screen.dart';
-import 'package:charity/util/auth_manager.dart';
 import 'package:charity/screens/pages/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
+import 'models/charity_model.dart';
+
 void main(List<String> args) async {
   await getItInit();
   await Hive.initFlutter();
   var box = await Hive.openBox('information');
-
+  Hive.registerAdapter(CharityModelFirstAdapter());
+  Hive.registerAdapter(CharityModelSecandAdapter());
+  await Hive.openBox<CharityModelFirst>('ModelFirst');
+  await Hive.openBox<CharityModelSecand>('ModelSecand');
   HttpOverrides.global = MyHttpOverrides();
   runApp(
     MultiBlocProvider(
@@ -28,6 +29,9 @@ void main(List<String> args) async {
         ),
         BlocProvider(
           create: (context) => NewsBloc(),
+        ),
+        BlocProvider(
+          create: (context) => CharityBloc(),
         ),
       ],
       child: MyApp(),

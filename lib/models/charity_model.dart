@@ -1,8 +1,17 @@
-class CharityModelFirst {
+import 'package:hive/hive.dart';
+part 'charity_model.g.dart';
+
+@HiveType(typeId: 1)
+class CharityModelFirst extends HiveObject {
+  @HiveField(0)
   int? id;
+  @HiveField(1)
   String? typeName;
+  @HiveField(2)
   int? sub;
+  @HiveField(3)
   int? optionalSubSelect;
+  @HiveField(4)
   String title;
 
   CharityModelFirst(
@@ -22,11 +31,17 @@ class CharityModelFirst {
   }
 }
 
-class CharityModelSecand {
+@HiveType(typeId: 2)
+class CharityModelSecand extends HiveObject {
+  @HiveField(0)
   int? id;
+  @HiveField(1)
   String? typeName;
+  @HiveField(2)
   int? sub;
+  @HiveField(3)
   int? optionalSubSelect;
+  @HiveField(4)
   String? title;
 
   CharityModelSecand(

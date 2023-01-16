@@ -8,6 +8,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_it/get_it.dart';
 
 import '../data/datasource/payment_datasource.dart';
+import '../data/repository/charity_repository.dart';
 import '../data/repository/payment_repository.dart';
 
 var locator = GetIt.instance;
@@ -30,6 +31,7 @@ Future<void> getItInit() async {
   // get Charity Types
 
   locator.registerFactory<CharityDatasource>(() => CharityRemote());
+  locator.registerFactory<MyCharityRepository>(() => CharityRepository());
 
   // get Home data
   // locator.registerFactory<HomeDataSource>(() => HomeDataRemote());
