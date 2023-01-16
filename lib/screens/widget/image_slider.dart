@@ -2,13 +2,20 @@ import 'dart:ui';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:charity/bloc/charity_bloc/charity_event.dart';
+import 'package:charity/bloc/charity_bloc/chrity_bloc.dart';
 import 'package:charity/constants/constants.dart';
 import 'package:charity/models/models.dart';
+import 'package:charity/screens/pages/charity_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class ImageSliderScreen extends StatefulWidget {
+  static ValueNotifier<bool> goToShortcut = ValueNotifier(false);
+  static String? title;
+  static int? id;
   ImageSliderScreen({
     super.key,
     required this.myModelList,
@@ -21,6 +28,7 @@ class ImageSliderScreen extends StatefulWidget {
 
 class _ImageSliderScreenState extends State<ImageSliderScreen> {
   List<dynamic>? pooyeshModel;
+
   @override
   void initState() {
     // TODO: implement initState
@@ -85,34 +93,48 @@ class _ImageSliderScreenState extends State<ImageSliderScreen> {
                 //     image: NetworkImage(pooyeshModel![index].imagePooyeshHome),
                 //     fit: BoxFit.cover),
               ),
-              child: Stack(
-                fit: StackFit.expand,
-                children: [
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(16),
-                    child: CachedNetworkImage(
-                      imageUrl: pooyeshModel![index].imagePooyeshHome,
-                      fit: BoxFit.cover,
-                      placeholder: (context, url) =>
-                          Center(child: CircularProgressIndicator()),
-                      errorWidget: (context, url, error) => Icon(Icons.error),
-                    ),
-                  ),
-                  Align(
-                    alignment: AlignmentDirectional.bottomCenter,
-                    child: Padding(
-                      padding: const EdgeInsets.only(bottom: 8.0),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          progressBar(index),
-                          _getTitleText(index),
-                        ],
+              child: GestureDetector(
+                onTap: () {
+                  ImageSliderScreen.goToShortcut.value = true;
+                  ImageSliderScreen.id = pooyeshModel![index].idPooyeshHome;
+                  ImageSliderScreen.title =
+                      pooyeshModel![index].titlePooyeshHome;
+
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => CharityPage(),
+                      ));
+                },
+                child: Stack(
+                  fit: StackFit.expand,
+                  children: [
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(16),
+                      child: CachedNetworkImage(
+                        imageUrl: pooyeshModel![index].imagePooyeshHome,
+                        fit: BoxFit.cover,
+                        placeholder: (context, url) =>
+                            Center(child: CircularProgressIndicator()),
+                        errorWidget: (context, url, error) => Icon(Icons.error),
                       ),
                     ),
-                  ),
-                ],
+                    Align(
+                      alignment: AlignmentDirectional.bottomCenter,
+                      child: Padding(
+                        padding: const EdgeInsets.only(bottom: 8.0),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            progressBar(index),
+                            _getTitleText(index),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             );
           },
