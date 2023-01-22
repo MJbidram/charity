@@ -3,6 +3,7 @@ import 'package:charity/bloc/charity_bloc/charity_event.dart';
 import 'package:charity/bloc/charity_bloc/charity_state.dart';
 import 'package:charity/bloc/charity_bloc/chrity_bloc.dart';
 import 'package:charity/constants/constants.dart';
+
 import 'package:charity/data/repository/charity_repository.dart';
 import 'package:charity/data/repository/payment_repository.dart';
 import 'package:charity/di/di.dart';
@@ -12,8 +13,9 @@ import 'package:charity/screens/widget/category_amunt_used.dart';
 import 'package:charity/screens/widget/image_slider.dart';
 import 'package:charity/util/auth_manager.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
-
+import 'package:uni_links/uni_links.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive/hive.dart';
 
@@ -477,7 +479,7 @@ class _CharityPageState extends State<CharityPage> {
                   ],
                 );
               } else if (state is CharityExseptionLoadedFirstTypeState) {
-                WidgetsBinding.instance.addPostFrameCallback((_) {
+                SchedulerBinding.instance.addPostFrameCallback((_) {
                   AwesomeDialog(
                     context: context,
                     animType: AnimType.scale,
@@ -664,7 +666,7 @@ class _CharityPageState extends State<CharityPage> {
                       );
                 //
               } else if (state is CharityExseptionLoadedSecandTypeState) {
-                WidgetsBinding.instance.addPostFrameCallback((_) {
+                SchedulerBinding.instance.addPostFrameCallback((_) {
                   AwesomeDialog(
                     context: context,
                     animType: AnimType.scale,
@@ -684,7 +686,7 @@ class _CharityPageState extends State<CharityPage> {
                   child: const Text('خطا'),
                 );
               } else if (state is CharityLoadingUrlState) {
-                WidgetsBinding.instance.addPostFrameCallback((_) {
+                SchedulerBinding.instance.addPostFrameCallback((_) {
                   AwesomeDialog(
                     context: context,
                     animType: AnimType.scale,
@@ -700,6 +702,7 @@ class _CharityPageState extends State<CharityPage> {
                     btnOkOnPress: () {},
                   ).show();
                 });
+
                 return ImageSliderScreen.goToShortcut.value
                     ? shortcutPayPooyesh(context)
                     : Column(
@@ -753,22 +756,25 @@ class _CharityPageState extends State<CharityPage> {
                         ],
                       );
               } else if (state is CharityLoadedUrlState) {
-                WidgetsBinding.instance.addPostFrameCallback((_) {
-                  AwesomeDialog(
-                    context: context,
-                    animType: AnimType.scale,
-                    dialogType: DialogType.info,
-                    body: const Center(
-                      child: Text(
-                        'در حال انتقال به صفحه پرداخت',
-                        style: TextStyle(fontStyle: FontStyle.italic),
-                      ),
-                    ),
-                    title: 'This is Ignored',
-                    desc: 'This is also Ignored',
-                    btnOkOnPress: () {},
-                  ).show();
-                });
+                // SchedulerBinding.instance.addPostFrameCallback((_) {
+                //   Navigator.pop(context);
+                // });
+                // SchedulerBinding.instance.addPostFrameCallback((_) {
+                //   AwesomeDialog(
+                //     context: context,
+                //     animType: AnimType.scale,
+                //     dialogType: DialogType.info,
+                //     body: const Center(
+                //       child: Text(
+                //         'در حال انتقال به صفحه پرداخت',
+                //         style: TextStyle(fontStyle: FontStyle.italic),
+                //       ),
+                //     ),
+                //     title: 'This is Ignored',
+                //     desc: 'This is also Ignored',
+                //     btnOkOnPress: () {},
+                //   ).show();
+                // });
                 url = state.payLinkModel.url;
                 paymentFactor = state.payLinkModel.faktoorId;
                 _box.put('factorId', paymentFactor);
@@ -827,7 +833,10 @@ class _CharityPageState extends State<CharityPage> {
                         ],
                       );
               } else if (state is CharityExseptionOpenBrowserState) {
-                WidgetsBinding.instance.addPostFrameCallback((_) {
+                SchedulerBinding.instance.addPostFrameCallback((_) {
+                  Navigator.pop(context);
+                });
+                SchedulerBinding.instance.addPostFrameCallback((_) {
                   AwesomeDialog(
                     context: context,
                     animType: AnimType.scale,
@@ -898,9 +907,82 @@ class _CharityPageState extends State<CharityPage> {
                 needSecandType = 1;
                 return shortcutPayPooyesh(context);
               } else {
-                return Container(
-                  child: Text('خطا'),
-                );
+                return ImageSliderScreen.goToShortcut.value
+                    ? shortcutPayPooyesh(context)
+                    : Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          _getDropDownFildFirest(context, firstBoxList!),
+                          const SizedBox(
+                            height: 32,
+                          ),
+                          Text(
+                            'انتخاب نوع جزئی تر:',
+                            style: Theme.of(context).textTheme.headline5,
+                          ),
+                          const SizedBox(
+                            height: 16,
+                          ),
+                          _getDropDownFildsecand(context, secandBoxList!),
+                          const SizedBox(
+                            height: 32,
+                          ),
+                          SizedBox(
+                            height: 50,
+                            child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: blueDark,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(16),
+                                ),
+                              ),
+                              onPressed: () async {
+                                if (!_formKey.currentState!.validate()) {
+                                  return;
+                                }
+
+                                PayLinkModel? payLinkModel;
+                                String _amount = amount.text.toString();
+                                _amount = removeZero(_amount);
+                                String? token = await AuthManager.readauth();
+
+                                context.read<CharityBloc>().add(
+                                    GetPaymentUrlEvent(
+                                        idType: idType!,
+                                        amount: _amount,
+                                        token: token!));
+                                // IpaymentRepository paymentRepository = locator.get();
+
+                                // var either = await paymentRepository.getPaymentData(
+                                //     idType!, _amount, token!);
+                                // either.fold((l) => print(l), (r) async {
+                                //   payLinkModel = r;
+                                //   await _box.put('factorId', r.faktoorId);
+                                //   var either2 =
+                                //       await paymentRepository.launchUrlForPayment(r.url);
+                                //   either2.fold((l) => print(l), (r) => print(r));
+                                // });
+                              },
+                              child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      'انتقال به صفحه پرداخت',
+                                      style:
+                                          Theme.of(context).textTheme.headline4,
+                                    ),
+                                    const SizedBox(
+                                      width: 4,
+                                    ),
+                                    const Icon(
+                                      Icons.payment,
+                                      size: 24,
+                                    ),
+                                  ]),
+                            ),
+                          ),
+                        ],
+                      );
               }
             }),
             const SizedBox(

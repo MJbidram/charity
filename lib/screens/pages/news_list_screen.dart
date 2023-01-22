@@ -101,7 +101,7 @@ class NewsListPage extends StatelessWidget {
                   decoration: BoxDecoration(
                     gradient: blueGradient,
                     // color: blueDark,
-                    borderRadius: BorderRadius.only(
+                    borderRadius: const BorderRadius.only(
                       topRight: Radius.circular(16),
                       bottomRight: Radius.circular(16),
                     ),
@@ -127,7 +127,7 @@ class NewsListPage extends StatelessWidget {
                     borderRadius: BorderRadius.circular(16),
                   ),
                   child: ClipRRect(
-                    borderRadius: BorderRadius.only(
+                    borderRadius: const BorderRadius.only(
                       topLeft: Radius.circular(16),
                       bottomLeft: Radius.circular(16),
                     ),
@@ -135,8 +135,9 @@ class NewsListPage extends StatelessWidget {
                       imageUrl: state.newsModel[index].newsImageUrl,
                       fit: BoxFit.cover,
                       placeholder: (context, url) =>
-                          Center(child: CircularProgressIndicator()),
-                      errorWidget: (context, url, error) => Icon(Icons.error),
+                          const Center(child: CircularProgressIndicator()),
+                      errorWidget: (context, url, error) =>
+                          const Icon(Icons.error),
                     ),
                   ),
                 ),

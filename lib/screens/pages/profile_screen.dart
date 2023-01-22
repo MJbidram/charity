@@ -1,8 +1,11 @@
+import 'package:charity/bloc/factors_bloc/factors_bloc.dart';
 import 'package:charity/constants/constants.dart';
 import 'package:charity/main.dart';
+import 'package:charity/screens/pages/factors_screen.dart';
 import 'package:charity/screens/pages/login_screen.dart';
 import 'package:charity/util/auth_manager.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 class ProfileScreen extends StatelessWidget {
@@ -129,7 +132,15 @@ class ProfileScreen extends StatelessWidget {
                   ),
                 ),
                 TextButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) {
+                      return BlocProvider(
+                        create: (context) => FactorsBloc(),
+                        child: const FactorsScreen(),
+                      );
+                    }));
+                  },
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [

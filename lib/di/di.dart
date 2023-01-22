@@ -1,8 +1,10 @@
 import 'package:charity/constants/constants.dart';
 import 'package:charity/data/datasource/authentication_dataSource.dart';
 import 'package:charity/data/datasource/charity_datasource.dart';
+import 'package:charity/data/datasource/factors_datasource.dart';
 import 'package:charity/data/datasource/home_datasource.dart';
 import 'package:charity/data/repository/authentication_repository.dart';
+import 'package:charity/data/repository/factors_repository.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_it/get_it.dart';
@@ -24,19 +26,19 @@ Future<void> getItInit() async {
   locator
       .registerFactory<IAuthenticationDataSurce>(() => AuthenticationRemote());
 
+  locator.registerFactory<CharityDatasource>(() => CharityRemote());
+
+  locator.registerFactory<IFactorsdatasourse>(() => FactorsDatasourse());
+
+  locator.registerFactory<IPaymentOperation>(() => PaymentOperation());
+
   //repository
 
   locator.registerFactory<IAuthRepository>(() => AuthenticationRepository());
 
-  // get Charity Types
-
-  locator.registerFactory<CharityDatasource>(() => CharityRemote());
   locator.registerFactory<MyCharityRepository>(() => CharityRepository());
 
-  // get Home data
-  // locator.registerFactory<HomeDataSource>(() => HomeDataRemote());
-
-  //payment
-  locator.registerFactory<IPaymentOperation>(() => PaymentOperation());
   locator.registerFactory<IpaymentRepository>(() => PaymentRepository());
+
+  locator.registerFactory<IFactorsRepositorys>(() => FactorsRepositorys());
 }
