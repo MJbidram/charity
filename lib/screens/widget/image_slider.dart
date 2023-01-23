@@ -10,6 +10,7 @@ import 'package:charity/screens/pages/charity_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
+import 'package:persian_number_utility/persian_number_utility.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class ImageSliderScreen extends StatefulWidget {
@@ -191,7 +192,7 @@ class _ImageSliderScreenState extends State<ImageSliderScreen> {
         center: Align(
           alignment: Alignment.topCenter,
           child: Text(
-            '50%',
+            '30%'.toPersianDigit(),
             style: Theme.of(context).textTheme.headline4,
           ),
         ),

@@ -1,3 +1,5 @@
+import 'package:persian_number_utility/persian_number_utility.dart';
+
 class NewsModel {
   int newsId;
   String newsTitile;

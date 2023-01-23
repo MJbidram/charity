@@ -9,6 +9,7 @@ import 'package:charity/screens/widget/image_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:percent_indicator/percent_indicator.dart';
+import 'package:persian_number_utility/persian_number_utility.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import '../../models/charity_model.dart';
@@ -313,7 +314,8 @@ class _MyHomeScreenState extends State<MyHomeScreen> {
         center: Align(
           alignment: Alignment.topCenter,
           child: Text(
-            '${state.projectModel[index].pishraftProjectHome}' + '%',
+            '${state.projectModel[index].pishraftProjectHome.toString().toPersianDigit()}' +
+                '%',
             style: Theme.of(context).textTheme.headline5,
           ),
         ),

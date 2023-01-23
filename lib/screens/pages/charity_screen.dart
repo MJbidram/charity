@@ -12,7 +12,10 @@ import 'package:charity/models/pay_link_model.dart';
 import 'package:charity/screens/widget/category_amunt_used.dart';
 import 'package:charity/screens/widget/image_slider.dart';
 import 'package:charity/util/auth_manager.dart';
+import 'package:digit_to_persian_word/digit_to_persian_word.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
+import 'package:flutter/services.dart';
+import 'package:persian_number_utility/persian_number_utility.dart';
 import 'package:uni_links/uni_links.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -1084,7 +1087,14 @@ class _CharityPageState extends State<CharityPage> {
           fontFamily: 'GM',
           fontSize: 16,
         ),
-        onChanged: (value) {},
+        inputFormatters: [DigitInputFormat()],
+        onChanged: (value) {
+          String val = value.toString();
+          val.toPersianDigit().seRagham();
+          setState(() {
+            value = val;
+          });
+        },
         decoration: InputDecoration(
             focusedErrorBorder: const OutlineInputBorder(
               borderSide: BorderSide(

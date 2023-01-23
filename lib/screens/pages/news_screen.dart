@@ -7,6 +7,7 @@ import 'package:charity/screens/widget/botom_sheet_comments.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_html/flutter_html.dart';
+import 'package:persian_number_utility/persian_number_utility.dart';
 
 class NewsScreen extends StatelessWidget {
   NewsScreen({super.key, required this.newsindex});
@@ -123,7 +124,7 @@ class NewsScreen extends StatelessWidget {
                     ),
                     Text(
                       // '111',
-                      state.newsModel[newsindex].newsDate,
+                      state.newsModel[newsindex].newsDate.toPersianDate(),
                       style: const TextStyle(fontFamily: 'Vl', fontSize: 14),
                     ),
                     const Spacer(),

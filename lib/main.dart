@@ -10,7 +10,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
-
 import 'models/charity_model.dart';
 
 void main(List<String> args) async {
@@ -20,6 +19,7 @@ void main(List<String> args) async {
   Hive.registerAdapter(CharityModelFirstAdapter());
   Hive.registerAdapter(CharityModelSecandAdapter());
   await Hive.openBox<CharityModelSecand>('ModelSecand');
+  await Hive.openBox<CharityModelFirst>('ModelFirst');
   HttpOverrides.global = MyHttpOverrides();
   runApp(
     MultiBlocProvider(
