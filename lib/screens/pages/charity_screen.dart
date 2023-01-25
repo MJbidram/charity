@@ -28,7 +28,9 @@ String? selectedValue;
 TextEditingController amount = TextEditingController();
 
 class CharityPage extends StatefulWidget {
-  CharityPage({super.key});
+  int id;
+  String title;
+  CharityPage({super.key, required this.id, required this.title});
 
   @override
   State<CharityPage> createState() => _CharityPageState();
@@ -49,12 +51,16 @@ class _CharityPageState extends State<CharityPage> {
   final _box = Hive.box('information');
   List<CharityModelFirst>? firstBoxList;
   List<CharityModelSecand>? secandBoxList;
+
+  int? shortcutId;
+  String? shortcutTitle;
   @override
   initState() {
     // TODO: implement initState
 
     super.initState();
-
+    shortcutId = widget.id;
+    shortcutTitle = widget.title;
     _myFocusNode1.addListener(() {
       setState(() {});
     });
@@ -67,8 +73,7 @@ class _CharityPageState extends State<CharityPage> {
       return BlocProvider(
         create: (context) => CharityBloc()
           ..add(
-            ShortcutEvent(
-                id: ImageSliderScreen.id!, title: ImageSliderScreen.title!),
+            ShortcutEvent(id: shortcutId!, title: shortcutTitle!),
           ),
         child: bodey(context),
       );
@@ -198,46 +203,46 @@ class _CharityPageState extends State<CharityPage> {
                 children: [
                   AmountUsed(
                     amountText: '۵,۰۰۰',
-                    amountValue: '5000',
+                    amountValue: '5,000',
                     onTap: () {
                       setState(() {
-                        amount.text = '5000';
+                        amount.text = '5,000';
                       });
                     },
                   ),
                   AmountUsed(
                     amountText: '۱۰,۰۰۰',
-                    amountValue: '10000',
+                    amountValue: '10,000',
                     onTap: () {
                       setState(() {
-                        amount.text = '10000';
+                        amount.text = '10,000';
                       });
                     },
                   ),
                   AmountUsed(
                     amountText: '۲۰,۰۰۰',
-                    amountValue: '20000',
+                    amountValue: '20,000',
                     onTap: () {
                       setState(() {
-                        amount.text = '20000';
+                        amount.text = '20,000';
                       });
                     },
                   ),
                   AmountUsed(
                     amountText: '۵۰,۰۰۰',
-                    amountValue: '50000',
+                    amountValue: '50,000',
                     onTap: () {
                       setState(() {
-                        amount.text = '50000';
+                        amount.text = '50,000';
                       });
                     },
                   ),
                   AmountUsed(
                     amountText: '۱۰۰,۰۰۰',
-                    amountValue: '100000',
+                    amountValue: '100,000',
                     onTap: () {
                       setState(() {
-                        amount.text = '100000';
+                        amount.text = '100,000';
                       });
                     },
                   ),
@@ -1016,7 +1021,7 @@ class _CharityPageState extends State<CharityPage> {
           ),
           child: Padding(
             padding: const EdgeInsets.all(16.0),
-            child: Text(ImageSliderScreen.title!),
+            child: Text(shortcutTitle!),
           ),
         ),
         const SizedBox(

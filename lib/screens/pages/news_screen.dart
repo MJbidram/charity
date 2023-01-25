@@ -177,48 +177,40 @@ class NewsScreen extends StatelessWidget {
             sliver: SliverToBoxAdapter(
                 child: Html(
               data: state.newsModel[newsindex].newsText,
-            )
-                // Text(
-                //   // 'fdafdadaf',
-                //   state.newsModel[newsindex].newsText,
-                //   style: Theme.of(context).textTheme.headline6,
-                //   textDirection: TextDirection.rtl,
-                //   textAlign: TextAlign.justify,
-                // ),
-                ),
-          ),
-          SliverPadding(
-            padding: const EdgeInsets.only(bottom: 16, right: 16, left: 16),
-            sliver: SliverToBoxAdapter(
-                child: Container(
-              height: 50,
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: blueDark,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(16),
-                  ),
-                ),
-                onPressed: () {
-                  _getBottomSheetNavigation(context);
-                },
-                child:
-                    Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                  Text(
-                    'مشاهده و افزودن دیدگاه',
-                    style: Theme.of(context).textTheme.headline4,
-                  ),
-                  const SizedBox(
-                    width: 4,
-                  ),
-                  const Icon(
-                    Icons.question_answer_outlined,
-                    size: 24,
-                  ),
-                ]),
-              ),
             )),
           ),
+          // SliverPadding(
+          //   padding: const EdgeInsets.only(bottom: 16, right: 16, left: 16),
+          //   sliver: SliverToBoxAdapter(
+          //       child: Container(
+          //     height: 50,
+          //     child: ElevatedButton(
+          //       style: ElevatedButton.styleFrom(
+          //         backgroundColor: blueDark,
+          //         shape: RoundedRectangleBorder(
+          //           borderRadius: BorderRadius.circular(16),
+          //         ),
+          //       ),
+          //       onPressed: () {
+          //         _getBottomSheetNavigation(context);
+          //       },
+          //       child:
+          //           Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+          //         Text(
+          //           'مشاهده و افزودن دیدگاه',
+          //           style: Theme.of(context).textTheme.headline4,
+          //         ),
+          //         const SizedBox(
+          //           width: 4,
+          //         ),
+          //         const Icon(
+          //           Icons.question_answer_outlined,
+          //           size: 24,
+          //         ),
+          //       ]),
+          //     ),
+          //   )),
+          // ),
         ],
       ),
     );

@@ -9,8 +9,10 @@ import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_it/get_it.dart';
 
+import '../data/datasource/details_of_slider_datasource.dart';
 import '../data/datasource/payment_datasource.dart';
 import '../data/repository/charity_repository.dart';
+import '../data/repository/details_of_slider_repository.dart';
 import '../data/repository/payment_repository.dart';
 
 var locator = GetIt.instance;
@@ -32,6 +34,9 @@ Future<void> getItInit() async {
 
   locator.registerFactory<IPaymentOperation>(() => PaymentOperation());
 
+  locator.registerFactory<DetailsOfSlidersDataSourse>(
+      () => DetailsOfSlidersRemote());
+
   //repository
 
   locator.registerFactory<IAuthRepository>(() => AuthenticationRepository());
@@ -41,4 +46,7 @@ Future<void> getItInit() async {
   locator.registerFactory<IpaymentRepository>(() => PaymentRepository());
 
   locator.registerFactory<IFactorsRepositorys>(() => FactorsRepositorys());
+
+  locator.registerFactory<IDetailsOfSlidersRepositotys>(
+      () => DetailsSlidersRepositorys());
 }

@@ -34,4 +34,5 @@ class ApiAddress {
   static const String type = 'type';
   static const String secandType = 'type?sub=';
   static const String darkhast = 'profile/darkhasts';
+  static const String factors = 'profile/faktoors';
 }

@@ -4,9 +4,12 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:charity/bloc/charity_bloc/charity_event.dart';
 import 'package:charity/bloc/charity_bloc/chrity_bloc.dart';
+import 'package:charity/bloc/details_of_sliders/details_bloc.dart';
 import 'package:charity/constants/constants.dart';
 import 'package:charity/models/models.dart';
 import 'package:charity/screens/pages/charity_screen.dart';
+import 'package:charity/screens/pages/main_screen.dart';
+import 'package:charity/screens/pages/show_details_of_slider_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
@@ -96,16 +99,26 @@ class _ImageSliderScreenState extends State<ImageSliderScreen> {
               ),
               child: GestureDetector(
                 onTap: () {
-                  ImageSliderScreen.goToShortcut.value = true;
+                  MainScreen.isPooyeshSelected = true;
+                  // ImageSliderScreen.goToShortcut.value = true;
                   ImageSliderScreen.id = pooyeshModel![index].idPooyeshHome;
-                  ImageSliderScreen.title =
-                      pooyeshModel![index].titlePooyeshHome;
+                  // ImageSliderScreen.title =
+                  //     pooyeshModel![index].titlePooyeshHome;
 
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => CharityPage(),
-                      ));
+                  // Navigator.push(
+                  //     context,
+                  //     MaterialPageRoute(
+                  //       builder: (context) => CharityPage(),
+                  //     ));
+                  Navigator.push(context, MaterialPageRoute(
+                    builder: (context) {
+                      return BlocProvider(
+                        create: (context) => DetailSliderBloc(),
+                        child: ShowDetailsOfSliderScreen(
+                            detailsId: ImageSliderScreen.id!),
+                      );
+                    },
+                  ));
                 },
                 child: Stack(
                   fit: StackFit.expand,

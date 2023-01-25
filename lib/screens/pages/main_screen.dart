@@ -1,15 +1,20 @@
+import 'package:charity/bloc/charity_bloc/chrity_bloc.dart';
+import 'package:charity/bloc/home_bloc/home_bloc.dart';
+import 'package:charity/bloc/news_page_bloc/news_page_block.dart';
 import 'package:charity/constants/constants.dart';
 import 'package:charity/screens/pages/charity_screen.dart';
 import 'package:charity/screens/pages/home_screen.dart';
 import 'package:charity/screens/pages/news_list_screen.dart';
 import 'package:charity/screens/pages/profile_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:stylish_bottom_bar/stylish_bottom_bar.dart';
 
 import '../../data/repository/charity_repository.dart';
 import '../../models/charity_model.dart';
 
 class MainScreen extends StatefulWidget {
+  static bool isPooyeshSelected = false;
   const MainScreen({super.key});
 
   @override
@@ -102,7 +107,12 @@ class _MainScreenState extends State<MainScreen> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.of(context).push(MaterialPageRoute(
-            builder: (context) => CharityPage(),
+            builder: (context) {
+              return BlocProvider(
+                create: (context) => CharityBloc(),
+                child: CharityPage(id: 0, title: 'null'),
+              );
+            },
           ));
         },
         backgroundColor: blueDark,
@@ -127,11 +137,12 @@ class _MainScreenState extends State<MainScreen> {
     return IndexedStack(
       index: _selectedBottomNavigationItem,
       children: [
-        const MyHomeScreen(),
+        BlocProvider(
+            create: (context) => HomeBloc(), child: const MyHomeScreen()),
         Container(
           color: blueDark,
         ),
-        NewsListPage(),
+        BlocProvider(create: (context) => NewsBloc(), child: NewsListPage()),
         const ProfileScreen()
       ],
     );

@@ -22,22 +22,7 @@ void main(List<String> args) async {
   await Hive.openBox<CharityModelSecand>('ModelSecand');
   await Hive.openBox<CharityModelFirst>('ModelFirst');
   HttpOverrides.global = MyHttpOverrides();
-  runApp(
-    MultiBlocProvider(
-      providers: [
-        BlocProvider(
-          create: (context) => HomeBloc(),
-        ),
-        BlocProvider(
-          create: (context) => NewsBloc(),
-        ),
-        BlocProvider(
-          create: (context) => CharityBloc(),
-        ),
-      ],
-      child: MyApp(),
-    ),
-  );
+  runApp(MyApp());
 }
 
 class MyApp extends StatefulWidget {

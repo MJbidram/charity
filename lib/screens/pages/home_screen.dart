@@ -4,7 +4,9 @@ import 'package:charity/bloc/home_bloc/home_bloc.dart';
 import 'package:charity/bloc/home_bloc/home_event.dart';
 import 'package:charity/bloc/home_bloc/home_state.dart';
 import 'package:charity/constants/constants.dart';
+import 'package:charity/screens/pages/main_screen.dart';
 import 'package:charity/screens/pages/news_screen.dart';
+import 'package:charity/screens/pages/show_details_of_slider_screen.dart';
 import 'package:charity/screens/widget/image_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -12,6 +14,7 @@ import 'package:percent_indicator/percent_indicator.dart';
 import 'package:persian_number_utility/persian_number_utility.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
+import '../../bloc/details_of_sliders/details_bloc.dart';
 import '../../models/charity_model.dart';
 
 class MyHomeScreen extends StatefulWidget {
@@ -242,48 +245,62 @@ class _MyHomeScreenState extends State<MyHomeScreen> {
         CarouselSlider.builder(
           itemCount: state.projectModel.length,
           itemBuilder: (context, index, realIndex) {
-            return Container(
-              width: MediaQuery.of(context).size.width,
-              margin: const EdgeInsets.symmetric(horizontal: 0),
-              decoration: BoxDecoration(
-                color: Colors.transparent,
-                borderRadius: BorderRadius.circular(16),
-                // image:
+            return GestureDetector(
+              onTap: () {
+                MainScreen.isPooyeshSelected = false;
+                Navigator.push(context, MaterialPageRoute(
+                  builder: (context) {
+                    return BlocProvider(
+                      create: (context) => DetailSliderBloc(),
+                      child: ShowDetailsOfSliderScreen(
+                          detailsId: state.projectModel[index].idProjectHome),
+                    );
+                  },
+                ));
+              },
+              child: Container(
+                width: MediaQuery.of(context).size.width,
+                margin: const EdgeInsets.symmetric(horizontal: 0),
+                decoration: BoxDecoration(
+                  color: Colors.transparent,
+                  borderRadius: BorderRadius.circular(16),
+                  // image:
 
-                //  DecorationImage(
-                //     image: NetworkImage(
-                //         state.projectModel[index].imageProjectHome),
-                //     fit: BoxFit.cover),
-              ),
-              child: Stack(
-                fit: StackFit.expand,
-                children: [
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(16),
-                    child: CachedNetworkImage(
-                      imageUrl: state.projectModel[index].imageProjectHome,
-                      fit: BoxFit.cover,
-                      placeholder: (context, url) =>
-                          const Center(child: CircularProgressIndicator()),
-                      errorWidget: (context, url, error) =>
-                          const Icon(Icons.error),
-                    ),
-                  ),
-                  Align(
-                    alignment: AlignmentDirectional.bottomCenter,
-                    child: Padding(
-                      padding: const EdgeInsets.only(bottom: 8.0),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          progressBar(index, state),
-                          _getTitleProjectText(index, state),
-                        ],
+                  //  DecorationImage(
+                  //     image: NetworkImage(
+                  //         state.projectModel[index].imageProjectHome),
+                  //     fit: BoxFit.cover),
+                ),
+                child: Stack(
+                  fit: StackFit.expand,
+                  children: [
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(16),
+                      child: CachedNetworkImage(
+                        imageUrl: state.projectModel[index].imageProjectHome,
+                        fit: BoxFit.cover,
+                        placeholder: (context, url) =>
+                            const Center(child: CircularProgressIndicator()),
+                        errorWidget: (context, url, error) =>
+                            const Icon(Icons.error),
                       ),
                     ),
-                  ),
-                ],
+                    Align(
+                      alignment: AlignmentDirectional.bottomCenter,
+                      child: Padding(
+                        padding: const EdgeInsets.only(bottom: 8.0),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            progressBar(index, state),
+                            _getTitleProjectText(index, state),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             );
           },
