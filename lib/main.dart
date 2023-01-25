@@ -10,6 +10,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
+import 'bloc/splash_screen_bloc/splash_bloc.dart';
 import 'models/charity_model.dart';
 
 void main(List<String> args) async {
@@ -67,7 +68,10 @@ class _MyAppState extends State<MyApp> {
         Locale("fa", "IR"), // OR Locale('ar', 'AE') OR Other RTL locales
       ],
       locale: Locale("fa", "IR"),
-      home: SplashScreen(),
+      home: BlocProvider(
+        create: (context) => SplashBloc(),
+        child: const SplashScreen(),
+      ),
       theme: ThemeData(
         fontFamily: 'VB',
         backgroundColor: Colors.grey[200],

@@ -33,4 +33,5 @@ class ApiAddress {
       'https://kheiriehemamali.ir/blog/wp-json/wp/v2/posts';
   static const String type = 'type';
   static const String secandType = 'type?sub=';
+  static const String darkhast = 'profile/darkhasts';
 }

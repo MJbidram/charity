@@ -14,7 +14,6 @@ import 'package:flutter/material.dart';
 // import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:internet_connection_checker/internet_connection_checker.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});

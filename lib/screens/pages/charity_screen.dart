@@ -444,7 +444,9 @@ class _CharityPageState extends State<CharityPage> {
                           }
 
                           PayLinkModel? payLinkModel;
-                          String _amount = amount.text.toString();
+                          String _amount =
+                              amount.text.toString().replaceAll(',', '');
+                          print(_amount);
                           _amount = removeZero(_amount);
                           String? token = await AuthManager.readauth();
 
@@ -627,6 +629,8 @@ class _CharityPageState extends State<CharityPage> {
 
                                 PayLinkModel? payLinkModel;
                                 String _amount = amount.text.toString();
+                                _amount = _amount.replaceAll(',', '');
+                                print(_amount);
                                 _amount = removeZero(_amount);
                                 String? token = await AuthManager.readauth();
 
@@ -946,6 +950,8 @@ class _CharityPageState extends State<CharityPage> {
 
                                 PayLinkModel? payLinkModel;
                                 String _amount = amount.text.toString();
+                                _amount = _amount.replaceAll(',', '');
+                                print(_amount);
                                 _amount = removeZero(_amount);
                                 String? token = await AuthManager.readauth();
 
@@ -1032,6 +1038,8 @@ class _CharityPageState extends State<CharityPage> {
 
               PayLinkModel? payLinkModel;
               String _amount = amount.text.toString();
+              _amount = _amount.replaceAll(',', '');
+              print(_amount);
               _amount = removeZero(_amount);
               String? token = await AuthManager.readauth();
 

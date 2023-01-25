@@ -30,8 +30,10 @@ class CharityBloc extends Bloc<CharityEvent, CharityState> {
       IpaymentRepository paymentRepository = locator.get();
       final getUrl = await paymentRepository.getPaymentData(
           event.idType, event.amount, event.token);
-      getUrl.fold((l) => emit(CharityExseptionLoadingUrlState(exeption: l)),
-          (r) {
+      getUrl.fold((l) {
+        emit(CharityExseptionLoadingUrlState(exeption: l));
+        print(l);
+      }, (r) {
         emit(CharityLoadedUrlState(payLinkModel: r));
         print(r);
       });
