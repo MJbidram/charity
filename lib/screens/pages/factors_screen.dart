@@ -11,6 +11,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:persian_number_utility/persian_number_utility.dart';
 import 'package:share_plus/share_plus.dart';
 
+import '../widget/spin_kit.dart';
+
 class FactorsScreen extends StatefulWidget {
   const FactorsScreen({super.key});
 
@@ -60,7 +62,7 @@ class _FactorsScreenState extends State<FactorsScreen> {
               builder: (context, state) {
                 if (state is FactorsLoadingState) {
                   return const SliverToBoxAdapter(
-                    child: Center(child: CircularProgressIndicator()),
+                    child: Center(child: MySpinKit()),
                   );
                 }
                 if (state is FactorsLoadedState) {

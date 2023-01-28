@@ -83,54 +83,54 @@ class ProfileScreen extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                TextButton(
-                  onPressed: () {},
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(right: 45),
-                        child: Text(
-                          'ویرایش پروفایل',
-                          style: Theme.of(context).textTheme.headline6,
-                          textAlign: TextAlign.start,
-                        ),
-                      ),
-                      const Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 40),
-                        child: Divider(
-                          color: Colors.grey,
-                          height: 15,
-                          thickness: 1,
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-                TextButton(
-                  onPressed: () {},
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(right: 45),
-                        child: Text(
-                          'تغییر رمز ورود',
-                          style: Theme.of(context).textTheme.headline6,
-                          textAlign: TextAlign.start,
-                        ),
-                      ),
-                      const Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 40),
-                        child: Divider(
-                          color: Colors.grey,
-                          height: 15,
-                          thickness: 1,
-                        ),
-                      )
-                    ],
-                  ),
-                ),
+                // TextButton(
+                //   onPressed: () {},
+                //   child: Column(
+                //     crossAxisAlignment: CrossAxisAlignment.start,
+                //     children: [
+                //       Padding(
+                //         padding: const EdgeInsets.only(right: 45),
+                //         child: Text(
+                //           'ویرایش پروفایل',
+                //           style: Theme.of(context).textTheme.headline6,
+                //           textAlign: TextAlign.start,
+                //         ),
+                //       ),
+                //       const Padding(
+                //         padding: EdgeInsets.symmetric(horizontal: 40),
+                //         child: Divider(
+                //           color: Colors.grey,
+                //           height: 15,
+                //           thickness: 1,
+                //         ),
+                //       )
+                //     ],
+                //   ),
+                // ),
+                // TextButton(
+                //   onPressed: () {},
+                //   child: Column(
+                //     crossAxisAlignment: CrossAxisAlignment.start,
+                //     children: [
+                //       Padding(
+                //         padding: const EdgeInsets.only(right: 45),
+                //         child: Text(
+                //           'تغییر رمز ورود',
+                //           style: Theme.of(context).textTheme.headline6,
+                //           textAlign: TextAlign.start,
+                //         ),
+                //       ),
+                //       const Padding(
+                //         padding: EdgeInsets.symmetric(horizontal: 40),
+                //         child: Divider(
+                //           color: Colors.grey,
+                //           height: 15,
+                //           thickness: 1,
+                //         ),
+                //       )
+                //     ],
+                //   ),
+                // ),
                 TextButton(
                   onPressed: () {
                     Navigator.push(context,

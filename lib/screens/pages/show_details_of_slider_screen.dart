@@ -14,6 +14,7 @@ import 'package:flutter_html/flutter_html.dart';
 import 'package:persian_number_utility/persian_number_utility.dart';
 
 import '../widget/image_slider.dart';
+import '../widget/spin_kit.dart';
 import 'charity_screen.dart';
 
 class ShowDetailsOfSliderScreen extends StatefulWidget {
@@ -46,7 +47,7 @@ class _ShowDetailsOfSliderScreenState extends State<ShowDetailsOfSliderScreen> {
         builder: (context, state) {
           if (state is DetailLoadingState) {
             return const Center(
-              child: CircularProgressIndicator(),
+              child: MySpinKit(),
             );
           }
           if (state is DetailShowPooyeshState) {
@@ -163,7 +164,7 @@ class Body extends StatelessWidget {
                       imageUrl: imageUrl,
                       fit: BoxFit.cover,
                       placeholder: (context, url) =>
-                          const Center(child: CircularProgressIndicator()),
+                          const Center(child: MySpinKit()),
                       errorWidget: (context, url, error) =>
                           const Icon(Icons.error),
                     ),

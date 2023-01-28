@@ -9,6 +9,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:persian_number_utility/persian_number_utility.dart';
 
+import '../widget/spin_kit.dart';
+
 class NewsScreen extends StatelessWidget {
   NewsScreen({super.key, required this.newsindex});
   int newsindex;
@@ -22,7 +24,7 @@ class NewsScreen extends StatelessWidget {
           if (state is NewsLoadingState) {
             return const Scaffold(
               body: Center(
-                child: CircularProgressIndicator(),
+                child: MySpinKit(),
               ),
             );
           }
@@ -41,74 +43,97 @@ class NewsScreen extends StatelessWidget {
 
       // appBar: _const_appbar(context),
 
-      appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(250),
-        child: AppBar(
-          elevation: 0,
-          toolbarHeight: 60,
-          title: Text(
-            shortName,
-            style: Theme.of(context).textTheme.headline1,
-          ),
-          actions: const [
-            Padding(
-              padding: EdgeInsets.all(8.0),
-              child: Icon(
-                Icons.notifications,
-                size: 32,
-              ),
-            ),
-          ],
-          backgroundColor: Colors.white,
-          flexibleSpace: FlexibleSpaceBar(
-            collapseMode: CollapseMode.pin,
-            background: Container(
-              decoration: BoxDecoration(
-                gradient: blueGradient,
-                borderRadius: BorderRadius.vertical(
-                  bottom:
-                      Radius.elliptical(MediaQuery.of(context).size.width, 170),
-                ),
-              ),
-              child: Container(
-                decoration: BoxDecoration(
-                  gradient: blueGradient,
-                  borderRadius: BorderRadius.vertical(
-                    bottom: Radius.elliptical(
-                        MediaQuery.of(context).size.width, 170),
-                  ),
-                ),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.vertical(
-                    bottom: Radius.elliptical(
-                        MediaQuery.of(context).size.width, 170),
-                  ),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.vertical(
-                      bottom: Radius.elliptical(
-                          MediaQuery.of(context).size.width, 170),
-                    ),
-                    child: CachedNetworkImage(
-                      imageUrl: state.newsModel[newsindex].newsImageUrl,
-                      fit: BoxFit.cover,
-                      placeholder: (context, url) =>
-                          const Center(child: CircularProgressIndicator()),
-                      errorWidget: (context, url, error) =>
-                          const Icon(Icons.error),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ),
-      ),
+      // appBar: PreferredSize(
+      //   preferredSize: const Size.fromHeight(250),
+      //   child: AppBar(
+      //     elevation: 0,
+      //     toolbarHeight: 60,
+      //     title: Text(
+      //       shortName,
+      //       style: Theme.of(context).textTheme.headline1,
+      //     ),
+      //     actions: const [
+      //       Padding(
+      //         padding: EdgeInsets.all(8.0),
+      //         child: Icon(
+      //           Icons.notifications,
+      //           size: 32,
+      //         ),
+      //       ),
+      //     ],
+      //     backgroundColor: Colors.white,
+      //     flexibleSpace: FlexibleSpaceBar(
+      //       collapseMode: CollapseMode.pin,
+      //       background: Container(
+      //         decoration: BoxDecoration(
+      //           gradient: blueGradient,
+      //           borderRadius: BorderRadius.vertical(
+      //             bottom:
+      //                 Radius.elliptical(MediaQuery.of(context).size.width, 170),
+      //           ),
+      //         ),
+      //         child: Container(
+      //           decoration: BoxDecoration(
+      //             gradient: blueGradient,
+      //             borderRadius: BorderRadius.vertical(
+      //               bottom: Radius.elliptical(
+      //                   MediaQuery.of(context).size.width, 170),
+      //             ),
+      //           ),
+      //           child: ClipRRect(
+      //             borderRadius: BorderRadius.vertical(
+      //               bottom: Radius.elliptical(
+      //                   MediaQuery.of(context).size.width, 170),
+      //             ),
+      //             child: ClipRRect(
+      //               borderRadius: BorderRadius.vertical(
+      //                 bottom: Radius.elliptical(
+      //                     MediaQuery.of(context).size.width, 170),
+      //               ),
+      //               child: CachedNetworkImage(
+      //                 imageUrl: state.newsModel[newsindex].newsImageUrl,
+      //                 fit: BoxFit.cover,
+      //                 placeholder: (context, url) =>
+      //                     const Center(child: CircularProgressIndicator()),
+      //                 errorWidget: (context, url, error) =>
+      //                     const Icon(Icons.error),
+      //               ),
+      //             ),
+      //           ),
+      //         ),
+      //       ),
+      //     ),
+      //   ),
+      // ),
 
       body: CustomScrollView(
         slivers: [
+          SliverAppBar(
+            title: Text(shortName),
+            centerTitle: true,
+            backgroundColor: Colors.transparent,
+            pinned: false,
+            expandedHeight: AppBar().preferredSize.height + 70,
+            flexibleSpace: FlexibleSpaceBar(
+              background: Stack(
+                children: [
+                  Container(
+                    height: AppBar().preferredSize.height + 50,
+                    decoration: BoxDecoration(
+                      gradient: blueGradient,
+                      borderRadius: BorderRadius.vertical(
+                        bottom: Radius.elliptical(
+                            MediaQuery.of(context).size.width, 150),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
           SliverPadding(
             padding: const EdgeInsets.symmetric(
-              vertical: 32,
+              vertical: 16,
               horizontal: 16,
             ),
             sliver: SliverToBoxAdapter(
@@ -127,26 +152,26 @@ class NewsScreen extends StatelessWidget {
                       state.newsModel[newsindex].newsDate.toPersianDate(),
                       style: const TextStyle(fontFamily: 'Vl', fontSize: 14),
                     ),
-                    const Spacer(),
-                    const Icon(Icons.question_answer_outlined),
-                    Text(
-                      '0',
-                      style: TextStyle(
-                          fontSize: 12, fontFamily: 'VL', color: black),
-                    ),
-                    Text(
-                      'دیدگاه',
-                      style: TextStyle(
-                          fontSize: 12, fontFamily: 'VL', color: black),
-                    ),
-                    const SizedBox(
-                      width: 16,
-                    ),
-                    const Icon(Icons.favorite_outline),
-                    const SizedBox(
-                      width: 16,
-                    ),
-                    const Icon(Icons.bookmark_add_outlined)
+                    // const Spacer(),
+                    // const Icon(Icons.question_answer_outlined),
+                    // Text(
+                    //   '0',
+                    //   style: TextStyle(
+                    //       fontSize: 12, fontFamily: 'VL', color: black),
+                    // ),
+                    // Text(
+                    //   'دیدگاه',
+                    //   style: TextStyle(
+                    //       fontSize: 12, fontFamily: 'VL', color: black),
+                    // ),
+                    // const SizedBox(
+                    //   width: 16,
+                    // ),
+                    // const Icon(Icons.favorite_outline),
+                    // const SizedBox(
+                    //   width: 16,
+                    // ),
+                    // const Icon(Icons.bookmark_add_outlined)
                   ],
                 ),
               ),

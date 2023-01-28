@@ -15,6 +15,8 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
+import '../widget/spin_kit.dart';
+
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
 
@@ -164,7 +166,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       visible: !dontTapRegister,
                       child: const Padding(
                         padding: EdgeInsets.all(8.0),
-                        child: CircularProgressIndicator(),
+                        child: MySpinKit(),
                       ),
                     ),
                     Visibility(

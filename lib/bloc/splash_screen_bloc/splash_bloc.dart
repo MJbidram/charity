@@ -16,7 +16,9 @@ class SplashBloc extends Bloc<SplashEvent, SplashState> {
     on<CheckAvailableEvent>((event, emit) => null);
     on<CheckLoginEvent>((event, emit) async {
       emit(SpalshLoadingState());
+
       var isLogin = await AuthManager.isLogin();
+      Future.delayed(Duration(seconds: 2));
       emit(LoginState(isLogin));
     });
   }

@@ -10,6 +10,7 @@ import 'package:charity/models/models.dart';
 import 'package:charity/screens/pages/charity_screen.dart';
 import 'package:charity/screens/pages/main_screen.dart';
 import 'package:charity/screens/pages/show_details_of_slider_screen.dart';
+import 'package:charity/screens/widget/spin_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
@@ -128,8 +129,9 @@ class _ImageSliderScreenState extends State<ImageSliderScreen> {
                       child: CachedNetworkImage(
                         imageUrl: pooyeshModel![index].imagePooyeshHome,
                         fit: BoxFit.cover,
-                        placeholder: (context, url) =>
-                            Center(child: CircularProgressIndicator()),
+                        placeholder: (context, url) => Center(
+                            child: Container(
+                                color: blueLight, child: MySpinKit())),
                         errorWidget: (context, url, error) => Icon(Icons.error),
                       ),
                     ),

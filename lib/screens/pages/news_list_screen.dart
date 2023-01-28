@@ -12,6 +12,8 @@ import 'package:charity/screens/pages/news_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../widget/spin_kit.dart';
+
 class NewsListPage extends StatelessWidget {
   NewsListPage({super.key});
 
@@ -31,8 +33,8 @@ class NewsListPage extends StatelessWidget {
         body: BlocBuilder<NewsBloc, NewsState>(
           builder: (context, state) {
             if (state == NewsLoadingState) {
-              return Center(
-                child: CircularProgressIndicator(),
+              return const Center(
+                child: MySpinKit(),
               );
             }
             if (state is NewsLoadedState) {
@@ -134,8 +136,9 @@ class NewsListPage extends StatelessWidget {
                     child: CachedNetworkImage(
                       imageUrl: state.newsModel[index].newsImageUrl,
                       fit: BoxFit.cover,
-                      placeholder: (context, url) =>
-                          const Center(child: CircularProgressIndicator()),
+                      placeholder: (context, url) => Center(
+                          child:
+                              Container(color: blueLight, child: MySpinKit())),
                       errorWidget: (context, url, error) =>
                           const Icon(Icons.error),
                     ),

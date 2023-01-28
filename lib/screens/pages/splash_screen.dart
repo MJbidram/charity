@@ -14,6 +14,7 @@ import 'package:flutter_html/flutter_html.dart';
 import '../../bloc/splash_screen_bloc/splash_event.dart';
 import '../../constants/constants.dart';
 import '../../util/auth_manager.dart';
+import '../widget/spin_kit.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -40,7 +41,7 @@ class _SplashScreenState extends State<SplashScreen> {
             SizedBox(
               height: 80,
               width: 80,
-              child: Image.asset('assets/images/logo.png'),
+              child: Image.asset('assets/images/logo2.png'),
             ),
             const SizedBox(
               height: 24,
@@ -59,7 +60,7 @@ class _SplashScreenState extends State<SplashScreen> {
                     if (state is ConnectionStates) {
                       if (state.isConnect) {
                         context.read<SplashBloc>().add(CheckLoginEvent());
-                        return CircularProgressIndicator();
+                        return MySpinKit();
                       } else {
                         return Column(
                           children: [
@@ -80,7 +81,7 @@ class _SplashScreenState extends State<SplashScreen> {
                       }
                     }
                     if (state is SpalshLoadingState) {
-                      return CircularProgressIndicator();
+                      return MySpinKit();
                     }
                     if (state is LoginState) {
                       if (state.isLogin) {
@@ -93,7 +94,7 @@ class _SplashScreenState extends State<SplashScreen> {
                               (route) => false);
                         });
 
-                        return CircularProgressIndicator();
+                        return const MySpinKit();
                       } else {
                         SchedulerBinding.instance.addPostFrameCallback((_) {
                           Navigator.pushAndRemoveUntil(
@@ -104,7 +105,7 @@ class _SplashScreenState extends State<SplashScreen> {
                               (route) => false);
                         });
 
-                        return CircularProgressIndicator();
+                        return const MySpinKit();
                       }
                     } else {
                       return Text('خطا');
@@ -119,4 +120,3 @@ class _SplashScreenState extends State<SplashScreen> {
     );
   }
 }
-

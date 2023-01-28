@@ -11,6 +11,7 @@ import 'package:http/http.dart';
 
 import '../../data/repository/authentication_repository.dart';
 import '../../util/auth_manager.dart';
+import '../widget/spin_kit.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -130,7 +131,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       visible: !dontClickLogin,
                       child: const Padding(
                         padding: EdgeInsets.all(8.0),
-                        child: CircularProgressIndicator(),
+                        child: MySpinKit(),
                       ),
                     ),
                     Visibility(

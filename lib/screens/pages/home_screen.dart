@@ -16,6 +16,7 @@ import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import '../../bloc/details_of_sliders/details_bloc.dart';
 import '../../models/charity_model.dart';
+import '../widget/spin_kit.dart';
 
 class MyHomeScreen extends StatefulWidget {
   const MyHomeScreen({super.key});
@@ -48,7 +49,7 @@ class _MyHomeScreenState extends State<MyHomeScreen> {
           builder: (context, state) {
             if (state is HomeLoadingState) {
               return const Center(
-                child: CircularProgressIndicator(),
+                child: MySpinKit(),
               );
             }
             // State is Loaded data from API =>
@@ -280,7 +281,7 @@ class _MyHomeScreenState extends State<MyHomeScreen> {
                         imageUrl: state.projectModel[index].imageProjectHome,
                         fit: BoxFit.cover,
                         placeholder: (context, url) =>
-                            const Center(child: CircularProgressIndicator()),
+                            const Center(child: MySpinKit()),
                         errorWidget: (context, url, error) =>
                             const Icon(Icons.error),
                       ),
@@ -464,7 +465,7 @@ class _MyHomeScreenState extends State<MyHomeScreen> {
                       imageUrl: state.newsModl[index].newsImageUrl,
                       fit: BoxFit.cover,
                       placeholder: (context, url) =>
-                          const Center(child: CircularProgressIndicator()),
+                          const Center(child: MySpinKit()),
                       errorWidget: (context, url, error) =>
                           const Icon(Icons.error),
                     ),
