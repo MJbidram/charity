@@ -1,10 +1,12 @@
 import 'package:charity/constants/constants.dart';
 import 'package:charity/data/datasource/authentication_dataSource.dart';
 import 'package:charity/data/datasource/charity_datasource.dart';
+import 'package:charity/data/datasource/demand_datasource.dart';
 import 'package:charity/data/datasource/factors_datasource.dart';
 import 'package:charity/data/datasource/home_datasource.dart';
 import 'package:charity/data/repository/authentication_repository.dart';
 import 'package:charity/data/repository/factors_repository.dart';
+import 'package:charity/data/repository/home_data_repository.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_it/get_it.dart';
@@ -12,6 +14,7 @@ import 'package:get_it/get_it.dart';
 import '../data/datasource/details_of_slider_datasource.dart';
 import '../data/datasource/payment_datasource.dart';
 import '../data/repository/charity_repository.dart';
+import '../data/repository/damand_repository.dart';
 import '../data/repository/details_of_slider_repository.dart';
 import '../data/repository/payment_repository.dart';
 
@@ -25,6 +28,7 @@ Future<void> getItInit() async {
 
   locator.registerSingleton<FlutterSecureStorage>(const FlutterSecureStorage());
 // datasourses
+  locator.registerFactory<HomeDataSource>(() => HomeDataRemote());
   locator
       .registerFactory<IAuthenticationDataSurce>(() => AuthenticationRemote());
 
@@ -37,9 +41,13 @@ Future<void> getItInit() async {
   locator.registerFactory<DetailsOfSlidersDataSourse>(
       () => DetailsOfSlidersRemote());
 
+  locator.registerFactory<IDamandDateasource>(() => DamandRemote());
+
   //repository
 
   locator.registerFactory<IAuthRepository>(() => AuthenticationRepository());
+
+  locator.registerFactory<MYHomeRepository>(() => HomeRepository());
 
   locator.registerFactory<MyCharityRepository>(() => CharityRepository());
 
@@ -49,4 +57,5 @@ Future<void> getItInit() async {
 
   locator.registerFactory<IDetailsOfSlidersRepositotys>(
       () => DetailsSlidersRepositorys());
+  locator.registerFactory<IDamandRepository>(() => DamandRepository());
 }

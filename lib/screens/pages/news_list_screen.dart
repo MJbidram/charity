@@ -32,20 +32,22 @@ class NewsListPage extends StatelessWidget {
         backgroundColor: grey,
         body: BlocBuilder<NewsBloc, NewsState>(
           builder: (context, state) {
-            if (state == NewsLoadingState) {
+            if (state is NewsLoadingState) {
               return const Center(
                 child: MySpinKit(),
               );
             }
             if (state is NewsLoadedState) {
-              return body(context, state);
+              return state.response.fold((l) {
+                return Text('خطای ناشناخته');
+              }, (r) => body(context, r));
             }
             return Container();
           },
         ));
   }
 
-  CustomScrollView body(BuildContext context, NewsLoadedState state) {
+  CustomScrollView body(BuildContext context, dynamic r) {
     return CustomScrollView(
       slivers: [
         SliverAppBar(
@@ -70,15 +72,15 @@ class NewsListPage extends StatelessWidget {
           padding: EdgeInsets.only(top: 16, bottom: 80),
           sliver: SliverList(
             delegate: SliverChildBuilderDelegate((context, index) {
-              return _getCoverNews(index, state, context);
-            }, childCount: state.newsModel.length),
+              return _getCoverNews(index, r, context);
+            }, childCount: r.length),
           ),
         ),
       ],
     );
   }
 
-  Widget _getCoverNews(int index, NewsLoadedState state, BuildContext context) {
+  Widget _getCoverNews(int index, dynamic r, BuildContext context) {
     return GestureDetector(
       onTap: () {
         Navigator.of(context).push(MaterialPageRoute(
@@ -112,7 +114,7 @@ class NewsListPage extends StatelessWidget {
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Text(
-                        state.newsModel[index].newsTitile,
+                        r[index].newsTitile,
                         textAlign: TextAlign.center,
                         style: Theme.of(context).textTheme.headline2,
                       ),
@@ -134,7 +136,7 @@ class NewsListPage extends StatelessWidget {
                       bottomLeft: Radius.circular(16),
                     ),
                     child: CachedNetworkImage(
-                      imageUrl: state.newsModel[index].newsImageUrl,
+                      imageUrl: r[index].newsImageUrl,
                       fit: BoxFit.cover,
                       placeholder: (context, url) => Center(
                           child:

@@ -4,6 +4,8 @@ import 'package:charity/models/factors_model.dart';
 import 'package:charity/util/api_exception.dart';
 import 'package:dartz/dartz.dart';
 
+import '../../constants/constants.dart';
+
 abstract class IFactorsRepositorys {
   Future<Either<String, List<FactorsModle>>> getFactors(String token);
 }
@@ -16,7 +18,13 @@ class FactorsRepositorys extends IFactorsRepositorys {
       var response = await _factors.getFactors(token);
       return right(response);
     } on ApiException catch (e) {
-      return left(e.message ?? 'خطا محتوای متنی ندارد');
+      if (e.code == 304) {
+        return left(ErrorsMessages.unAvailable);
+      } else {
+        return left(e.message ?? 'خطا محتوای متنی ندارد');
+      }
+    } catch (e) {
+      return left('خطای ناشناخته');
     }
   }
 }

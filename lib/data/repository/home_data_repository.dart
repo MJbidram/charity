@@ -1,6 +1,4 @@
-
-// معماری جدید برای صفحه خانه در صورت لزوم
-/*
+import 'package:charity/constants/constants.dart';
 import 'package:charity/data/datasource/home_datasource.dart';
 import 'package:charity/di/di.dart';
 import 'package:charity/util/api_exception.dart';
@@ -19,7 +17,11 @@ class HomeRepository implements MYHomeRepository {
       _list = await _dataSource.getHomeData();
       return right(_list!);
     } on ApiException catch (e) {
-      return left(e.message!);
+      if (e.code == 304) {
+        return left(ErrorsMessages.unAvailable);
+      }
+      print(e.message);
+      return left('خطای نا شناخته');
     }
   }
-}*/
+}

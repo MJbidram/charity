@@ -1,3 +1,4 @@
+import 'package:charity/constants/constants.dart';
 import 'package:charity/data/datasource/charity_datasource.dart';
 import 'package:charity/di/di.dart';
 import 'package:charity/models/charity_model.dart';
@@ -21,8 +22,11 @@ class CharityRepository implements MyCharityRepository {
 
       return right(_charityModel);
     } on ApiException catch (e) {
-      var er = e.message;
-      return left(e.message ?? 'خطا محتوای متنی ندارد');
+      if (e.code == 304) {
+        return left(ErrorsMessages.unAvailable);
+      } else {
+        return left(e.message ?? 'خطا محتوای متنی ندارد');
+      }
     }
   }
 
@@ -33,7 +37,11 @@ class CharityRepository implements MyCharityRepository {
       _charityModelSecand = await _charityDatasource.getSecandTyps(firstType);
       return right(_charityModelSecand);
     } on ApiException catch (e) {
-      return left(e.message ?? 'خطا محتوای متنی ندارد');
+      if (e.code == 304) {
+        return left(ErrorsMessages.unAvailable);
+      } else {
+        return left(e.message ?? 'خطا محتوای متنی ندارد');
+      }
     }
   }
 }

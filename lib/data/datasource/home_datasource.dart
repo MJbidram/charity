@@ -1,6 +1,3 @@
-
-// معماری جدید برای صفحه خانه در صورت لزوم
-/*
 import 'package:charity/di/di.dart';
 import 'package:charity/util/api_exception.dart';
 import 'package:dio/dio.dart';
@@ -46,4 +43,3 @@ class HomeDataRemote implements HomeDataSource {
     return [homePooyeshList, homeProjectsList, hadis];
   }
 }
-*/

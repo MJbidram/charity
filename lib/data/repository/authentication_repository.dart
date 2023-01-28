@@ -114,6 +114,10 @@ class AuthenticationRepository implements IAuthRepository {
         return left(errorRegister);
       }
     } on ApiException catch (ex) {
+      if (ex.code == 304) {
+        registerErrorModel.unknow = 'خیریه در دسترس نمیباشد';
+        return left(errorRegister);
+      }
       registerErrorModel.unknow = ex.message;
       return left(errorRegister);
     }
@@ -172,7 +176,10 @@ class AuthenticationRepository implements IAuthRepository {
       }
     } on ApiException catch (ex) {
       loginErrorModel.unknow = ex.message;
-
+      if (ex.code == 304) {
+        loginErrorModel.unknow = 'خیریه در دسترس نمیباشد';
+        return left(errorRegister);
+      }
       return left(errorLogin);
     }
   }

@@ -54,152 +54,171 @@ class _MyHomeScreenState extends State<MyHomeScreen> {
             }
             // State is Loaded data from API =>
             if (state is HomeLoadedState) {
-              return NestedScrollView(
-                headerSliverBuilder: (context, innerBoxIsScrolled) {
-                  return [
-                    SliverAppBar(
-                      backgroundColor: blueDark,
-                      pinned: true,
-                      title: Text(
-                        shortName,
-                        style: Theme.of(context).textTheme.headline1,
-                      ),
-                      actions: const [
-                        Padding(
-                          padding: EdgeInsets.all(8.0),
-                          child: Icon(
-                            Icons.notifications,
-                            size: 32,
-                          ),
+              return state.response.fold((l) {
+                return Center(
+                  child: Text(l),
+                );
+              }, (r) {
+                return NestedScrollView(
+                  headerSliverBuilder: (context, innerBoxIsScrolled) {
+                    return [
+                      SliverAppBar(
+                        backgroundColor: blueDark,
+                        pinned: true,
+                        title: Text(
+                          shortName,
+                          style: Theme.of(context).textTheme.headline1,
                         ),
-                      ],
-                      expandedHeight: 275,
-                      flexibleSpace: FlexibleSpaceBar(
-                        background: Padding(
-                          padding: EdgeInsets.only(
-                              top: MediaQuery.of(context).viewPadding.top),
-                          child: ImageSliderScreen(
-                              myModelList: state.pooyeshModel),
-                        ),
-                      ),
-                    ),
-                  ];
-                },
-                body: CustomScrollView(
-                  slivers: [
-                    SliverPadding(
-                      padding: const EdgeInsets.only(top: 20),
-                      sliver: SliverGrid(
-                        delegate: SliverChildBuilderDelegate(
-                          (context, index) {
-                            return _getIcons();
-                          },
-                          childCount: 8,
-                        ),
-                        gridDelegate:
-                            const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 4,
-                          crossAxisSpacing: 18,
-                          mainAxisSpacing: 18,
-                          mainAxisExtent: 100,
-                        ),
-                      ),
-                    ),
-                    SliverToBoxAdapter(
-                      child: Padding(
-                        padding:
-                            const EdgeInsets.only(right: 16, left: 16, top: 16),
-                        child: Container(
-                          width: MediaQuery.of(context).size.width,
-                          decoration: BoxDecoration(
-                            gradient: blueGradient,
-                            borderRadius: BorderRadius.circular(16),
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.all(16.0),
-                            child: Column(
-                              children: [
-                                Text(
-                                  state.teller,
-                                  style: Theme.of(context).textTheme.headline2,
-                                ),
-                                const SizedBox(
-                                  height: 8,
-                                ),
-                                Text(
-                                  state.arabicText,
-                                  style: Theme.of(context).textTheme.headline4,
-                                ),
-                                const SizedBox(
-                                  height: 8,
-                                ),
-                                Text(
-                                  state.farsiText,
-                                  style: Theme.of(context).textTheme.headline2,
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                    SliverToBoxAdapter(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const SizedBox(
-                            height: 16,
-                          ),
+                        actions: const [
                           Padding(
-                            padding: const EdgeInsets.only(right: 16.0),
-                            child: Text(
-                              'پروژه ها',
-                              style: Theme.of(context).textTheme.headline5,
+                            padding: EdgeInsets.all(8.0),
+                            child: Icon(
+                              Icons.notifications,
+                              size: 32,
                             ),
                           ),
-                          Container(
-                              margin: const EdgeInsets.only(top: 8),
-                              decoration: BoxDecoration(gradient: blueGradient),
+                        ],
+                        expandedHeight: 275,
+                        flexibleSpace: FlexibleSpaceBar(
+                          background: Padding(
+                            padding: EdgeInsets.only(
+                                top: MediaQuery.of(context).viewPadding.top),
+                            child: ImageSliderScreen(myModelList: r[0]),
+                          ),
+                        ),
+                      ),
+                    ];
+                  },
+                  body: CustomScrollView(
+                    slivers: [
+                      SliverPadding(
+                        padding: const EdgeInsets.only(top: 20),
+                        sliver: SliverGrid(
+                          delegate: SliverChildBuilderDelegate(
+                            (context, index) {
+                              return _getIcons();
+                            },
+                            childCount: 8,
+                          ),
+                          gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 4,
+                            crossAxisSpacing: 18,
+                            mainAxisSpacing: 18,
+                            mainAxisExtent: 100,
+                          ),
+                        ),
+                      ),
+                      SliverToBoxAdapter(
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                              right: 16, left: 16, top: 16),
+                          child: Container(
+                            width: MediaQuery.of(context).size.width,
+                            decoration: BoxDecoration(
+                              gradient: blueGradient,
+                              borderRadius: BorderRadius.circular(16),
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(16.0),
                               child: Column(
                                 children: [
-                                  const SizedBox(
-                                    height: 16,
+                                  Text(
+                                    r[2].teller,
+                                    style:
+                                        Theme.of(context).textTheme.headline2,
                                   ),
-                                  _getProjectSlider(state),
                                   const SizedBox(
                                     height: 8,
                                   ),
-                                  AnimatedSmoothIndicator(
-                                    activeIndex: changePage,
-                                    count: state.projectModel.length,
-                                    effect: ExpandingDotsEffect(
-                                      dotHeight: 10,
-                                      dotWidth: 10,
-                                      expansionFactor: 5,
-                                      dotColor: Colors.white,
-                                      activeDotColor: blueLight,
-                                    ),
+                                  Text(
+                                    r[2].arabicText,
+                                    style:
+                                        Theme.of(context).textTheme.headline4,
                                   ),
                                   const SizedBox(
-                                    height: 12,
+                                    height: 8,
+                                  ),
+                                  Text(
+                                    r[2].farsiText,
+                                    style:
+                                        Theme.of(context).textTheme.headline2,
                                   ),
                                 ],
-                              )),
-                        ],
+                              ),
+                            ),
+                          ),
+                        ),
                       ),
-                    ),
-                    SliverToBoxAdapter(
-                      child: Padding(
-                        padding:
-                            const EdgeInsets.only(top: 16, right: 16, left: 16),
-                        child: Align(
-                            alignment: Alignment.topRight,
-                            child: Row(
-                              children: [
-                                TextButton(
-                                  onPressed: () {},
-                                  child: Text(
-                                    'بیشتر',
+                      SliverToBoxAdapter(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const SizedBox(
+                              height: 16,
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(right: 16.0),
+                              child: Text(
+                                'پروژه ها',
+                                style: Theme.of(context).textTheme.headline5,
+                              ),
+                            ),
+                            Container(
+                                margin: const EdgeInsets.only(top: 8),
+                                decoration:
+                                    BoxDecoration(gradient: blueGradient),
+                                child: Column(
+                                  children: [
+                                    const SizedBox(
+                                      height: 16,
+                                    ),
+                                    _getProjectSlider(r),
+                                    const SizedBox(
+                                      height: 8,
+                                    ),
+                                    AnimatedSmoothIndicator(
+                                      activeIndex: changePage,
+                                      count: r[1].length,
+                                      effect: ExpandingDotsEffect(
+                                        dotHeight: 10,
+                                        dotWidth: 10,
+                                        expansionFactor: 5,
+                                        dotColor: Colors.white,
+                                        activeDotColor: blueLight,
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      height: 12,
+                                    ),
+                                  ],
+                                )),
+                          ],
+                        ),
+                      ),
+                      SliverToBoxAdapter(
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                              top: 16, right: 16, left: 16),
+                          child: Align(
+                              alignment: Alignment.topRight,
+                              child: Row(
+                                children: [
+                                  TextButton(
+                                    onPressed: () {},
+                                    child: Text(
+                                      'بیشتر',
+                                      style: TextStyle(
+                                        fontFamily: 'VB',
+                                        fontSize: 16,
+                                        // fontWeight: FontWeight.w600,
+                                        color: blueDark,
+                                      ),
+                                    ),
+                                  ),
+                                  const Spacer(),
+                                  Text(
+                                    'اخبار',
                                     style: TextStyle(
                                       fontFamily: 'VB',
                                       fontSize: 16,
@@ -207,44 +226,35 @@ class _MyHomeScreenState extends State<MyHomeScreen> {
                                       color: blueDark,
                                     ),
                                   ),
-                                ),
-                                const Spacer(),
-                                Text(
-                                  'اخبار',
-                                  style: TextStyle(
-                                    fontFamily: 'VB',
-                                    fontSize: 16,
-                                    // fontWeight: FontWeight.w600,
-                                    color: blueDark,
-                                  ),
-                                ),
-                              ],
-                            )),
+                                ],
+                              )),
+                        ),
                       ),
-                    ),
-                    SliverPadding(
-                      padding: const EdgeInsets.only(bottom: 80),
-                      sliver: SliverList(
-                        delegate: SliverChildBuilderDelegate((context, index) {
-                          return _getNewsCover(index, state);
-                        }, childCount: state.newsModl.length),
-                      ),
-                    )
-                  ],
-                ),
-              );
+                      SliverPadding(
+                        padding: const EdgeInsets.only(bottom: 80),
+                        sliver: SliverList(
+                          delegate:
+                              SliverChildBuilderDelegate((context, index) {
+                            return _getNewsCover(index, state);
+                          }, childCount: state.newsModl.length),
+                        ),
+                      )
+                    ],
+                  ),
+                );
+              });
             }
             return Container();
           },
         ));
   }
 
-  Widget _getProjectSlider(HomeLoadedState state) {
+  Widget _getProjectSlider(List r) {
     return Stack(
       alignment: AlignmentDirectional.bottomCenter,
       children: [
         CarouselSlider.builder(
-          itemCount: state.projectModel.length,
+          itemCount: r[1].length,
           itemBuilder: (context, index, realIndex) {
             return GestureDetector(
               onTap: () {
@@ -254,7 +264,7 @@ class _MyHomeScreenState extends State<MyHomeScreen> {
                     return BlocProvider(
                       create: (context) => DetailSliderBloc(),
                       child: ShowDetailsOfSliderScreen(
-                          detailsId: state.projectModel[index].idProjectHome),
+                          detailsId: r[1][index].idProjectHome),
                     );
                   },
                 ));
@@ -278,7 +288,7 @@ class _MyHomeScreenState extends State<MyHomeScreen> {
                     ClipRRect(
                       borderRadius: BorderRadius.circular(16),
                       child: CachedNetworkImage(
-                        imageUrl: state.projectModel[index].imageProjectHome,
+                        imageUrl: r[1][index].imageProjectHome,
                         fit: BoxFit.cover,
                         placeholder: (context, url) =>
                             const Center(child: MySpinKit()),
@@ -294,8 +304,8 @@ class _MyHomeScreenState extends State<MyHomeScreen> {
                           mainAxisSize: MainAxisSize.min,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            progressBar(index, state),
-                            _getTitleProjectText(index, state),
+                            progressBar(index, r),
+                            _getTitleProjectText(index, r),
                           ],
                         ),
                       ),
@@ -323,7 +333,7 @@ class _MyHomeScreenState extends State<MyHomeScreen> {
     );
   }
 
-  progressBar(int index, HomeLoadedState state) {
+  progressBar(int index, List r) {
     return Container(
       margin: const EdgeInsets.symmetric(
         vertical: 8,
@@ -332,7 +342,7 @@ class _MyHomeScreenState extends State<MyHomeScreen> {
         center: Align(
           alignment: Alignment.topCenter,
           child: Text(
-            '${state.projectModel[index].pishraftProjectHome.toString().toPersianDigit()}' +
+            '${r[1][index].pishraftProjectHome.toString().toPersianDigit()}' +
                 '%',
             style: Theme.of(context).textTheme.headline5,
           ),
@@ -341,7 +351,7 @@ class _MyHomeScreenState extends State<MyHomeScreen> {
         lineHeight: 18,
         progressColor: Colors.red,
         backgroundColor: Colors.grey[200],
-        percent: state.projectModel[index].pishraftProjectHome / 100,
+        percent: r[1][index].pishraftProjectHome / 100,
         barRadius: const Radius.circular(8),
         animation: true,
         animationDuration: 2000,
@@ -352,11 +362,11 @@ class _MyHomeScreenState extends State<MyHomeScreen> {
     );
   }
 
-  _getTitleProjectText(int index, HomeLoadedState state) {
+  _getTitleProjectText(int index, List r) {
     return Stack(
       children: [
         Text(
-          state.projectModel[index].titleProjectHome,
+          '${r[1][index].titleProjectHome}',
           style: TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.bold,
@@ -367,7 +377,7 @@ class _MyHomeScreenState extends State<MyHomeScreen> {
           ),
         ),
         Text(
-          state.projectModel[index].titleProjectHome,
+          r[1][index].titleProjectHome,
           style: const TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.bold,

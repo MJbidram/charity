@@ -5,10 +5,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class NewsBloc extends Bloc<NewsEvent, NewsState> {
   final NewsRepositorys _repositories = NewsRepositorys();
-  NewsBloc() : super(NewsLoadingState()) {
+  NewsBloc() : super(NewsInitState()) {
     on<LoadNewsApIEvent>((event, emit) async {
+      emit(NewsLoadingState());
       final newsData = await _repositories.getNews();
-      emit(NewsLoadedState(newsModel: newsData));
+      emit(NewsLoadedState(response: newsData));
     });
   }
 }

@@ -37,7 +37,7 @@ class NewsScreen extends StatelessWidget {
     );
   }
 
-  Scaffold _getBody(BuildContext context, NewsLoadedState state) {
+  Scaffold _getBody(BuildContext context, dynamic state) {
     return Scaffold(
       backgroundColor: white,
 
@@ -149,7 +149,7 @@ class NewsScreen extends StatelessWidget {
                     ),
                     Text(
                       // '111',
-                      state.newsModel[newsindex].newsDate.toPersianDate(),
+                      state[newsindex].newsDate.toPersianDate(),
                       style: const TextStyle(fontFamily: 'Vl', fontSize: 14),
                     ),
                     // const Spacer(),
@@ -188,7 +188,7 @@ class NewsScreen extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: Text(
                     // 'dafaf',
-                    state.newsModel[newsindex].newsTitile,
+                    state[newsindex].newsTitile,
                     style: Theme.of(context).textTheme.headline5,
                     textDirection: TextDirection.rtl,
                     textAlign: TextAlign.justify,
@@ -201,7 +201,7 @@ class NewsScreen extends StatelessWidget {
             padding: const EdgeInsets.only(bottom: 32, right: 12, left: 12),
             sliver: SliverToBoxAdapter(
                 child: Html(
-              data: state.newsModel[newsindex].newsText,
+              data: state[newsindex].newsText,
             )),
           ),
           // SliverPadding(

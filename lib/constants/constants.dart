@@ -35,4 +35,10 @@ class ApiAddress {
   static const String secandType = 'type?sub=';
   static const String darkhast = 'profile/darkhasts';
   static const String factors = 'profile/faktoors';
+  static const String damandType = 'profile/darkhasts/type';
+  static const String damand = 'sprofile/ darkhasts';
+}
+
+class ErrorsMessages {
+  static const String unAvailable = 'خیره در دسترس نمیباشد';
 }
