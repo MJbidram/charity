@@ -1,12 +1,15 @@
 import 'package:charity/bloc/factors_bloc/factors_bloc.dart';
 import 'package:charity/constants/constants.dart';
 import 'package:charity/main.dart';
+import 'package:charity/screens/pages/editProfile_screen.dart';
 import 'package:charity/screens/pages/factors_screen.dart';
 import 'package:charity/screens/pages/login_screen.dart';
 import 'package:charity/util/auth_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+
+import '../../bloc/profile_edit_bloc/profile_edit_bloc.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -83,30 +86,38 @@ class ProfileScreen extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // TextButton(
-                //   onPressed: () {},
-                //   child: Column(
-                //     crossAxisAlignment: CrossAxisAlignment.start,
-                //     children: [
-                //       Padding(
-                //         padding: const EdgeInsets.only(right: 45),
-                //         child: Text(
-                //           'ویرایش پروفایل',
-                //           style: Theme.of(context).textTheme.headline6,
-                //           textAlign: TextAlign.start,
-                //         ),
-                //       ),
-                //       const Padding(
-                //         padding: EdgeInsets.symmetric(horizontal: 40),
-                //         child: Divider(
-                //           color: Colors.grey,
-                //           height: 15,
-                //           thickness: 1,
-                //         ),
-                //       )
-                //     ],
-                //   ),
-                // ),
+                TextButton(
+                  onPressed: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) {
+                      return BlocProvider(
+                        create: (context) => PorfileEditBloc(),
+                        child: const ProfileEditScreen(),
+                      );
+                    }));
+                  },
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(right: 45),
+                        child: Text(
+                          'ویرایش پروفایل',
+                          style: Theme.of(context).textTheme.headline6,
+                          textAlign: TextAlign.start,
+                        ),
+                      ),
+                      const Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 40),
+                        child: Divider(
+                          color: Colors.grey,
+                          height: 15,
+                          thickness: 1,
+                        ),
+                      )
+                    ],
+                  ),
+                ),
                 // TextButton(
                 //   onPressed: () {},
                 //   child: Column(

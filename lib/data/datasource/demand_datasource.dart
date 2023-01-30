@@ -7,8 +7,14 @@ import 'package:dio/dio.dart';
 
 //دیتاسورس مربوط به درخواست ها
 abstract class IDamandDateasource {
-  Future<List<DamandModle>> followUpDamand(String token);
-  Future<List<DamandTypeModel>> getDamandTypes(String token);
+  //پیگیری وضعیت درخواست
+  Future<List<DamandListModle>> followUpDamand(String token);
+  //دریافت نوع نوع درخواست ها
+  Future<List<DamandFirstTypeModel>> getDamandTypes(String token);
+  //دریافت نوع جزئی تر درخواست ها
+  Future<List<DamandSecandTypeModel>> getDamandSecandTypes(
+      String token, String firsType);
+  //ارسال درخواست
   Future<String> sendDamand(String token);
 }
 
@@ -16,12 +22,13 @@ class DamandRemote extends IDamandDateasource {
   final Dio _dio = locator.get();
 
   @override
-  Future<List<DamandModle>> followUpDamand(String token) async {
+  Future<List<DamandListModle>> followUpDamand(String token) async {
     try {
       _dio.options.headers["Authorization"] = "Bearer $token";
       final response = await _dio.get(ApiAddress.damand);
       return response.data['data']
-          .map<DamandModle>((jsonObject) => DamandModle.fromJsonMap(jsonObject))
+          .map<DamandListModle>(
+              (jsonObject) => DamandListModle.fromJsonMap(jsonObject))
           .toList();
     } on DioError catch (e) {
       throw ApiException(e.response?.statusCode, e.message);
@@ -32,9 +39,39 @@ class DamandRemote extends IDamandDateasource {
   }
 
   @override
-  Future<List<DamandTypeModel>> getDamandTypes(String token) {
-    // TODO: implement getDamandTypes
-    throw UnimplementedError();
+  Future<List<DamandFirstTypeModel>> getDamandTypes(String token) async {
+    try {
+      _dio.options.headers["Authorization"] = "Bearer $token";
+      final response = await _dio.get(ApiAddress.damandType);
+      return response.data['data']
+          .map<DamandFirstTypeModel>(
+              (jsonObject) => DamandFirstTypeModel.fromJsonMap(jsonObject))
+          .toList();
+    } on DioError catch (e) {
+      throw ApiException(e.response?.statusCode, e.message);
+    } catch (e) {
+      print(e);
+      throw ApiException(0, 'خطای ناشناخته');
+    }
+  }
+
+  @override
+  Future<List<DamandSecandTypeModel>> getDamandSecandTypes(
+      String token, String firsType) async {
+    try {
+      _dio.options.headers["Authorization"] = "Bearer $token";
+      final response = await _dio.get(ApiAddress.damandSecandType + firsType);
+
+      return response.data['data']
+          .map<DamandSecandTypeModel>(
+              (jsonObject) => DamandSecandTypeModel.fromJsonMap(jsonObject))
+          .toList();
+    } on DioError catch (e) {
+      throw ApiException(e.response?.statusCode, e.message);
+    } catch (e) {
+      print(e);
+      throw ApiException(0, 'خطای ناشناخته');
+    }
   }
 
   @override

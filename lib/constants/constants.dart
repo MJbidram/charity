@@ -36,7 +36,10 @@ class ApiAddress {
   static const String darkhast = 'profile/darkhasts';
   static const String factors = 'profile/faktoors';
   static const String damandType = 'profile/darkhasts/type';
-  static const String damand = 'sprofile/ darkhasts';
+  static const String damandSecandType = 'profile/darkhasts/type?sub=';
+  static const String damand = 'profile/darkhasts';
+  static const String profile = 'profile';
+  static const String profileUpdate = 'profile/update';
 }
 
 class ErrorsMessages {

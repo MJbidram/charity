@@ -1,8 +1,10 @@
 import 'package:charity/bloc/charity_bloc/chrity_bloc.dart';
+import 'package:charity/bloc/damand_bloc/damand_bloc.dart';
 import 'package:charity/bloc/home_bloc/home_bloc.dart';
 import 'package:charity/bloc/news_page_bloc/news_page_block.dart';
 import 'package:charity/constants/constants.dart';
 import 'package:charity/screens/pages/charity_screen.dart';
+import 'package:charity/screens/pages/damand_screen.dart';
 import 'package:charity/screens/pages/home_screen.dart';
 import 'package:charity/screens/pages/news_list_screen.dart';
 import 'package:charity/screens/pages/profile_screen.dart';
@@ -139,8 +141,9 @@ class _MainScreenState extends State<MainScreen> {
       children: [
         BlocProvider(
             create: (context) => HomeBloc(), child: const MyHomeScreen()),
-        Container(
-          color: blueDark,
+        BlocProvider(
+          create: (context) => DamandBloc(),
+          child: const DamandScreen(),
         ),
         BlocProvider(create: (context) => NewsBloc(), child: NewsListPage()),
         const ProfileScreen()

@@ -54,11 +54,11 @@ class _MyAppState extends State<MyApp> {
         Locale("fa", "IR"), // OR Locale('ar', 'AE') OR Other RTL locales
       ],
       locale: Locale("fa", "IR"),
-      // home: BlocProvider(
-      //   create: (context) => SplashBloc(),
-      //   child: const SplashScreen(),
-      // ),
-      home: DamandScreen(),
+      home: BlocProvider(
+        create: (context) => SplashBloc(),
+        child: const SplashScreen(),
+      ),
+      // home: DamandScreen(),
       theme: ThemeData(
         fontFamily: 'VB',
         backgroundColor: Colors.grey[200],
