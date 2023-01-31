@@ -1,6 +1,7 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:charity/bloc/profile_edit_bloc/profile_edit_state.dart';
 import 'package:charity/constants/constants.dart';
+import 'package:charity/screens/widget/snakbar.dart';
 import 'package:charity/screens/widget/spin_kit.dart';
 import 'package:charity/util/auth_manager.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +12,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../bloc/profile_edit_bloc/profile_edit_bloc.dart';
 import '../../bloc/profile_edit_bloc/profile_edit_event.dart';
+import '../widget/error_box.dart';
 
 FocusNode _myFocusNodename = FocusNode();
 FocusNode _myFocusNodeemail = FocusNode();
@@ -27,10 +29,15 @@ class ProfileEditScreen extends StatefulWidget {
 }
 
 class _ProfileEditScreenState extends State<ProfileEditScreen> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   TextEditingController? nameC;
   TextEditingController? phoneC;
   TextEditingController? emailC;
   TextEditingController? addressC;
+  String name = '';
+  String phone = '';
+  String email = '';
+  String address = '';
   @override
   void initState() {
     BlocProvider.of<PorfileEditBloc>(context).add(LoadDetailsProfileEvent());
@@ -49,20 +56,29 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
         }
         if (state is ProfileEditLoadedState) {
           return state.response.fold((l) {
-            return CustomScrollView(
-              slivers: [
-                appBar(context),
-                SliverToBoxAdapter(
-                  child: Text(l),
-                )
-              ],
+            SchedulerBinding.instance.addPostFrameCallback((_) {
+              mySnackBar(
+                context,
+                l == ErrorsMessages.unAvailable ? l : 'خطا در برقراری ارتباط',
+                onTap: () {
+                  context
+                      .read<PorfileEditBloc>()
+                      .add(LoadDetailsProfileEvent());
+                },
+              );
+            });
+
+            return ErrorBox(
+              errorMessage: l,
+              onTap: () {
+                context.read<PorfileEditBloc>().add(LoadDetailsProfileEvent());
+              },
             );
           }, (r) {
             nameC = TextEditingController(text: r.name);
             phoneC = TextEditingController(text: r.phone);
             emailC = TextEditingController(text: r.email);
-            print(r.address);
-            print('.....');
+
             addressC =
                 TextEditingController(text: r.address ?? 'آدرسی ثبت نشده است');
             return CustomScrollView(
@@ -103,15 +119,24 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
                       onPressed: () {
                         print('${AuthManager.authChangeNotifire.value}');
 
-                        print(nameC!.text);
-                        print(addressC!.text);
-                        print(phoneC!.text);
-                        print(emailC!.text);
+                        if (r.address != addressC!.text) {
+                          address = addressC!.text;
+                        }
+                        if (r.name != nameC!.text) {
+                          name = nameC!.text;
+                        }
+                        if (r.email != emailC!.text) {
+                          email = emailC!.text;
+                        }
+                        if (r.phone != phoneC!.text) {
+                          phone = phoneC!.text;
+                        }
+
                         context.read<PorfileEditBloc>().add(SetEditProfileEvent(
-                              address: addressC!.text,
-                              email: emailC!.text,
-                              phone: phoneC!.text,
-                              username: nameC!.text,
+                              address: address,
+                              email: email,
+                              phone: phone,
+                              username: name,
                             ));
                       },
                       style: ElevatedButton.styleFrom(
@@ -130,18 +155,35 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
         }
         if (state is ProfileEditSetCahngeState) {
           return state.response.fold((l) {
-            return Center(
-              child: Text(l),
+            SchedulerBinding.instance.addPostFrameCallback((_) {
+              mySnackBar(
+                context,
+                l == ErrorsMessages.unAvailable
+                    ? l
+                    : 'ویرایش اطلاعات نا موفق بود',
+                onTap: () {
+                  context
+                      .read<PorfileEditBloc>()
+                      .add(LoadDetailsProfileEvent());
+                },
+              );
+            });
+
+            return ErrorBox(
+              errorMessage: l,
+              onTap: () {
+                context.read<PorfileEditBloc>().add(LoadDetailsProfileEvent());
+              },
             );
           }, (r) {
             SchedulerBinding.instance.addPostFrameCallback((_) {
               AwesomeDialog(
                       context: context,
                       animType: AnimType.scale,
-                      dialogType: DialogType.error,
+                      dialogType: DialogType.success,
                       body: const Center(
                         child: Text(
-                          'hello',
+                          'اطلاعات شما با موفقیت تغییر یافت',
                           style: TextStyle(fontStyle: FontStyle.italic),
                         ),
                       ),

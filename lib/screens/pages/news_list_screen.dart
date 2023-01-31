@@ -12,6 +12,7 @@ import 'package:charity/screens/pages/news_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../widget/error_box.dart';
 import '../widget/spin_kit.dart';
 
 class NewsListPage extends StatelessWidget {
@@ -41,8 +42,14 @@ class NewsListPage extends StatelessWidget {
               return state.response.fold((l) {
                 return Text('خطای ناشناخته');
               }, (r) => body(context, r));
+            } else {
+              return ErrorBox(
+                errorMessage: 'خطا در دریافت اطلاعات',
+                onTap: () {
+                  context.read<NewsBloc>().add(LoadNewsApIEvent());
+                },
+              );
             }
-            return Container();
           },
         ));
   }

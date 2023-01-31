@@ -16,6 +16,7 @@ import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import '../../bloc/details_of_sliders/details_bloc.dart';
 import '../../models/charity_model.dart';
+import '../widget/error_box.dart';
 import '../widget/spin_kit.dart';
 
 class MyHomeScreen extends StatefulWidget {
@@ -243,8 +244,14 @@ class _MyHomeScreenState extends State<MyHomeScreen> {
                   ),
                 );
               });
+            } else {
+              return ErrorBox(
+                errorMessage: 'خطا در دریافت اطلاعات',
+                onTap: () {
+                  context.read<HomeBloc>().add(LoadApiEvent());
+                },
+              );
             }
-            return Container();
           },
         ));
   }

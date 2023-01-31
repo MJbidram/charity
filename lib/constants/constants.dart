@@ -33,11 +33,12 @@ class ApiAddress {
       'https://kheiriehemamali.ir/blog/wp-json/wp/v2/posts';
   static const String type = 'type';
   static const String secandType = 'type?sub=';
-  static const String darkhast = 'profile/darkhasts';
+
   static const String factors = 'profile/faktoors';
   static const String damandType = 'profile/darkhasts/type';
   static const String damandSecandType = 'profile/darkhasts/type?sub=';
   static const String damand = 'profile/darkhasts';
+  static const String creatDamand = 'profile/darkhasts/create';
   static const String profile = 'profile';
   static const String profileUpdate = 'profile/update';
 }

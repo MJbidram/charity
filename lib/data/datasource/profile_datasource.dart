@@ -48,27 +48,34 @@ class ProfileRemote extends ProfileDataSource {
     // required String paswordConfirm,
   }) async {
     try {
+      var details = new Map();
       _dio.options.headers["Authorization"] = "Bearer $token";
       print('.......');
-      print(username);
-      print(phone);
-      print(email);
-      print(address);
-      final response = await _dio.post(ApiAddress.profileUpdate, data: {
-        'name': username,
-        'phone': phone,
-        'email': email,
-        'address': address,
-        // 'password': password,
-        // 'password_confirmation': paswordConfirm,
-        // 'device_name': deviceName,
-      });
-      print('${response.data['status']}');
-      print('${response.data['status']}');
-      print('${response.data['status']}');
-      print('${response.data['status']}');
-      return ProfileUpdateModel.fromJsonMap(response.data);
+      print('.......');
+      print('.......');
+
+      if (username.isNotEmpty) {
+        details['name'] = username;
+      }
+      if (phone.isNotEmpty) {
+        details['phone'] = phone;
+      }
+      if (email.isNotEmpty) {
+        details['email'] = email;
+      }
+      if (address.isNotEmpty) {
+        details['address'] = address;
+      }
+      if (details.isNotEmpty) {
+        final response =
+            await _dio.post(ApiAddress.profileUpdate, data: details);
+
+        return ProfileUpdateModel.fromJsonMap(response.data);
+      } else {
+        throw ApiException(0, 'تغییری ایجاد نشده است');
+      }
     } on DioError catch (e) {
+      print(e);
       throw ApiException(e.response?.statusCode, e.message);
     } catch (e) {
       print(e);

@@ -15,7 +15,7 @@ abstract class IDamandRepository {
   //درییافت نوع دوم
   Future<Either<String, List<DamandSecandTypeModel>>> getDamandSecandTypes(
       String firstType);
-  Future<Either<String, String>> sendDamand();
+  Future<Either<String, String>> sendDamand(String description, String type);
 }
 
 class DamandRepository extends IDamandRepository {
@@ -68,8 +68,17 @@ class DamandRepository extends IDamandRepository {
   }
 
   @override
-  Future<Either<String, String>> sendDamand() {
-    // TODO: implement sendDamand
-    throw UnimplementedError();
+  Future<Either<String, String>> sendDamand(
+      String description, String type) async {
+    try {
+      var response = await _datasource.sendDamand(token!, description, type);
+      return right(response);
+    } on ApiException catch (e) {
+      if (e.code == 304) {
+        return left(ErrorsMessages.unAvailable);
+      } else {
+        return left(e.message ?? 'خطا محتوای متنی ندارد');
+      }
+    }
   }
 }

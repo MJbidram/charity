@@ -24,13 +24,15 @@ class NewsRepositorys {
         return left(ErrorsMessages.unAvailable);
       }
       if (e.response != null) {
-        print('Dio error!');
-        print('STATUS: ${e.response?.statusCode}');
-        print('DATA: ${e.response?.data}');
-        print('HEADERS: ${e.response?.headers}');
+        return left(e.message);
+        // print('Dio error!');
+        // print('STATUS: ${e.response?.statusCode}');
+        // print('DATA: ${e.response?.data}');
+        // print('HEADERS: ${e.response?.headers}');
       } else {
         print('Error sending request!');
         print(e.message);
+        return left('خطای ناشناخته');
       }
     }
     // await dioPostHeader(ApiAddress.newsAddressHome);

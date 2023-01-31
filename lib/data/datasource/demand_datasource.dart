@@ -15,7 +15,7 @@ abstract class IDamandDateasource {
   Future<List<DamandSecandTypeModel>> getDamandSecandTypes(
       String token, String firsType);
   //ارسال درخواست
-  Future<String> sendDamand(String token);
+  Future<String> sendDamand(String token, String description, String type);
 }
 
 class DamandRemote extends IDamandDateasource {
@@ -75,8 +75,19 @@ class DamandRemote extends IDamandDateasource {
   }
 
   @override
-  Future<String> sendDamand(String token) {
-    // TODO: implement sendDamand
-    throw UnimplementedError();
+  Future<String> sendDamand(
+      String token, String description, String type) async {
+    try {
+      final response = await _dio.post(ApiAddress.creatDamand, data: {
+        'description': description,
+        'type': type,
+      });
+      return 'عملیات موفق';
+    } on DioError catch (e) {
+      throw ApiException(e.response?.statusCode, e.message);
+    } catch (e) {
+      print(e);
+      throw ApiException(0, 'خطای ناشناخته');
+    }
   }
 }
