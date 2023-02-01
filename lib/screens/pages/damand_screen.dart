@@ -44,8 +44,8 @@ class _DamandScreenState extends State<DamandScreen> {
 
   @override
   void initState() {
-    BlocProvider.of<DamandBloc>(context).add(GetDamandFirstTypeEvent());
     super.initState();
+    BlocProvider.of<DamandBloc>(context).add(GetDamandFirstTypeEvent());
   }
 
   @override

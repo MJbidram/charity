@@ -3,18 +3,24 @@ class DamandListModle {
   int id;
   String title;
   String description;
-  String date;
+  // String? date;
   String status;
 
   DamandListModle(
-      this.id, this.title, this.description, this.date, this.status);
+      this.id,
+      this.title,
+      this.description,
+      //  this.date,
+      this.status);
   factory DamandListModle.fromJsonMap(Map<String, dynamic> jsonObject) {
     return DamandListModle(
       jsonObject['id'],
       jsonObject['title'],
+
       jsonObject['description'],
-      jsonObject['date'],
-      jsonObject['status'],
+      // jsonObject['date'],
+
+      jsonObject['status_title'],
     );
   }
 }

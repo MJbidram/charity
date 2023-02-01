@@ -1,4 +1,5 @@
 import 'package:charity/bloc/factors_bloc/factors_bloc.dart';
+import 'package:charity/bloc/followup_bloc/followup_bloc.dart';
 import 'package:charity/constants/constants.dart';
 import 'package:charity/main.dart';
 import 'package:charity/screens/pages/editProfile_screen.dart';
@@ -10,6 +11,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 import '../../bloc/profile_edit_bloc/profile_edit_bloc.dart';
+import 'followup_damand_screen.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -159,6 +161,38 @@ class ProfileScreen extends StatelessWidget {
                         padding: const EdgeInsets.only(right: 45),
                         child: Text(
                           'لیست پرداخت ها ',
+                          style: Theme.of(context).textTheme.headline6,
+                          textAlign: TextAlign.start,
+                        ),
+                      ),
+                      const Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 40),
+                        child: Divider(
+                          color: Colors.grey,
+                          height: 15,
+                          thickness: 1,
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+                TextButton(
+                  onPressed: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) {
+                      return BlocProvider(
+                        create: (context) => FollowUpDamandBloc(),
+                        child: const FollowUpDamandScreen(),
+                      );
+                    }));
+                  },
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(right: 45),
+                        child: Text(
+                          'پیگیری وضعیت درخواست ها',
                           style: Theme.of(context).textTheme.headline6,
                           textAlign: TextAlign.start,
                         ),

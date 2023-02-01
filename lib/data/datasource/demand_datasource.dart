@@ -25,7 +25,7 @@ class DamandRemote extends IDamandDateasource {
   Future<List<DamandListModle>> followUpDamand(String token) async {
     try {
       _dio.options.headers["Authorization"] = "Bearer $token";
-      final response = await _dio.get(ApiAddress.damand);
+      final response = await _dio.get(ApiAddress.damandList);
       return response.data['data']
           .map<DamandListModle>(
               (jsonObject) => DamandListModle.fromJsonMap(jsonObject))
