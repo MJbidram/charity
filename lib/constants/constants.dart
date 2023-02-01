@@ -41,6 +41,8 @@ class ApiAddress {
   static const String creatDamand = 'profile/darkhasts/create';
   static const String profile = 'profile';
   static const String profileUpdate = 'profile/update';
+  static const String repayLink = 'https://khapp.kheiriehemamali.ir/invoice/';
+  static const String shareFactors = 'khapp.kheiriehemamali.ir/fk/';
 }
 
 class ErrorsMessages {
