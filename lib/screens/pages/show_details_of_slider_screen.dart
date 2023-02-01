@@ -11,6 +11,7 @@ import 'package:charity/screens/widget/botom_sheet_comments.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_html/flutter_html.dart';
+import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:persian_number_utility/persian_number_utility.dart';
 
 import '../widget/image_slider.dart';
@@ -58,11 +59,13 @@ class _ShowDetailsOfSliderScreenState extends State<ShowDetailsOfSliderScreen> {
               );
             }, (r) {
               return Body(
-                  id: r.typePay,
-                  title: r.title,
-                  date: 'k',
-                  description: r.description,
-                  imageUrl: r.imageUrl);
+                amunt: r.amount.toString(),
+                id: r.typePay,
+                title: r.title,
+                date: 'k',
+                description: r.description,
+                imageUrl: r.imageUrl,
+              );
             });
           }
           if (state is DetailShowProjectsState) {
@@ -73,11 +76,13 @@ class _ShowDetailsOfSliderScreenState extends State<ShowDetailsOfSliderScreen> {
               );
             }, (r) {
               return Body(
-                  id: r.id,
-                  title: r.title,
-                  date: 'k',
-                  description: r.description,
-                  imageUrl: r.imageUrl);
+                id: r.id,
+                title: r.title,
+                date: 'k',
+                description: r.description,
+                imageUrl: r.imageUrl,
+                index: r.pishraft,
+              );
             });
           } else {
             return const Center(
@@ -96,12 +101,16 @@ class Body extends StatelessWidget {
   String date;
   String description;
   String title;
+  int? index;
+  String? amunt;
   Body({
     required this.title,
     required this.date,
     required this.description,
     required this.imageUrl,
     required this.id,
+    this.index,
+    this.amunt,
     Key? key,
   }) : super(key: key);
 
@@ -180,7 +189,7 @@ class Body extends StatelessWidget {
         slivers: [
           const SliverPadding(
             padding: EdgeInsets.symmetric(
-              vertical: 32,
+              vertical: 16,
               horizontal: 16,
             ),
             // sliver: SliverToBoxAdapter(
@@ -226,7 +235,7 @@ class Body extends StatelessWidget {
           ),
           SliverPadding(
             padding: const EdgeInsets.only(
-              bottom: 16,
+              bottom: 8,
             ),
             sliver: SliverToBoxAdapter(
               child: Align(
@@ -244,6 +253,38 @@ class Body extends StatelessWidget {
               ),
             ),
           ),
+          MainScreen.isPooyeshSelected == true
+              ? SliverPadding(
+                  padding: EdgeInsets.only(bottom: 8, right: 16, left: 16),
+                  sliver: SliverToBoxAdapter(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(' هزینه مورد نیاز'),
+                        Spacer(),
+                        Text('${amunt?.toWord()} تومان'),
+                        Spacer(),
+                        Text('${amunt?.toPersianDigit().seRagham()}'),
+                      ],
+                    ),
+                  ),
+                )
+              : SliverToBoxAdapter(),
+          MainScreen.isPooyeshSelected == false
+              ? SliverPadding(
+                  padding: EdgeInsets.only(bottom: 8, right: 16, left: 16),
+                  sliver: SliverToBoxAdapter(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(' پیشرفت'),
+                        Spacer(),
+                        progressBar(index ?? 0, context),
+                      ],
+                    ),
+                  ),
+                )
+              : SliverToBoxAdapter(),
           SliverPadding(
             padding: const EdgeInsets.only(bottom: 32, right: 12, left: 12),
             sliver: SliverToBoxAdapter(
@@ -292,6 +333,34 @@ class Body extends StatelessWidget {
             )),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget progressBar(int index, BuildContext context) {
+    return Container(
+      margin: EdgeInsets.symmetric(
+        vertical: 8,
+      ),
+      child: LinearPercentIndicator(
+        center: Align(
+          alignment: Alignment.topCenter,
+          child: Text(
+            index.toString().toPersianDigit() + '%',
+            style: Theme.of(context).textTheme.headline4,
+          ),
+        ),
+        width: MediaQuery.of(context).size.width / 1.4,
+        lineHeight: 18,
+        progressColor: Colors.red,
+        backgroundColor: Colors.grey[200],
+        percent: 70 / 100,
+        barRadius: Radius.circular(8),
+        animation: true,
+        animationDuration: 2000,
+        alignment: MainAxisAlignment.center,
+        padding: EdgeInsets.symmetric(horizontal: 8),
+        restartAnimation: false,
       ),
     );
   }

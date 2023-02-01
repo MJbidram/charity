@@ -143,7 +143,7 @@ class _ImageSliderScreenState extends State<ImageSliderScreen> {
                           mainAxisSize: MainAxisSize.min,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            progressBar(index),
+                            // progressBar(index),
                             _getTitleText(index),
                           ],
                         ),

@@ -13,7 +13,7 @@ class NewsLoadingState extends NewsState {}
 
 class NewsLoadedState extends NewsState {
   // final List<NewsModel> newsModel;
-  final Either response;
+  final Either<String, List<NewsModel>> response;
 
   NewsLoadedState(
       {
