@@ -43,6 +43,8 @@ class ApiAddress {
   static const String profileUpdate = 'profile/update';
   static const String repayLink = 'https://khapp.kheiriehemamali.ir/invoice/';
   static const String shareFactors = 'khapp.kheiriehemamali.ir/fk/';
+  static const String deletedamand = 'profile/darkhasts/delete?id=';
+  static const String aboutUs = '/about';
 }
 
 class ErrorsMessages {

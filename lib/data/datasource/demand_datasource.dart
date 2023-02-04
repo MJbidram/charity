@@ -16,6 +16,7 @@ abstract class IDamandDateasource {
       String token, String firsType);
   //ارسال درخواست
   Future<String> sendDamand(String token, String description, String type);
+  Future<String> deleteDaman(String token, String id);
 }
 
 class DamandRemote extends IDamandDateasource {
@@ -26,6 +27,7 @@ class DamandRemote extends IDamandDateasource {
     try {
       _dio.options.headers["Authorization"] = "Bearer $token";
       final response = await _dio.get(ApiAddress.damandList);
+
       return response.data['data']
           .map<DamandListModle>(
               (jsonObject) => DamandListModle.fromJsonMap(jsonObject))
@@ -43,6 +45,7 @@ class DamandRemote extends IDamandDateasource {
     try {
       _dio.options.headers["Authorization"] = "Bearer $token";
       final response = await _dio.get(ApiAddress.damandType);
+
       return response.data['data']
           .map<DamandFirstTypeModel>(
               (jsonObject) => DamandFirstTypeModel.fromJsonMap(jsonObject))
@@ -78,12 +81,29 @@ class DamandRemote extends IDamandDateasource {
   Future<String> sendDamand(
       String token, String description, String type) async {
     try {
+      _dio.options.headers["Authorization"] = "Bearer $token";
       final response = await _dio.post(ApiAddress.creatDamand, data: {
         'description': description,
         'type': type,
       });
       return 'عملیات موفق';
     } on DioError catch (e) {
+      throw ApiException(e.response?.statusCode, e.message);
+    } catch (e) {
+      print(e);
+      throw ApiException(0, 'خطای ناشناخته');
+    }
+  }
+
+  @override
+  Future<String> deleteDaman(String token, String id) async {
+    try {
+      _dio.options.headers["Authorization"] = "Bearer $token";
+      final response = await _dio.delete(ApiAddress.deletedamand + id);
+
+      return 'عملیات موفق';
+    } on DioError catch (e) {
+      print(e.message);
       throw ApiException(e.response?.statusCode, e.message);
     } catch (e) {
       print(e);

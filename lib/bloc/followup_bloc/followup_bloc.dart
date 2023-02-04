@@ -13,5 +13,10 @@ class FollowUpDamandBloc extends Bloc<FollowUpEvent, FollowUpState> {
       var response = await repository.followUpDamand();
       emit(FollowUpLoadedState(response));
     });
+    on<FollowUpDeletEvent>((event, emit) async {
+      emit(FollowUpInitState());
+      var response = await repository.deleteDmand(event.id);
+      emit(FollowUpDeleteState(response));
+    });
   }
 }

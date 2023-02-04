@@ -4,10 +4,13 @@ import 'package:charity/bloc/home_bloc/home_bloc.dart';
 import 'package:charity/bloc/home_bloc/home_event.dart';
 import 'package:charity/bloc/home_bloc/home_state.dart';
 import 'package:charity/constants/constants.dart';
+import 'package:charity/models/home_models.dart';
 import 'package:charity/screens/pages/main_screen.dart';
 import 'package:charity/screens/pages/news_screen.dart';
 import 'package:charity/screens/pages/show_details_of_slider_screen.dart';
 import 'package:charity/screens/widget/image_slider.dart';
+import 'package:charity/util/home_items_metods.dart';
+import 'package:dartz/dartz_unsafe.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:percent_indicator/percent_indicator.dart';
@@ -84,7 +87,9 @@ class _MyHomeScreenState extends State<MyHomeScreen> {
                           background: Padding(
                             padding: EdgeInsets.only(
                                 top: MediaQuery.of(context).viewPadding.top),
-                            child: ImageSliderScreen(myModelList: r[0]),
+                            child: r[0].length == 0
+                                ? _getProjectSlider(r)
+                                : ImageSliderScreen(myModelList: r[0]),
                           ),
                         ),
                       ),
@@ -93,20 +98,21 @@ class _MyHomeScreenState extends State<MyHomeScreen> {
                   body: CustomScrollView(
                     slivers: [
                       SliverPadding(
-                        padding: const EdgeInsets.only(top: 20),
+                        padding:
+                            const EdgeInsets.only(top: 20, right: 16, left: 16),
                         sliver: SliverGrid(
                           delegate: SliverChildBuilderDelegate(
                             (context, index) {
-                              return _getIcons();
+                              return _getIcons(r[3][index]);
                             },
-                            childCount: 8,
+                            childCount: r[3].length,
                           ),
                           gridDelegate:
                               const SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: 4,
-                            crossAxisSpacing: 18,
+                            crossAxisSpacing: 8,
                             mainAxisSpacing: 18,
-                            mainAxisExtent: 100,
+                            mainAxisExtent: 150,
                           ),
                         ),
                       ),
@@ -151,52 +157,58 @@ class _MyHomeScreenState extends State<MyHomeScreen> {
                           ),
                         ),
                       ),
-                      SliverToBoxAdapter(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const SizedBox(
-                              height: 16,
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(right: 16.0),
-                              child: Text(
-                                'پروژه ها',
-                                style: Theme.of(context).textTheme.headline5,
+                      r[0].length != 0
+                          ? SliverToBoxAdapter(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  const SizedBox(
+                                    height: 16,
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(right: 16.0),
+                                    child: Text(
+                                      'پروژه ها',
+                                      style:
+                                          Theme.of(context).textTheme.headline5,
+                                    ),
+                                  ),
+                                  // پروژه ها
+                                  Container(
+                                      margin: const EdgeInsets.only(top: 8),
+                                      decoration:
+                                          BoxDecoration(gradient: blueGradient),
+                                      child: Column(
+                                        children: [
+                                          const SizedBox(
+                                            height: 16,
+                                          ),
+                                          _getProjectSlider(r),
+                                          const SizedBox(
+                                            height: 8,
+                                          ),
+                                          AnimatedSmoothIndicator(
+                                            activeIndex: changePage,
+                                            count: r[1].length,
+                                            effect: ExpandingDotsEffect(
+                                              dotHeight: 10,
+                                              dotWidth: 10,
+                                              expansionFactor: 5,
+                                              dotColor: Colors.white,
+                                              activeDotColor: blueLight,
+                                            ),
+                                          ),
+                                          const SizedBox(
+                                            height: 12,
+                                          ),
+                                        ],
+                                      )),
+                                ],
                               ),
+                            )
+                          : const SliverToBoxAdapter(
+                              child: SizedBox(height: 4),
                             ),
-                            Container(
-                                margin: const EdgeInsets.only(top: 8),
-                                decoration:
-                                    BoxDecoration(gradient: blueGradient),
-                                child: Column(
-                                  children: [
-                                    const SizedBox(
-                                      height: 16,
-                                    ),
-                                    _getProjectSlider(r),
-                                    const SizedBox(
-                                      height: 8,
-                                    ),
-                                    AnimatedSmoothIndicator(
-                                      activeIndex: changePage,
-                                      count: r[1].length,
-                                      effect: ExpandingDotsEffect(
-                                        dotHeight: 10,
-                                        dotWidth: 10,
-                                        expansionFactor: 5,
-                                        dotColor: Colors.white,
-                                        activeDotColor: blueLight,
-                                      ),
-                                    ),
-                                    const SizedBox(
-                                      height: 12,
-                                    ),
-                                  ],
-                                )),
-                          ],
-                        ),
-                      ),
                       SliverToBoxAdapter(
                         child: Padding(
                           padding: const EdgeInsets.only(
@@ -395,32 +407,58 @@ class _MyHomeScreenState extends State<MyHomeScreen> {
     );
   }
 
-  Widget _getIcons() {
+  Widget _getIcons(HomeItemsModel itemsModel) {
     return Center(
-      child: Column(mainAxisSize: MainAxisSize.min, children: [
-        Container(
-          height: 54,
-          width: 54,
-          decoration: BoxDecoration(
-            gradient: blueGradient,
-            borderRadius: BorderRadius.circular(16),
-          ),
-          child: const Icon(
-            Icons.sim_card,
-            color: Colors.white,
-            size: 34,
-          ),
-        ),
-        const SizedBox(
-          height: 8,
-        ),
-        const Text(
-          'test',
-          style: TextStyle(
-            fontSize: 14,
-          ),
-        ),
-      ]),
+      child: GestureDetector(
+        onTap: () {
+          ManageHomeItems itemManager =
+              ManageHomeItems(itemsModel.action.cast(), context);
+          itemManager.decoder();
+        },
+        child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                height: 54,
+                width: 54,
+                decoration: BoxDecoration(
+                  gradient: blueGradient,
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                child: Padding(
+                  padding: EdgeInsets.all(4),
+                  child: CachedNetworkImage(
+                    imageUrl: itemsModel.icon,
+                    fit: BoxFit.cover,
+                    placeholder: (context, url) =>
+                        const Center(child: MySpinKit()),
+                    errorWidget: (context, url, error) =>
+                        const Icon(Icons.error),
+                  ),
+                ),
+                // child: const Icon(
+                //   Icons.sim_card,
+                //   color: Colors.white,
+                //   size: 34,
+                // ),
+              ),
+              const SizedBox(
+                height: 8,
+              ),
+              SizedBox(
+                height: 40,
+                child: Text(
+                  itemsModel.title,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 12,
+                  ),
+                ),
+              ),
+            ]),
+      ),
     );
   }
 
@@ -428,7 +466,8 @@ class _MyHomeScreenState extends State<MyHomeScreen> {
     return GestureDetector(
       onTap: () {
         Navigator.of(context).push(MaterialPageRoute(
-            builder: (context) => NewsScreen(newsindex: index)));
+            builder: (context) =>
+                NewsScreen(newsindex: state.newsModl[index].newsId)));
       },
       child: Padding(
         padding: const EdgeInsets.only(right: 16, left: 16, bottom: 16),

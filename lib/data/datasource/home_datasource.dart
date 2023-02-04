@@ -14,6 +14,7 @@ class HomeDataRemote implements HomeDataSource {
 
   late List<HomePooyeshModel> homePooyeshList;
   late List<HomeProjectsModel> homeProjectsList;
+  late List<HomeItemsModel> homeItemsList;
   late HadisModel hadis;
   @override
   Future<List> getHomeData() async {
@@ -29,7 +30,10 @@ class HomeDataRemote implements HomeDataSource {
             .map((jsonObject) => HomeProjectsModel.fromJsonMap(jsonObject))
             .toList()
             .cast<HomeProjectsModel>();
-
+        homeItemsList = homeDataResponse.data['data']['homeItems']
+            .map((jsonObject) => HomeItemsModel.fromJsonMap(jsonObject))
+            .toList()
+            .cast<HomeItemsModel>();
         var jsonObject = homeDataResponse.data['data']['hadis'];
 
         hadis = HadisModel.fromeJsonMap(jsonObject);
@@ -40,6 +44,6 @@ class HomeDataRemote implements HomeDataSource {
     } on DioError catch (e) {
       throw ApiException(e.response?.statusCode, e.message);
     }
-    return [homePooyeshList, homeProjectsList, hadis];
+    return [homePooyeshList, homeProjectsList, hadis, homeItemsList];
   }
 }

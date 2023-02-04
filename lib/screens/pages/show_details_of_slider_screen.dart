@@ -76,7 +76,7 @@ class _ShowDetailsOfSliderScreenState extends State<ShowDetailsOfSliderScreen> {
               );
             }, (r) {
               return Body(
-                id: r.id,
+                id: r.typePay,
                 title: r.title,
                 date: 'k',
                 description: r.description,
@@ -96,7 +96,7 @@ class _ShowDetailsOfSliderScreenState extends State<ShowDetailsOfSliderScreen> {
 }
 
 class Body extends StatelessWidget {
-  int id;
+  int? id;
   String imageUrl;
   String date;
   String description;
@@ -108,7 +108,7 @@ class Body extends StatelessWidget {
     required this.date,
     required this.description,
     required this.imageUrl,
-    required this.id,
+    this.id,
     this.index,
     this.amunt,
     Key? key,
@@ -293,45 +293,88 @@ class Body extends StatelessWidget {
               // data: state.newsModel[newsindex].newsText,
             ),
           ),
-          SliverPadding(
-            padding: const EdgeInsets.only(bottom: 16, right: 16, left: 16),
-            sliver: SliverToBoxAdapter(
-                child: Container(
-              height: 50,
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: blueDark,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(16),
-                  ),
-                ),
-                onPressed: () {
-                  ImageSliderScreen.goToShortcut.value = true;
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => CharityPage(id: id, title: title),
-                      ));
-                },
-                child:
-                    Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                  Text(
-                    MainScreen.isPooyeshSelected
-                        ? 'مشارکت در پروژه'
-                        : 'مشارکت در پروژه ',
-                    style: Theme.of(context).textTheme.headline4,
-                  ),
-                  // const SizedBox(
-                  //   width: 4,
-                  // ),
-                  // const Icon(
-                  //   Icons.question_answer_outlined,
-                  //   size: 24,
-                  // ),
-                ]),
-              ),
-            )),
-          ),
+          MainScreen.isPooyeshSelected
+              ? SliverPadding(
+                  padding:
+                      const EdgeInsets.only(bottom: 16, right: 16, left: 16),
+                  sliver: SliverToBoxAdapter(
+                      child: Container(
+                    height: 50,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: blueDark,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(16),
+                        ),
+                      ),
+                      onPressed: () {
+                        ImageSliderScreen.goToShortcut.value = true;
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  CharityPage(id: id!, title: title),
+                            ));
+                      },
+                      child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              'مشارکت در پویش',
+                              style: Theme.of(context).textTheme.headline4,
+                            ),
+                            // const SizedBox(
+                            //   width: 4,
+                            // ),
+                            // const Icon(
+                            //   Icons.question_answer_outlined,
+                            //   size: 24,
+                            // ),
+                          ]),
+                    ),
+                  )),
+                )
+              : id == null
+                  ? SliverToBoxAdapter()
+                  : SliverPadding(
+                      padding: const EdgeInsets.only(
+                          bottom: 16, right: 16, left: 16),
+                      sliver: SliverToBoxAdapter(
+                          child: Container(
+                        height: 50,
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: blueDark,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(16),
+                            ),
+                          ),
+                          onPressed: () {
+                            ImageSliderScreen.goToShortcut.value = true;
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      CharityPage(id: id!, title: title),
+                                ));
+                          },
+                          child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  'مشارکت در پروژه',
+                                  style: Theme.of(context).textTheme.headline4,
+                                ),
+                                // const SizedBox(
+                                //   width: 4,
+                                // ),
+                                // const Icon(
+                                //   Icons.question_answer_outlined,
+                                //   size: 24,
+                                // ),
+                              ]),
+                        ),
+                      ))),
         ],
       ),
     );
@@ -354,7 +397,7 @@ class Body extends StatelessWidget {
         lineHeight: 18,
         progressColor: Colors.red,
         backgroundColor: Colors.grey[200],
-        percent: 70 / 100,
+        percent: index / 100,
         barRadius: Radius.circular(8),
         animation: true,
         animationDuration: 2000,

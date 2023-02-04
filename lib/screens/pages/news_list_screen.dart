@@ -27,31 +27,33 @@ class NewsListPage extends StatelessWidget {
     );
   }
 
-  Scaffold newsListScreen(BuildContext context) {
-    return Scaffold(
-        extendBody: true,
-        backgroundColor: grey,
-        body: BlocBuilder<NewsBloc, NewsState>(
-          builder: (context, state) {
-            if (state is NewsLoadingState) {
-              return const Center(
-                child: MySpinKit(),
-              );
-            }
-            if (state is NewsLoadedState) {
-              return state.response.fold((l) {
-                return Text('خطای ناشناخته');
-              }, (r) => body(context, r));
-            } else {
-              return ErrorBox(
-                errorMessage: 'خطا در دریافت اطلاعات',
-                onTap: () {
-                  context.read<NewsBloc>().add(LoadNewsApIEvent());
-                },
-              );
-            }
-          },
-        ));
+  SafeArea newsListScreen(BuildContext context) {
+    return SafeArea(
+      child: Scaffold(
+          extendBody: true,
+          backgroundColor: grey,
+          body: BlocBuilder<NewsBloc, NewsState>(
+            builder: (context, state) {
+              if (state is NewsLoadingState) {
+                return const Center(
+                  child: MySpinKit(),
+                );
+              }
+              if (state is NewsLoadedState) {
+                return state.response.fold((l) {
+                  return Text('خطای ناشناخته');
+                }, (r) => body(context, r));
+              } else {
+                return ErrorBox(
+                  errorMessage: 'خطا در دریافت اطلاعات',
+                  onTap: () {
+                    context.read<NewsBloc>().add(LoadNewsApIEvent());
+                  },
+                );
+              }
+            },
+          )),
+    );
   }
 
   CustomScrollView body(BuildContext context, dynamic r) {
@@ -92,7 +94,7 @@ class NewsListPage extends StatelessWidget {
       onTap: () {
         Navigator.of(context).push(MaterialPageRoute(
             builder: (context) => NewsScreen(
-                  newsindex: index,
+                  newsindex: r[index].newsId,
                 )));
       },
       child: Padding(

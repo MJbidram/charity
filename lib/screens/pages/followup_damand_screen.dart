@@ -1,9 +1,11 @@
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:charity/bloc/followup_bloc/followup_bloc.dart';
 import 'package:charity/bloc/followup_bloc/followup_event.dart';
 import 'package:charity/bloc/followup_bloc/followup_state.dart';
 import 'package:charity/models/damand_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -108,19 +110,68 @@ class _FollowUpDamandScreenState extends State<FollowUpDamandScreen> {
                       ),
                     );
                   }, (r) {
-                    return FactoersList(damandListModel: r);
+                    if (r.length == 0) {
+                      return const SliverToBoxAdapter(
+                        child: Center(child: Text('درخواستی ثبت نشده است')),
+                      );
+                    } else {
+                      return FactoersList(damandListModel: r);
+                    }
                   });
                 }
-                return SliverToBoxAdapter(
-                  child: ErrorBox(
-                    errorMessage: 'خطا',
-                    onTap: () {
-                      context
-                          .read<FollowUpDamandBloc>()
-                          .add(FollowUpLoadEvent());
-                    },
-                  ),
-                );
+                if (state is FollowUpDeleteState) {
+                  return state.response.fold((l) {
+                    return SliverToBoxAdapter(
+                      child: ErrorBox(
+                        errorMessage: 'خطا در حذف درخواست',
+                        onTap: () {
+                          context
+                              .read<FollowUpDamandBloc>()
+                              .add(FollowUpLoadEvent());
+                        },
+                      ),
+                    );
+                  }, (r) {
+                    SchedulerBinding.instance.addPostFrameCallback((_) {
+                      AwesomeDialog(
+                              context: context,
+                              animType: AnimType.scale,
+                              dialogType: DialogType.success,
+                              body: const Center(
+                                child: Text(
+                                  'درخواست شما با موفقیت حذف شد',
+                                  style: TextStyle(fontStyle: FontStyle.italic),
+                                ),
+                              ),
+                              title: 'حذف',
+                              desc: '',
+                              btnOkOnPress: () {
+                                context
+                                    .read<FollowUpDamandBloc>()
+                                    .add(FollowUpLoadEvent());
+                              },
+                              btnOkText: 'فهمیدم')
+                          .show();
+                    });
+                    return const SliverToBoxAdapter(
+                      child: Center(
+                          child: Text(
+                        'حذف درخواست موفقیت آمیز بود',
+                      )),
+                    );
+                  });
+                } else {
+                  return SliverToBoxAdapter(
+                    child: ErrorBox(
+                      errorMessage: 'خطا',
+                      onTap: () {
+                        context
+                            .read<FollowUpDamandBloc>()
+                            .add(FollowUpLoadEvent());
+                      },
+                    ),
+                  );
+                }
               },
             ),
           ],
@@ -185,12 +236,12 @@ class _FactoersListState extends State<FactoersList> {
                     children: [
                       Text(
                         'موضوع درخواست',
-                        style: Theme.of(context).textTheme.headline1,
+                        style: Theme.of(context).textTheme.headline3,
                       ),
                       const Spacer(),
                       Text(
                         '${damandListModel[reversedIndex].title}',
-                        style: Theme.of(context).textTheme.headline2,
+                        style: Theme.of(context).textTheme.headline3,
                       ),
                     ],
                   ),
@@ -201,12 +252,12 @@ class _FactoersListState extends State<FactoersList> {
                     children: [
                       Text(
                         'توضیحات',
-                        style: Theme.of(context).textTheme.headline1,
+                        style: Theme.of(context).textTheme.headline3,
                       ),
                       const Spacer(),
                       Text(
                         damandListModel[reversedIndex].description.toString(),
-                        style: Theme.of(context).textTheme.headline2,
+                        style: Theme.of(context).textTheme.headline3,
                       ),
                     ],
                   ),
@@ -217,12 +268,12 @@ class _FactoersListState extends State<FactoersList> {
                     children: [
                       Text(
                         'وضعیت درخواست',
-                        style: Theme.of(context).textTheme.headline1,
+                        style: Theme.of(context).textTheme.headline3,
                       ),
                       const Spacer(),
                       Text(
                         damandListModel[reversedIndex].status.toString(),
-                        style: Theme.of(context).textTheme.headline2,
+                        style: Theme.of(context).textTheme.headline3,
                       ),
                     ],
                   ),
@@ -233,7 +284,7 @@ class _FactoersListState extends State<FactoersList> {
                     children: [
                       Text(
                         ' تاریخ ایجاد درخواست',
-                        style: Theme.of(context).textTheme.headline1,
+                        style: Theme.of(context).textTheme.headline3,
                       ),
                       const Spacer(),
                       Text(
@@ -244,7 +295,7 @@ class _FactoersListState extends State<FactoersList> {
                         //         .toPersianDate()
                         //     :
                         'تاریخی ثبت نشده است',
-                        style: Theme.of(context).textTheme.headline2,
+                        style: Theme.of(context).textTheme.headline3,
                       ),
                     ],
                   ),
@@ -264,36 +315,42 @@ class _FactoersListState extends State<FactoersList> {
                                 elevation: 0,
                                 foregroundColor: blueLight,
                                 backgroundColor: blueDark),
-                            onPressed: () async {},
+                            onPressed: () async {
+                              context.read<FollowUpDamandBloc>().add(
+                                  FollowUpDeletEvent(
+                                      damandListModel[reversedIndex]
+                                          .id
+                                          .toString()));
+                            },
                             child: Text(
-                              'حذف درخواست',
+                              'حذف ',
                               style: Theme.of(context).textTheme.headline2,
                             )),
                       ),
-                      Spacer(),
-                      Container(
-                        height: 42.0,
-                        width: MediaQuery.of(context).size.width / 3,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(32)),
-                        child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                              elevation: 0,
-                              foregroundColor: blueLight,
-                              backgroundColor: blueDark),
-                          onPressed: () {},
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(
-                                Icons.share_outlined,
-                                color: white,
-                                size: 28,
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
+                      // Spacer(),
+                      // Container(
+                      //   height: 42.0,
+                      //   width: MediaQuery.of(context).size.width / 3,
+                      //   decoration: BoxDecoration(
+                      //       borderRadius: BorderRadius.circular(32)),
+                      //   child: ElevatedButton(
+                      //     style: ElevatedButton.styleFrom(
+                      //         elevation: 0,
+                      //         foregroundColor: blueLight,
+                      //         backgroundColor: blueDark),
+                      //     onPressed: () {},
+                      //     child: Row(
+                      //       mainAxisAlignment: MainAxisAlignment.center,
+                      //       children: [
+                      //         Icon(
+                      //           Icons.share_outlined,
+                      //           color: white,
+                      //           size: 28,
+                      //         ),
+                      //       ],
+                      //     ),
+                      //   ),
+                      // ),
                     ],
                   ),
                 ]),
@@ -301,25 +358,25 @@ class _FactoersListState extends State<FactoersList> {
             ),
           ),
         ),
-        Align(
-          alignment: AlignmentDirectional.topCenter,
-          child: CircleAvatar(
-              backgroundColor: blueDark,
-              radius: 24.0,
-              child:
-                  //factorsModel[reversedIndex].isPardakht == 1
-                  //     ? const Icon(
-                  //         Icons.done_rounded,
-                  //         size: 28,
-                  //         color: Colors.greenAccent,
-                  //       )
-                  //     :
-                  const Icon(
-                Icons.close,
-                size: 28,
-                color: Colors.redAccent,
-              )),
-        ),
+        // Align(
+        //   alignment: AlignmentDirectional.topCenter,
+        //   child: CircleAvatar(
+        //       backgroundColor: blueDark,
+        //       radius: 24.0,
+        //       child:
+        //           //factorsModel[reversedIndex].isPardakht == 1
+        //           //     ? const Icon(
+        //           //         Icons.done_rounded,
+        //           //         size: 28,
+        //           //         color: Colors.greenAccent,
+        //           //       )
+        //           //     :
+        //           const Icon(
+        //         Icons.close,
+        //         size: 28,
+        //         color: Colors.redAccent,
+        //       )),
+        // ),
       ],
     );
   }

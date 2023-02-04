@@ -16,6 +16,8 @@ abstract class IDamandRepository {
   Future<Either<String, List<DamandSecandTypeModel>>> getDamandSecandTypes(
       String firstType);
   Future<Either<String, String>> sendDamand(String description, String type);
+  //حذف درخواست
+  Future<Either<String, String>> deleteDmand(String id);
 }
 
 class DamandRepository extends IDamandRepository {
@@ -73,6 +75,20 @@ class DamandRepository extends IDamandRepository {
     try {
       var response = await _datasource.sendDamand(token!, description, type);
       return right(response);
+    } on ApiException catch (e) {
+      if (e.code == 304) {
+        return left(ErrorsMessages.unAvailable);
+      } else {
+        return left(e.message ?? 'خطا محتوای متنی ندارد');
+      }
+    }
+  }
+
+  @override
+  Future<Either<String, String>> deleteDmand(String id) async {
+    try {
+      var response = await _datasource.deleteDaman(token!, id);
+      return right('درخواست شما با موفقیت حذف شد');
     } on ApiException catch (e) {
       if (e.code == 304) {
         return left(ErrorsMessages.unAvailable);

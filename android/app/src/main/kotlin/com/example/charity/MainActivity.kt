@@ -1,4 +1,4 @@
-package com.example.charity
+package ir.kheirieh.emamali.gorgab
 
 import io.flutter.embedding.android.FlutterActivity
 

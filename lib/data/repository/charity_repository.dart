@@ -6,19 +6,18 @@ import 'package:charity/util/api_exception.dart';
 import 'package:dartz/dartz.dart';
 
 abstract class MyCharityRepository {
-  Future<Either<String, List<CharityModelFirst>?>> getFirstTyp();
-  Future<Either<String, List<CharityModelSecand>?>> getSecandTyp(
+  Future<Either<String, List<CharityModelFirst>>> getFirstTyp();
+  Future<Either<String, List<CharityModelSecand>>> getSecandTyp(
       String firstType);
 }
 
 class CharityRepository implements MyCharityRepository {
   final CharityDatasource _charityDatasource = locator.get();
-  List<CharityModelFirst>? _charityModel;
-  List<CharityModelSecand>? _charityModelSecand;
+
   @override
-  Future<Either<String, List<CharityModelFirst>?>> getFirstTyp() async {
+  Future<Either<String, List<CharityModelFirst>>> getFirstTyp() async {
     try {
-      _charityModel = await _charityDatasource.getTyps();
+      var _charityModel = await _charityDatasource.getTyps();
 
       return right(_charityModel);
     } on ApiException catch (e) {
@@ -31,10 +30,11 @@ class CharityRepository implements MyCharityRepository {
   }
 
   @override
-  Future<Either<String, List<CharityModelSecand>?>> getSecandTyp(
+  Future<Either<String, List<CharityModelSecand>>> getSecandTyp(
       String firstType) async {
     try {
-      _charityModelSecand = await _charityDatasource.getSecandTyps(firstType);
+      var _charityModelSecand =
+          await _charityDatasource.getSecandTyps(firstType);
       return right(_charityModelSecand);
     } on ApiException catch (e) {
       if (e.code == 304) {

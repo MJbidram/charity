@@ -283,123 +283,196 @@ class _DamandScreenState extends State<DamandScreen> {
                 onSaved: (value) {},
               ),
             )),
-        SliverPadding(
-            padding: EdgeInsets.only(bottom: 16, right: 16, left: 16),
-            sliver: SliverToBoxAdapter(
-              child: TextFormField(
-                  controller: detailsConroler,
-                  maxLines: 5,
-                  validator: (value) {},
-                  focusNode: _myFocusNodeDetails,
-                  style: TextStyle(
-                    color: blueDark,
-                    fontFamily: 'GM',
-                    fontSize: 16,
-                  ),
-                  onChanged: (value) {},
-                  decoration: InputDecoration(
-                      focusedErrorBorder: const OutlineInputBorder(
-                        borderSide: BorderSide(
-                          color: Colors.red,
-                          width: 3,
-                        ),
-                        borderRadius: BorderRadius.all(Radius.circular(15)),
-                      ),
-                      errorBorder: const OutlineInputBorder(
-                        borderSide: BorderSide(
-                          color: Colors.red,
-                          width: 2,
-                        ),
-                        borderRadius: BorderRadius.all(Radius.circular(15)),
-                      ),
-                      contentPadding: const EdgeInsets.symmetric(
-                          horizontal: 25, vertical: 16),
-                      enabledBorder: const OutlineInputBorder(
-                        borderSide: BorderSide(width: 1, color: Colors.grey),
-                        borderRadius: BorderRadius.all(Radius.circular(15)),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                          color: blueDark,
-                          width: 3,
-                        ),
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(15)),
-                      ),
-                      // label: Align(
-                      //   alignment: AlignmentDirectional.topCenter,
-                      //   child: Text('تست'),
-                      // ),
-                      labelText: '  ${'توضیحات'}   ',
-                      alignLabelWithHint: true,
-                      labelStyle: TextStyle(
-                        fontFamily: 'GM',
-                        color: _myFocusNodeDetails.hasFocus
-                            ? blueDark
-                            : Colors.grey,
-                        fontSize: 18,
-                      ))),
-            )),
+        // SliverPadding(
+        //     padding: EdgeInsets.only(bottom: 16, right: 16, left: 16),
+        //     sliver: SliverToBoxAdapter(
+        //       child: TextFormField(
+        //           controller: detailsConroler,
+        //           maxLines: 5,
+        //           validator: (value) {},
+        //           focusNode: _myFocusNodeDetails,
+        //           style: TextStyle(
+        //             color: blueDark,
+        //             fontFamily: 'GM',
+        //             fontSize: 16,
+        //           ),
+        //           onChanged: (value) {},
+        //           decoration: InputDecoration(
+        //               focusedErrorBorder: const OutlineInputBorder(
+        //                 borderSide: BorderSide(
+        //                   color: Colors.red,
+        //                   width: 3,
+        //                 ),
+        //                 borderRadius: BorderRadius.all(Radius.circular(15)),
+        //               ),
+        //               errorBorder: const OutlineInputBorder(
+        //                 borderSide: BorderSide(
+        //                   color: Colors.red,
+        //                   width: 2,
+        //                 ),
+        //                 borderRadius: BorderRadius.all(Radius.circular(15)),
+        //               ),
+        //               contentPadding: const EdgeInsets.symmetric(
+        //                   horizontal: 25, vertical: 16),
+        //               enabledBorder: const OutlineInputBorder(
+        //                 borderSide: BorderSide(width: 1, color: Colors.grey),
+        //                 borderRadius: BorderRadius.all(Radius.circular(15)),
+        //               ),
+        //               focusedBorder: OutlineInputBorder(
+        //                 borderSide: BorderSide(
+        //                   color: blueDark,
+        //                   width: 3,
+        //                 ),
+        //                 borderRadius:
+        //                     const BorderRadius.all(Radius.circular(15)),
+        //               ),
+        //               // label: Align(
+        //               //   alignment: AlignmentDirectional.topCenter,
+        //               //   child: Text('تست'),
+        //               // ),
+        //               labelText: '  ${'توضیحات'}   ',
+        //               alignLabelWithHint: true,
+        //               labelStyle: TextStyle(
+        //                 fontFamily: 'GM',
+        //                 color: _myFocusNodeDetails.hasFocus
+        //                     ? blueDark
+        //                     : Colors.grey,
+        //                 fontSize: 18,
+        //               ))),
+        //     )),
         SliverPadding(
             padding: EdgeInsets.only(bottom: 8, right: 16, left: 16),
             sliver: SliverToBoxAdapter(
               child: Form(
                 key: _formKey,
-                child: TextFormField(
-                    controller: addressControler,
-                    maxLines: 4,
-                    validator: (value) {
-                      if (addressControler == null ||
-                          addressControler!.text.isEmpty) {
-                        print('object');
-                        return 'لطفا آدرس را وارد کنید';
-                      }
-                    },
-                    focusNode: _myFocusNodeAddress,
-                    style: TextStyle(
-                      color: blueDark,
-                      fontFamily: 'GM',
-                      fontSize: 16,
-                    ),
-                    onChanged: (value) {},
-                    decoration: InputDecoration(
-                        focusedErrorBorder: const OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: Colors.red,
-                            width: 3,
-                          ),
-                          borderRadius: BorderRadius.all(Radius.circular(15)),
-                        ),
-                        errorBorder: const OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: Colors.red,
-                            width: 2,
-                          ),
-                          borderRadius: BorderRadius.all(Radius.circular(15)),
-                        ),
-                        contentPadding: const EdgeInsets.symmetric(
-                            horizontal: 25, vertical: 16),
-                        enabledBorder: const OutlineInputBorder(
-                          borderSide: BorderSide(width: 1, color: Colors.grey),
-                          borderRadius: BorderRadius.all(Radius.circular(15)),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: blueDark,
-                            width: 3,
-                          ),
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(15)),
-                        ),
-                        labelText: '  ${'آدرس'}   ',
-                        alignLabelWithHint: true,
-                        labelStyle: TextStyle(
+                child: Column(
+                  children: [
+                    TextFormField(
+                        controller: detailsConroler,
+                        maxLines: 5,
+                        validator: (value) {
+                          if (addressControler == null ||
+                              addressControler!.text.isEmpty) {
+                            return 'بخش توضیحات نباید خالی باشد';
+                          }
+                        },
+                        focusNode: _myFocusNodeDetails,
+                        style: TextStyle(
+                          color: blueDark,
                           fontFamily: 'GM',
-                          color: _myFocusNodeAddress.hasFocus
-                              ? blueDark
-                              : Colors.grey,
-                          fontSize: 18,
-                        ))),
+                          fontSize: 16,
+                        ),
+                        onChanged: (value) {},
+                        decoration: InputDecoration(
+                            focusedErrorBorder: const OutlineInputBorder(
+                              borderSide: BorderSide(
+                                color: Colors.red,
+                                width: 3,
+                              ),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(15)),
+                            ),
+                            errorBorder: const OutlineInputBorder(
+                              borderSide: BorderSide(
+                                color: Colors.red,
+                                width: 2,
+                              ),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(15)),
+                            ),
+                            contentPadding: const EdgeInsets.symmetric(
+                                horizontal: 25, vertical: 16),
+                            enabledBorder: const OutlineInputBorder(
+                              borderSide:
+                                  BorderSide(width: 1, color: Colors.grey),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(15)),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                color: blueDark,
+                                width: 3,
+                              ),
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(15)),
+                            ),
+                            // label: Align(
+                            //   alignment: AlignmentDirectional.topCenter,
+                            //   child: Text('تست'),
+                            // ),
+                            labelText: '  ${'توضیحات'}   ',
+                            alignLabelWithHint: true,
+                            labelStyle: TextStyle(
+                              fontFamily: 'GM',
+                              color: _myFocusNodeDetails.hasFocus
+                                  ? blueDark
+                                  : Colors.grey,
+                              fontSize: 18,
+                            ))),
+                    const SizedBox(
+                      height: 16,
+                    ),
+                    TextFormField(
+                        controller: addressControler,
+                        maxLines: 4,
+                        validator: (value) {
+                          if (addressControler == null ||
+                              addressControler!.text.isEmpty) {
+                            print('object');
+                            return 'لطفا آدرس را وارد کنید';
+                          }
+                        },
+                        focusNode: _myFocusNodeAddress,
+                        style: TextStyle(
+                          color: blueDark,
+                          fontFamily: 'GM',
+                          fontSize: 16,
+                        ),
+                        onChanged: (value) {},
+                        decoration: InputDecoration(
+                            focusedErrorBorder: const OutlineInputBorder(
+                              borderSide: BorderSide(
+                                color: Colors.red,
+                                width: 3,
+                              ),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(15)),
+                            ),
+                            errorBorder: const OutlineInputBorder(
+                              borderSide: BorderSide(
+                                color: Colors.red,
+                                width: 2,
+                              ),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(15)),
+                            ),
+                            contentPadding: const EdgeInsets.symmetric(
+                                horizontal: 25, vertical: 16),
+                            enabledBorder: const OutlineInputBorder(
+                              borderSide:
+                                  BorderSide(width: 1, color: Colors.grey),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(15)),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                color: blueDark,
+                                width: 3,
+                              ),
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(15)),
+                            ),
+                            labelText: '  ${'آدرس'}   ',
+                            alignLabelWithHint: true,
+                            labelStyle: TextStyle(
+                              fontFamily: 'GM',
+                              color: _myFocusNodeAddress.hasFocus
+                                  ? blueDark
+                                  : Colors.grey,
+                              fontSize: 18,
+                            ))),
+                  ],
+                ),
               ),
             )),
         SliverPadding(
@@ -477,17 +550,17 @@ class _DamandScreenState extends State<DamandScreen> {
       centerTitle: true,
       backgroundColor: Colors.transparent,
       pinned: false,
-      expandedHeight: AppBar().preferredSize.height + 70,
+      expandedHeight: AppBar().preferredSize.height + 30,
       flexibleSpace: FlexibleSpaceBar(
         background: Stack(
           children: [
             Container(
-              height: AppBar().preferredSize.height + 40,
+              height: AppBar().preferredSize.height + 30,
               decoration: BoxDecoration(
                 gradient: blueGradient,
                 borderRadius: BorderRadius.vertical(
                   bottom:
-                      Radius.elliptical(MediaQuery.of(context).size.width, 150),
+                      Radius.elliptical(MediaQuery.of(context).size.width, 170),
                 ),
               ),
             ),

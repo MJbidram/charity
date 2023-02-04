@@ -8,21 +8,19 @@ import '../../data/repository/payment_repository.dart';
 
 class CharityBloc extends Bloc<CharityEvent, CharityState> {
   final MyCharityRepository _charityRepository = locator.get();
-  CharityBloc() : super(CharityLoadingFirstTypeState()) {
+  CharityBloc() : super(CharityInitState()) {
     on<LoadFirstTypeEvent>((event, emit) async {
       final firstTypeEither = await _charityRepository.getFirstTyp();
-      firstTypeEither.fold(
-          (l) => emit(CharityExseptionLoadedFirstTypeState(exseption: l)),
-          (r) => emit(CharityLoadedFirstTypeState(items: r!)));
+
+      emit(CharityLoadedFirstTypeState(items: firstTypeEither));
     });
 
     on<LoadSecandTypeEvent>((event, emit) async {
-      emit(CharityLoadingSecandTypeState());
+      // emit(CharityInitState());
       final secandTypeEither =
           await _charityRepository.getSecandTyp(event.firstType);
-      secandTypeEither.fold(
-          (l) => emit(CharityExseptionLoadedSecandTypeState(exseption: l)),
-          (r) => emit(CharityLoadedSecandTypeState(item: r!)));
+
+      emit(CharityLoadedSecandTypeState(items: secandTypeEither));
     });
 
     on<GetPaymentUrlEvent>((event, emit) async {
@@ -30,20 +28,15 @@ class CharityBloc extends Bloc<CharityEvent, CharityState> {
       IpaymentRepository paymentRepository = locator.get();
       final getUrl = await paymentRepository.getPaymentData(
           event.idType, event.amount, event.token);
-      getUrl.fold((l) {
-        emit(CharityExseptionLoadingUrlState(exeption: l));
-        print(l);
-      }, (r) {
-        emit(CharityLoadedUrlState(payLinkModel: r));
-        print(r);
-      });
+
+      emit(CharityLoadedUrlState(getUrl));
     });
     on<OpenBrowserForPayEvent>((event, emit) async {
       IpaymentRepository paymentRepository = locator.get();
       final openBrowser =
           await paymentRepository.launchUrlForPayment(event.url);
-      openBrowser.fold((l) => emit(CharityExseptionOpenBrowserState(l)),
-          (r) => emit(CharityOpenBrowserState()));
+
+      emit(CharityOpenBrowserState(openBrowser));
     });
 
     on<ShortcutEvent>((event, emit) {

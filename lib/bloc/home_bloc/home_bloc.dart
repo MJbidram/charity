@@ -14,18 +14,8 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       emit(HomeLoadingState());
       var response = await repository.getHomeData();
       var newsResponse = await _repositoriesNews.getHomePageListNews();
-      // final homeData = await _repositories.getHomeData();
-      // final homeNews = await _repositories.getHomePageListNews();
-      emit(
-          // HomeLoadedState(
-          //   teller: homeData[2].teller,
-          //   arabicText: homeData[2].arabicText,
-          //   farsiText: homeData[2].farsiText,
-          //   pooyeshModel: homeData[0],
-          //   projectModel: homeData[1],
-          //   newsModl: homeNews,
-          // ),
-          HomeLoadedState(response: response, newsModl: newsResponse));
+
+      emit(HomeLoadedState(response: response, newsModl: newsResponse));
     });
   }
 }

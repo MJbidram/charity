@@ -40,6 +40,24 @@ class HomeProjectsModel {
   }
 }
 
+class HomeItemsModel {
+  String title;
+  String icon;
+  Map action;
+  HomeItemsModel({
+    required this.title,
+    required this.icon,
+    required this.action,
+  });
+  factory HomeItemsModel.fromJsonMap(Map<String, dynamic> jsonObject) {
+    return HomeItemsModel(
+      action: jsonObject['action'],
+      icon: jsonObject['icon'],
+      title: jsonObject['title'],
+    );
+  }
+}
+
 class HadisModel {
   /// Hadis
   String teller;

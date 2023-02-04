@@ -4,6 +4,7 @@ import 'package:charity/bloc/news_page_bloc/news_page_block.dart';
 import 'package:charity/bloc/news_page_bloc/news_page_event.dart';
 import 'package:charity/bloc/news_page_bloc/news_page_state.dart';
 import 'package:charity/constants/constants.dart';
+import 'package:charity/models/news_model.dart';
 import 'package:charity/screens/widget/botom_sheet_comments.dart';
 import 'package:charity/screens/widget/error_box.dart';
 import 'package:flutter/material.dart';
@@ -39,7 +40,10 @@ class NewsScreen extends StatelessWidget {
                 },
               );
             }, (r) {
-              return _getBody(context, r);
+              List<NewsModel> newsmodel = r.where((element) {
+                return element.newsId == newsindex;
+              }).toList();
+              return _getBody(context, newsmodel);
             });
           } else {
             return ErrorBox(
@@ -54,7 +58,7 @@ class NewsScreen extends StatelessWidget {
     );
   }
 
-  Scaffold _getBody(BuildContext context, dynamic state) {
+  Scaffold _getBody(BuildContext context, List<NewsModel> newsModel) {
     return Scaffold(
       backgroundColor: white,
       body: SafeArea(
@@ -104,7 +108,7 @@ class NewsScreen extends StatelessWidget {
                               MediaQuery.of(context).size.width, 170),
                         ),
                         child: CachedNetworkImage(
-                          imageUrl: state[newsindex].newsImageUrl,
+                          imageUrl: newsModel[0].newsImageUrl,
                           fit: BoxFit.cover,
                           placeholder: (context, url) =>
                               const Center(child: CircularProgressIndicator()),
@@ -130,7 +134,7 @@ class NewsScreen extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(horizontal: 16),
                     child: Text(
                       // 'dafaf',
-                      state[newsindex].newsTitile,
+                      newsModel[0].newsTitile,
                       style: Theme.of(context).textTheme.headline5,
                       textDirection: TextDirection.rtl,
                       textAlign: TextAlign.justify,
@@ -157,7 +161,7 @@ class NewsScreen extends StatelessWidget {
                       ),
                       Text(
                         // '111',
-                        state[newsindex]
+                        newsModel[0]
                             .newsDate
                             .toString()
                             .substring(0, 10)
@@ -194,7 +198,7 @@ class NewsScreen extends StatelessWidget {
               padding: const EdgeInsets.only(bottom: 32, right: 12, left: 12),
               sliver: SliverToBoxAdapter(
                   child: Html(
-                data: state[newsindex].newsText,
+                data: newsModel[0].newsText,
               )),
             ),
             // SliverPadding(

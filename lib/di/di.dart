@@ -1,4 +1,5 @@
 import 'package:charity/constants/constants.dart';
+import 'package:charity/data/datasource/aboutus_datasource.dart';
 import 'package:charity/data/datasource/authentication_dataSource.dart';
 import 'package:charity/data/datasource/charity_datasource.dart';
 import 'package:charity/data/datasource/demand_datasource.dart';
@@ -15,6 +16,7 @@ import 'package:get_it/get_it.dart';
 
 import '../data/datasource/details_of_slider_datasource.dart';
 import '../data/datasource/payment_datasource.dart';
+import '../data/repository/aboutus_repository.dart';
 import '../data/repository/charity_repository.dart';
 import '../data/repository/damand_repository.dart';
 import '../data/repository/details_of_slider_repository.dart';
@@ -47,6 +49,8 @@ Future<void> getItInit() async {
 
   locator.registerFactory<ProfileDataSource>(() => ProfileRemote());
 
+  locator.registerFactory<AboutUsDataSource>(() => AboutUsRemot());
+
   //repository
 
   locator.registerFactory<IAuthRepository>(() => AuthenticationRepository());
@@ -64,4 +68,6 @@ Future<void> getItInit() async {
   locator.registerFactory<IDamandRepository>(() => DamandRepository());
 
   locator.registerFactory<IprofileRepository>(() => ProfileRepository());
+
+  locator.registerFactory<IAboutUsRepository>(() => AboutUsRepository());
 }

@@ -10,6 +10,9 @@ class FollowUpLoadedState extends FollowUpState {
   FollowUpLoadedState(this.response);
 }
 
-class FollowUpDeleteState extends FollowUpState {}
+class FollowUpDeleteState extends FollowUpState {
+  final Either<String, String> response;
+  FollowUpDeleteState(this.response);
+}
 
 class FollowUpUpdateState extends FollowUpState {}
