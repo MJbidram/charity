@@ -34,9 +34,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
   FocusNode focusNodePhone = FocusNode();
   TextEditingController phoneController = TextEditingController();
   String? phone;
-  FocusNode focusNodeEmail = FocusNode();
-  TextEditingController emailController = TextEditingController();
-  String? emailAddress;
+  // FocusNode focusNodeEmail = FocusNode();
+  // TextEditingController emailController = TextEditingController();
+  // String? emailAddress;
   FocusNode focusNodePassword = FocusNode();
   TextEditingController passwordController = TextEditingController();
   String? password;
@@ -61,9 +61,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
     focusNodePhone.addListener(() {
       setState(() {});
     });
-    focusNodeEmail.addListener(() {
-      setState(() {});
-    });
+    // focusNodeEmail.addListener(() {
+    //   setState(() {});
+    // });
     focusNodePassword.addListener(() {
       setState(() {});
     });
@@ -80,7 +80,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       registererrors.name ?? '',
       registererrors.phone ?? '',
       registererrors.password ?? '',
-      registererrors.email ?? '',
+      // registererrors.email ?? '',
       registererrors.unknow ?? '',
     ];
     return Directionality(
@@ -115,13 +115,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         TextInputType.name, 1, registererrors),
                     _getTextfild(focusNodePhone, 'شماره تلفن', phoneController,
                         TextInputType.number, 2, registererrors),
-                    _getTextfild(
-                        focusNodeEmail,
-                        'ایمیل (اختیاری)',
-                        emailController,
-                        TextInputType.emailAddress,
-                        3,
-                        registererrors),
+                    // _getTextfild(
+                    //     focusNodeEmail,
+                    //     'ایمیل (اختیاری)',
+                    //     emailController,
+                    //     TextInputType.emailAddress,
+                    //     3,
+                    //     registererrors),
                     _getTextfild(
                         focusNodePassword,
                         'رمز عبور',
@@ -180,8 +180,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           onPressed: () async {
                             name = nameController.text.toString().trim();
                             phone = phoneController.text.toString().trim();
-                            emailAddress =
-                                emailController.text.toString().trim();
+                            // emailAddress =
+                            // emailController.text.toString().trim();
                             password = passwordController.text.toString();
                             configPassword =
                                 confirmPasswordController.text.toString();
@@ -189,7 +189,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             confirmPasswordCheck = configPassword!;
                             if (!_formKey.currentState!.validate()) {
                               setState(() {
-                                registererrors.email = '';
+                                // registererrors.email = '';
                                 registererrors.phone = '';
                                 registererrors.name = '';
                                 registererrors.password = '';
@@ -205,7 +205,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   await AuthenticationRepository().register(
                                 name!,
                                 phone!,
-                                emailAddress!,
+                                // emailAddress!,
                                 'android',
                                 password!,
                                 configPassword!,
@@ -213,7 +213,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               either.fold((erroreMessage) {
                                 _formKey.currentState!.validate();
                                 setState(() {
-                                  registererrors.email = '';
+                                  // registererrors.email = '';
                                   registererrors.phone = '';
                                   registererrors.name = '';
                                   registererrors.password = '';
@@ -237,7 +237,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   print(successMessage);
                                   box.put('name', name);
                                   box.put('phone', phone);
-                                  box.put('email', emailAddress);
+                                  // box.put('email', emailAddress);
                                   dontTapRegister = true;
                                   Navigator.pushAndRemoveUntil(
                                       context,
@@ -361,17 +361,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
               }
               break;
 
-            case 3:
-              if (value != null || value!.isNotEmpty) {
-                if (value.length < 10 ||
-                    !value.contains('@') ||
-                    !value.contains('.com')) {
-                  return 'ایمیل وارد شده صحیح نیست';
-                } else if (registerErrors.email!.isNotEmpty) {
-                  return registerErrors.email;
-                }
-              }
-              break;
+            // case 3:
+            //   if (value != null || value!.isNotEmpty) {
+            //     if (value.length < 10 ||
+            //         !value.contains('@') ||
+            //         !value.contains('.com')) {
+            //       return 'ایمیل وارد شده صحیح نیست';
+            //     } else if (registerErrors.email!.isNotEmpty) {
+            //       return registerErrors.email;
+            //     }
+            //   }
+            //   break;
             case 4:
               if (value == null || value.isEmpty) {
                 return 'لطفا رمز عبور را وارد کنید';
@@ -436,7 +436,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   void dispose() {
     focusNodeName.dispose();
     focusNodePhone.dispose();
-    focusNodeEmail.dispose();
+    // focusNodeEmail.dispose();
     focusNodePassword.dispose();
     focusNodeConfirmPassword.dispose();
     super.dispose();

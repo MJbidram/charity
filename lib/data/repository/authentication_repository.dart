@@ -10,7 +10,7 @@ abstract class IAuthRepository {
   Future<Either<List<String?>?, String>> register(
     String username,
     String phone,
-    String email,
+    // String email,
     String deviceName,
     String password,
     String paswordConfirm,
@@ -29,11 +29,11 @@ class AuthenticationRepository implements IAuthRepository {
   //RegisterExseptions
   List<String?>? errorRegister;
   static RegisterErrorModel registerErrorModel =
-      RegisterErrorModel('', '', '', '', '');
+      RegisterErrorModel('', '', '', '');
 
   dynamic nameRegisterE;
   dynamic phoneRegisterE;
-  dynamic emailRegisterE;
+  // dynamic emailRegisterE;
   dynamic passwordRegisterE;
   dynamic unknowRegisterE;
   //loginExseptions
@@ -48,14 +48,19 @@ class AuthenticationRepository implements IAuthRepository {
   Future<Either<List<String?>?, String>> register(
     String username,
     String phone,
-    String email,
+    // String email,
     String deviceName,
     String password,
     String paswordConfirm,
   ) async {
     try {
       String _token = await _dataSurce.register(
-          username, phone, email, deviceName, password, paswordConfirm);
+          username,
+          phone,
+          //  email,
+          deviceName,
+          password,
+          paswordConfirm);
 
       if (AuthenticationRemote.checkRegisterErrors['status'] == 'success') {
         AuthManager.saveToken(_token);
@@ -87,26 +92,26 @@ class AuthenticationRepository implements IAuthRepository {
         } else {
           passwordRegisterE = '';
         }
-        if (await AuthenticationRemote.checkRegisterErrors['errors']['email'] !=
-            null) {
-          emailRegisterE = await AuthenticationRemote
-                  .checkRegisterErrors['errors']['email'][0] ??
-              '';
-        } else {
-          emailRegisterE = '';
-        }
+        // if (await AuthenticationRemote.checkRegisterErrors['errors']['email'] !=
+        //     null) {
+        //   emailRegisterE = await AuthenticationRemote
+        //           .checkRegisterErrors['errors']['email'][0] ??
+        //       '';
+        // } else {
+        //   emailRegisterE = '';
+        // }
 
         unknowRegisterE = '';
 
         registerErrorModel.name = nameRegisterE;
         registerErrorModel.phone = phoneRegisterE;
-        registerErrorModel.email = emailRegisterE;
+        // registerErrorModel.email = emailRegisterE;
         registerErrorModel.password = passwordRegisterE;
         registerErrorModel.unknow = unknowRegisterE;
         errorRegister = [
           registerErrorModel.name,
           registerErrorModel.phone,
-          registerErrorModel.email,
+          // registerErrorModel.email,
           registerErrorModel.password,
           registerErrorModel.unknow,
         ];

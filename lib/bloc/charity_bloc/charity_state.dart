@@ -18,6 +18,8 @@ class CharityLoadedSecandTypeState extends CharityState {
   CharityLoadedSecandTypeState({required this.items});
 }
 
+class CharitySelectedSecandTypeState extends CharityState {}
+
 class CharityLoadingUrlState extends CharityState {
   @override
   List<Object?> get props => [];

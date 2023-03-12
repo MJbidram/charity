@@ -102,7 +102,7 @@ class Myfn {
     if (type != '0') {
       ImageSliderScreen.goToShortcut.value = true;
     }
-
+    ImageSliderScreen.id = int.parse(type);
     Navigator.push(
         context,
         MaterialPageRoute(

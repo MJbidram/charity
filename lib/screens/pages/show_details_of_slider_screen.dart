@@ -262,9 +262,13 @@ class Body extends StatelessWidget {
                       children: [
                         Text(' هزینه مورد نیاز'),
                         Spacer(),
-                        Text('${amunt?.toWord()} تومان'),
+                        Text(amunt != '0'
+                            ? '${amunt?.toWord()} تومان'
+                            : 'نامحدود'),
                         Spacer(),
-                        Text('${amunt?.toPersianDigit().seRagham()}'),
+                        amunt != '0'
+                            ? Text('${amunt?.toPersianDigit().seRagham()}')
+                            : Spacer(),
                       ],
                     ),
                   ),
@@ -288,7 +292,7 @@ class Body extends StatelessWidget {
           SliverPadding(
             padding: const EdgeInsets.only(bottom: 32, right: 12, left: 12),
             sliver: SliverToBoxAdapter(
-              child: Text(description),
+              child: Html(data: description),
               //   Html(
               // data: state.newsModel[newsindex].newsText,
             ),

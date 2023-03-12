@@ -122,8 +122,16 @@ class _MainScreenState extends State<MainScreen> {
         child: Container(
           height: 60,
           width: 60,
-          decoration:
-              BoxDecoration(shape: BoxShape.circle, gradient: blueGradient),
+          decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              gradient: blueGradient,
+              boxShadow: [
+                BoxShadow(
+                  color: white,
+                  blurRadius: 8,
+                  spreadRadius: 0.1,
+                )
+              ]),
           child: const Icon(
             Icons.handshake,
             color: Colors.white,

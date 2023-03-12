@@ -18,6 +18,11 @@ class LoadSecandTypeEvent extends CharityEvent {
   List<Object?> get props => [firstType];
 }
 
+class SelectSecandTypeEvent extends CharityEvent {
+  @override
+  List<Object?> get props => [];
+}
+
 class GetPaymentUrlEvent extends CharityEvent {
   final String idType;
   final String amount;

@@ -23,6 +23,10 @@ class CharityBloc extends Bloc<CharityEvent, CharityState> {
       emit(CharityLoadedSecandTypeState(items: secandTypeEither));
     });
 
+    on<SelectSecandTypeEvent>((event, emit) {
+      emit(CharitySelectedSecandTypeState());
+    });
+
     on<GetPaymentUrlEvent>((event, emit) async {
       emit(CharityLoadingUrlState());
       IpaymentRepository paymentRepository = locator.get();

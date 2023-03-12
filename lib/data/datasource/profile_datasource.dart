@@ -60,7 +60,7 @@ class ProfileRemote extends ProfileDataSource {
       if (phone.isNotEmpty) {
         details['phone'] = phone;
       }
-      if (email.isNotEmpty) {
+      if (email.isNotEmpty || email != null) {
         details['email'] = email;
       }
       if (address.isNotEmpty) {

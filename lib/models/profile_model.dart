@@ -2,7 +2,7 @@ class ProfileModel {
   int id;
   String name;
   String phone;
-  String email;
+  String? email;
   String? address;
   int? charity;
 

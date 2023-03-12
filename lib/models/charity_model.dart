@@ -1,55 +1,55 @@
 import 'package:hive/hive.dart';
-part 'charity_model.g.dart';
 
-@HiveType(typeId: 1)
-class CharityModelFirst extends HiveObject {
-  @HiveField(0)
+class CharityModelFirst {
   int? id;
-  @HiveField(1)
+
   String? typeName;
-  @HiveField(2)
+
   int? sub;
-  @HiveField(3)
+
   int? optionalSubSelect;
-  @HiveField(4)
+
   String title;
+  String? description;
 
   CharityModelFirst(
       {required this.id,
       required this.typeName,
       required this.sub,
       required this.optionalSubSelect,
-      required this.title});
+      required this.title,
+      required this.description});
   factory CharityModelFirst.fromJsonMap(Map<String, dynamic> jsonObject) {
     return CharityModelFirst(
-      id: jsonObject['id'],
-      typeName: jsonObject['type_name'],
-      optionalSubSelect: jsonObject['optional_sub_select'],
-      sub: jsonObject['sub'],
-      title: jsonObject['title'],
-    );
+        id: jsonObject['id'],
+        typeName: jsonObject['type_name'],
+        optionalSubSelect: jsonObject['optional_sub_select'],
+        sub: jsonObject['sub'],
+        title: jsonObject['title'],
+        description: jsonObject['description']);
   }
 }
 
-@HiveType(typeId: 2)
-class CharityModelSecand extends HiveObject {
-  @HiveField(0)
+class CharityModelSecand {
   int? id;
-  @HiveField(1)
-  String? typeName;
-  @HiveField(2)
-  int? sub;
-  @HiveField(3)
-  int? optionalSubSelect;
-  @HiveField(4)
-  String? title;
 
-  CharityModelSecand(
-      {required this.id,
-      required this.typeName,
-      required this.sub,
-      required this.optionalSubSelect,
-      required this.title});
+  String? typeName;
+
+  int? sub;
+
+  int? optionalSubSelect;
+
+  String? title;
+  String? description;
+
+  CharityModelSecand({
+    required this.id,
+    required this.typeName,
+    required this.sub,
+    required this.optionalSubSelect,
+    required this.title,
+    required this.description,
+  });
   factory CharityModelSecand.fromJsonMap(Map<String, dynamic> jsonObject) {
     return CharityModelSecand(
       id: jsonObject['id'],
@@ -57,6 +57,7 @@ class CharityModelSecand extends HiveObject {
       optionalSubSelect: jsonObject['optional_sub_select'] ?? -1,
       sub: jsonObject['sub'] ?? 0,
       title: jsonObject['title'],
+      description: jsonObject['description'],
     );
   }
 }

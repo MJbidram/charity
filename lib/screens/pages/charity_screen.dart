@@ -27,6 +27,8 @@ import 'package:hive/hive.dart';
 import '../widget/category_items.dart';
 
 String? selectedValue;
+String? firstTypeDescription;
+String? secandTypeDescription;
 TextEditingController amount = TextEditingController();
 
 class CharityPage extends StatefulWidget {
@@ -209,9 +211,9 @@ class _CharityPageState extends State<CharityPage> {
                     amountValue: '5,000',
                     onTap: () {
                       setState(() {
-                        !_formKey.currentState!.validate();
                         amount.text = '5,000';
                       });
+                      !_formKey.currentState!.validate();
                     },
                   ),
                   AmountUsed(
@@ -219,9 +221,9 @@ class _CharityPageState extends State<CharityPage> {
                     amountValue: '10,000',
                     onTap: () {
                       setState(() {
-                        !_formKey.currentState!.validate();
                         amount.text = '10,000';
                       });
+                      !_formKey.currentState!.validate();
                     },
                   ),
                   AmountUsed(
@@ -229,9 +231,9 @@ class _CharityPageState extends State<CharityPage> {
                     amountValue: '20,000',
                     onTap: () {
                       setState(() {
-                        !_formKey.currentState!.validate();
                         amount.text = '20,000';
                       });
+                      !_formKey.currentState!.validate();
                     },
                   ),
                   AmountUsed(
@@ -239,9 +241,9 @@ class _CharityPageState extends State<CharityPage> {
                     amountValue: '50,000',
                     onTap: () {
                       setState(() {
-                        !_formKey.currentState!.validate();
                         amount.text = '50,000';
                       });
+                      !_formKey.currentState!.validate();
                     },
                   ),
                   AmountUsed(
@@ -249,9 +251,9 @@ class _CharityPageState extends State<CharityPage> {
                     amountValue: '100,000',
                     onTap: () {
                       setState(() {
-                        !_formKey.currentState!.validate();
                         amount.text = '100,000';
                       });
+                      !_formKey.currentState!.validate();
                     },
                   ),
                 ],
@@ -272,21 +274,6 @@ class _CharityPageState extends State<CharityPage> {
                 return MySpinKit();
               }
               if (state is CharityLoadedFirstTypeState) {
-                // if (_firstBox.isEmpty) {
-                // for (int i = 0; i < state.items.length; i++) {
-                //   print(i);
-                //   // _firstBox.add(state.items[i]);
-                //   _firstBox.put(i, state.items[i]);
-                // }
-                // // }
-
-                // for (int i = 0; i < _firstBox.values.length; i++) {
-                //   print(i);
-                //   firstBoxList = _firstBox.values.toList();
-                //   print(firstBoxList![i].id);
-                // }
-
-                // itemsCharityFirst = state.items;
                 return state.items.fold((l) {
                   return Center(
                     child: ErrorBox(
@@ -298,51 +285,57 @@ class _CharityPageState extends State<CharityPage> {
                   );
                 }, (r) {
                   firstType = [...r];
+
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       _getDropDownFildFirest(context, firstType, secandType),
                       const SizedBox(
-                        height: 32,
+                        height: 4,
                       ),
-                      Text(
-                        'انتخاب نوع جزئی تر:',
-                        style: Theme.of(context).textTheme.headline5,
-                      ),
+                      Text(firstTypeDescription ?? ''),
+
                       const SizedBox(
                         height: 16,
                       ),
-                      DropdownButtonFormField2(
-                          decoration: InputDecoration(
-                            // label: Text('data'),
+                      // Text(
+                      //   'انتخاب نوع جزئی تر:',
+                      //   style: Theme.of(context).textTheme.headline5,
+                      // ),
+                      // const SizedBox(
+                      //   height: 16,
+                      // ),
+                      // DropdownButtonFormField2(
+                      //     decoration: InputDecoration(
+                      //       // label: Text('data'),
 
-                            isDense: true,
-                            contentPadding: EdgeInsets.zero,
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(15),
-                            ),
-                          ),
-                          isExpanded: true,
-                          hint: const Text(
-                            'ابتدا نوع و موارد مصرف را انتخاب کنید',
-                            style: TextStyle(fontSize: 14),
-                          ),
-                          icon: const Icon(
-                            Icons.arrow_drop_down,
-                            color: Colors.black45,
-                          ),
-                          dropdownMaxHeight: 200,
-                          iconSize: 30,
-                          buttonHeight: 50,
-                          buttonPadding:
-                              const EdgeInsets.only(left: 20, right: 10),
-                          dropdownDecoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(15),
-                          ),
-                          items: []),
-                      const SizedBox(
-                        height: 32,
-                      ),
+                      //       isDense: true,
+                      //       contentPadding: EdgeInsets.zero,
+                      //       border: OutlineInputBorder(
+                      //         borderRadius: BorderRadius.circular(15),
+                      //       ),
+                      //     ),
+                      //     isExpanded: true,
+                      //     hint: const Text(
+                      //       'ابتدا نوع و موارد مصرف را انتخاب کنید',
+                      //       style: TextStyle(fontSize: 14),
+                      //     ),
+                      //     icon: const Icon(
+                      //       Icons.arrow_drop_down,
+                      //       color: Colors.black45,
+                      //     ),
+                      //     dropdownMaxHeight: 200,
+                      //     iconSize: 30,
+                      //     buttonHeight: 50,
+                      //     buttonPadding:
+                      //         const EdgeInsets.only(left: 20, right: 10),
+                      //     dropdownDecoration: BoxDecoration(
+                      //       borderRadius: BorderRadius.circular(15),
+                      //     ),
+                      //     items: []),
+                      // const SizedBox(
+                      //   height: 32,
+                      // ),
                       SizedBox(
                         height: 50,
                         child: ElevatedButton(
@@ -433,17 +426,37 @@ class _CharityPageState extends State<CharityPage> {
                             _getDropDownFildFirest(
                                 context, firstType, secandType),
                             const SizedBox(
-                              height: 32,
+                              height: 4,
                             ),
-                            Text(
-                              'انتخاب نوع جزئی تر:',
-                              style: Theme.of(context).textTheme.headline5,
-                            ),
+                            Text(firstTypeDescription ?? ''),
                             const SizedBox(
                               height: 16,
                             ),
-                            _getDropDownFildsecand(
-                                context, firstType, secandType),
+                            secandType?.length == 0
+                                ? const SizedBox(
+                                    height: 1,
+                                  )
+                                : Text(
+                                    'انتخاب نوع جزئی تر:',
+                                    style:
+                                        Theme.of(context).textTheme.headline5,
+                                  ),
+                            secandType?.length == 0
+                                ? const SizedBox(
+                                    height: 1,
+                                  )
+                                : const SizedBox(
+                                    height: 16,
+                                  ),
+                            secandType?.length == 0
+                                ? const SizedBox(
+                                    height: 1,
+                                  )
+                                : _getDropDownFildsecand(
+                                    context, firstType, secandType),
+                            const SizedBox(
+                              height: 4,
+                            ),
                             const SizedBox(
                               height: 32,
                             ),
@@ -510,6 +523,115 @@ class _CharityPageState extends State<CharityPage> {
 
                 //
               }
+              if (state is CharitySelectedSecandTypeState) {
+                return ImageSliderScreen.goToShortcut.value
+                    ? shortcutPayPooyesh(context)
+                    : Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          _getDropDownFildFirest(
+                              context, firstType, secandType),
+                          const SizedBox(
+                            height: 4,
+                          ),
+                          Text(firstTypeDescription ?? ''),
+                          const SizedBox(
+                            height: 16,
+                          ),
+                          secandType?.length == 0
+                              ? const SizedBox(
+                                  height: 1,
+                                )
+                              : Text(
+                                  'انتخاب نوع جزئی تر:',
+                                  style: Theme.of(context).textTheme.headline5,
+                                ),
+                          secandType?.length == 0
+                              ? const SizedBox(
+                                  height: 1,
+                                )
+                              : const SizedBox(
+                                  height: 16,
+                                ),
+                          secandType?.length == 0
+                              ? const SizedBox(
+                                  height: 1,
+                                )
+                              : _getDropDownFildsecand(
+                                  context, firstType, secandType),
+                          const SizedBox(
+                            height: 4,
+                          ),
+                          secandType?.length == 0
+                              ? const SizedBox(
+                                  height: 1,
+                                )
+                              : Text(secandTypeDescription ?? ''),
+                          const SizedBox(
+                            height: 32,
+                          ),
+                          SizedBox(
+                            height: 50,
+                            child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: blueDark,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(16),
+                                ),
+                              ),
+                              onPressed: () async {
+                                if (!_formKey.currentState!.validate()) {
+                                  return;
+                                }
+
+                                PayLinkModel? payLinkModel;
+                                String _amount = amount.text.toString();
+                                _amount = _amount.replaceAll(',', '');
+                                print(_amount);
+                                _amount = removeZero(_amount);
+                                String? token = await AuthManager.readauth();
+
+                                context.read<CharityBloc>().add(
+                                    GetPaymentUrlEvent(
+                                        idType: idType!,
+                                        amount: _amount,
+                                        token: token!));
+                                // IpaymentRepository paymentRepository = locator.get();
+
+                                // var either = await paymentRepository.getPaymentData(
+                                //     idType!, _amount, token!);
+                                // either.fold((l) => print(l), (r) async {
+                                //   payLinkModel = r;
+                                //   await _box.put('factorId', r.faktoorId);
+                                //   var either2 =
+                                //       await paymentRepository.launchUrlForPayment(r.url);
+                                //   either2.fold((l) => print(l), (r) => print(r));
+                                // });
+                              },
+                              child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      'انتقال به صفحه پرداخت',
+                                      style:
+                                          Theme.of(context).textTheme.headline4,
+                                    ),
+                                    const SizedBox(
+                                      width: 4,
+                                    ),
+                                    const Icon(
+                                      Icons.payment,
+                                      size: 24,
+                                    ),
+                                  ]),
+                            ),
+                          ),
+                        ],
+                      );
+              }
+
+              //
+
               if (state is CharityLoadingUrlState) {
                 SchedulerBinding.instance.addPostFrameCallback((_) {
                   AwesomeDialog(
@@ -538,19 +660,43 @@ class _CharityPageState extends State<CharityPage> {
                               : _getDropDownFildFirest(
                                   context, firstType, secandType),
                           const SizedBox(
-                            height: 32,
+                            height: 4,
                           ),
-                          Text(
-                            'انتخاب نوع جزئی تر:',
-                            style: Theme.of(context).textTheme.headline5,
-                          ),
+                          Text(firstTypeDescription ?? ''),
                           const SizedBox(
                             height: 16,
                           ),
-                          _getDropDownFildsecand(
-                              context, firstType, secandType),
+                          secandType?.length == 0
+                              ? const SizedBox(
+                                  height: 1,
+                                )
+                              : Text(
+                                  'انتخاب نوع جزئی تر:',
+                                  style: Theme.of(context).textTheme.headline5,
+                                ),
+                          secandType?.length == 0
+                              ? const SizedBox(
+                                  height: 1,
+                                )
+                              : const SizedBox(
+                                  height: 16,
+                                ),
+                          secandType?.length == 0
+                              ? const SizedBox(
+                                  height: 1,
+                                )
+                              : _getDropDownFildsecand(
+                                  context, firstType, secandType),
                           const SizedBox(
-                            height: 32,
+                            height: 4,
+                          ),
+                          secandType?.length == 0
+                              ? const SizedBox(
+                                  height: 1,
+                                )
+                              : Text(secandTypeDescription ?? ''),
+                          const SizedBox(
+                            height: 16,
                           ),
                           SizedBox(
                             height: 50,
@@ -609,19 +755,44 @@ class _CharityPageState extends State<CharityPage> {
                             _getDropDownFildFirest(
                                 context, firstType, secandType),
                             const SizedBox(
-                              height: 32,
+                              height: 4,
                             ),
-                            Text(
-                              'انتخاب نوع جزئی تر:',
-                              style: Theme.of(context).textTheme.headline5,
-                            ),
+                            Text(firstTypeDescription ?? ''),
                             const SizedBox(
                               height: 16,
                             ),
-                            _getDropDownFildsecand(
-                                context, firstType, secandType),
+                            secandType?.length == 0
+                                ? const SizedBox(
+                                    height: 1,
+                                  )
+                                : Text(
+                                    'انتخاب نوع جزئی تر:',
+                                    style:
+                                        Theme.of(context).textTheme.headline5,
+                                  ),
+                            secandType?.length == 0
+                                ? const SizedBox(
+                                    height: 1,
+                                  )
+                                : const SizedBox(
+                                    height: 16,
+                                  ),
+                            secandType?.length == 0
+                                ? const SizedBox(
+                                    height: 1,
+                                  )
+                                : _getDropDownFildsecand(
+                                    context, firstType, secandType),
                             const SizedBox(
-                              height: 32,
+                              height: 4,
+                            ),
+                            secandType?.length == 0
+                                ? const SizedBox(
+                                    height: 1,
+                                  )
+                                : Text(secandTypeDescription ?? ''),
+                            const SizedBox(
+                              height: 16,
                             ),
                             SizedBox(
                               height: 50,
@@ -893,7 +1064,9 @@ class _CharityPageState extends State<CharityPage> {
           return element.id.toString().contains(value.toString());
         }).toList();
         needSecandType = listSelect[0].optionalSubSelect ?? 1;
-        print('needSecandType' + needSecandType.toString());
+        firstTypeDescription = listSelect[0].description ?? '';
+        // print(des);
+        // print('needSecandType' + needSecandType.toString());
         !_formKey.currentState!.validate();
         if (needSecandType == 1) {
           idType = value.toString();
@@ -961,8 +1134,20 @@ class _CharityPageState extends State<CharityPage> {
         }
       },
       onChanged: (value) {
+        secandTypeDescription = '';
         !_formKey.currentState!.validate();
         idType = value.toString();
+        // secandTypeDescription =
+        //     secandType?[int.parse(value.toString())].description ??
+        //         'توضیحاتی ندارد';
+
+        // print(secandTypeDescription);
+        List<CharityModelSecand> listSelectsecand = [];
+        listSelectsecand = secandType!.where((element) {
+          return element.id.toString().contains(value.toString());
+        }).toList();
+        secandTypeDescription = listSelectsecand[0].description;
+        context.read<CharityBloc>().add(SelectSecandTypeEvent());
       },
       onSaved: (value) {
         selectedValue = value.toString();

@@ -11,7 +11,7 @@ abstract class IAuthenticationDataSurce {
   Future<String> register(
     String username,
     String phone,
-    String email,
+    // String email,
     String deviceName,
     String password,
     String paswordConfirm,
@@ -30,7 +30,6 @@ class AuthenticationRemote implements IAuthenticationDataSurce {
   Future<String> register(
     String username,
     String phone,
-    String email,
     String deviceName,
     String password,
     String paswordConfirm,
@@ -39,7 +38,7 @@ class AuthenticationRemote implements IAuthenticationDataSurce {
       final response = await _dio.post(ApiAddress.register, data: {
         'name': username,
         'phone': phone,
-        'email': email,
+        // 'email': email,
         'password': password,
         'password_confirmation': paswordConfirm,
         'device_name': deviceName,
@@ -50,13 +49,19 @@ class AuthenticationRemote implements IAuthenticationDataSurce {
         var token = response.data['data']['token'];
 
         box.put('name', username);
-        box.put('email', email);
+        // box.put('email', email);
         box.put('phone', phone);
         return token;
       } else
         return '';
     } on DioError catch (ex) {
-      throw ApiException(ex.response?.statusCode, ex.response?.data['errors']);
+      if (ex.response?.data.runtimeType == int) {
+        print('${ex.response?.data}');
+        throw ApiException(ex.response?.statusCode, 'error int');
+      } else {
+        throw ApiException(
+            ex.response?.statusCode, ex.response?.data['errors']);
+      }
     } catch (ex) {
       throw ApiException(0, 'error');
     }

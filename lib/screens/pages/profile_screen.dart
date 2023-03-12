@@ -14,7 +14,7 @@ import 'package:charity/util/auth_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-
+import 'package:url_launcher/url_launcher.dart';
 import '../../bloc/profile_bloc/profile_event.dart';
 import '../../bloc/profile_edit_bloc/profile_edit_bloc.dart';
 import '../../data/repository/profile_repository.dart';
@@ -308,30 +308,40 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ],
                     ),
                   ),
-                  // TextButton(
-                  //   onPressed: () {},
-                  //   child: Column(
-                  //     crossAxisAlignment: CrossAxisAlignment.start,
-                  //     children: [
-                  //       Padding(
-                  //         padding: const EdgeInsets.only(right: 45),
-                  //         child: Text(
-                  //           'ارتباط با ما ',
-                  //           style: Theme.of(context).textTheme.headline6,
-                  //           textAlign: TextAlign.start,
-                  //         ),
-                  //       ),
-                  //       const Padding(
-                  //         padding: EdgeInsets.symmetric(horizontal: 40),
-                  //         child: Divider(
-                  //           color: Colors.grey,
-                  //           height: 15,
-                  //           thickness: 1,
-                  //         ),
-                  //       )
-                  //     ],
-                  //   ),
-                  // ),
+                  TextButton(
+                    onPressed: () async {
+                      final Uri launchUri = Uri(
+                        scheme: 'tel',
+                        path: phoneNumber,
+                      );
+                      await launchUrl(
+                        launchUri,
+                      );
+
+                      // await launch(launchUri.toString());
+                    },
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(right: 45),
+                          child: Text(
+                            'ارتباط با ما ',
+                            style: Theme.of(context).textTheme.headline6,
+                            textAlign: TextAlign.start,
+                          ),
+                        ),
+                        const Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 40),
+                          child: Divider(
+                            color: Colors.grey,
+                            height: 15,
+                            thickness: 1,
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
                   TextButton(
                     onPressed: () async {
                       await AuthManager.logout();

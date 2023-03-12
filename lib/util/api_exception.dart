@@ -9,13 +9,13 @@ class RegisterErrorModel {
   String? name;
   String? phone;
   String? password;
-  String? email;
+  // String? email;
   String? unknow;
 
   RegisterErrorModel(
     this.name,
     this.phone,
-    this.email,
+    // this.email,
     this.password,
     this.unknow,
   );
