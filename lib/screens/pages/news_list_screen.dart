@@ -1,12 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:charity/bloc/home_bloc/home_bloc.dart';
-import 'package:charity/bloc/home_bloc/home_event.dart';
-import 'package:charity/bloc/home_bloc/home_state.dart';
+
 import 'package:charity/bloc/news_page_bloc/news_page_block.dart';
 import 'package:charity/bloc/news_page_bloc/news_page_event.dart';
 import 'package:charity/bloc/news_page_bloc/news_page_state.dart';
 import 'package:charity/constants/constants.dart';
-import 'package:charity/data/repositories/repositories.dart';
+
 import 'package:charity/screens/pages/news_screen.dart';
 
 import 'package:flutter/material.dart';
@@ -16,7 +14,7 @@ import '../widget/error_box.dart';
 import '../widget/spin_kit.dart';
 
 class NewsListPage extends StatelessWidget {
-  NewsListPage({super.key});
+  const NewsListPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +39,7 @@ class NewsListPage extends StatelessWidget {
               }
               if (state is NewsLoadedState) {
                 return state.response.fold((l) {
-                  return Text('خطای ناشناخته');
+                  return const Text('خطای ناشناخته');
                 }, (r) => body(context, r));
               } else {
                 return ErrorBox(
@@ -78,7 +76,7 @@ class NewsListPage extends StatelessWidget {
           ),
         ),
         SliverPadding(
-          padding: EdgeInsets.only(top: 16, bottom: 80),
+          padding: const EdgeInsets.only(top: 16, bottom: 80),
           sliver: SliverList(
             delegate: SliverChildBuilderDelegate((context, index) {
               return _getCoverNews(index, r, context);
@@ -98,7 +96,7 @@ class NewsListPage extends StatelessWidget {
                 )));
       },
       child: Padding(
-        padding: EdgeInsets.only(right: 16, left: 16, bottom: 16),
+        padding: const EdgeInsets.only(right: 16, left: 16, bottom: 16),
         child: Container(
           decoration: BoxDecoration(
             color: blueDark,
@@ -148,8 +146,8 @@ class NewsListPage extends StatelessWidget {
                       imageUrl: r[index].newsImageUrl,
                       fit: BoxFit.cover,
                       placeholder: (context, url) => Center(
-                          child:
-                              Container(color: blueLight, child: MySpinKit())),
+                          child: Container(
+                              color: blueLight, child: const MySpinKit())),
                       errorWidget: (context, url, error) =>
                           const Icon(Icons.error),
                     ),

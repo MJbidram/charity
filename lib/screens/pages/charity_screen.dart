@@ -16,15 +16,13 @@ import 'package:charity/screens/widget/spin_kit.dart';
 import 'package:charity/util/auth_manager.dart';
 import 'package:digit_to_persian_word/digit_to_persian_word.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
-import 'package:flutter/services.dart';
+
 import 'package:persian_number_utility/persian_number_utility.dart';
-import 'package:uni_links/uni_links.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive/hive.dart';
-
-import '../widget/category_items.dart';
 
 String? selectedValue;
 String? firstTypeDescription;
@@ -45,25 +43,18 @@ class _CharityPageState extends State<CharityPage> {
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-  // String firstType = '';
-  // String secandType = '';
   List<CharityModelFirst>? firstType;
   List<CharityModelSecand>? secandType;
   int? needSecandType;
   int? needFirstType;
   String? idType;
-  // final _firstBox = Hive.box<CharityModelFirst>('ModelFirst');
-  // final _secandBox = Hive.box<CharityModelSecand>('ModelSecand');
+
   final _box = Hive.box('information');
-  // List<CharityModelFirst>? firstBoxList;
-  // List<CharityModelSecand>? secandBoxList;
 
   int? shortcutId;
   String? shortcutTitle;
   @override
   initState() {
-    // TODO: implement initState
-
     super.initState();
     shortcutId = widget.id;
     shortcutTitle = widget.title;
@@ -163,8 +154,6 @@ class _CharityPageState extends State<CharityPage> {
   }
 
   Widget _getCharityPageBody(BuildContext context) {
-    // List<CharityModelFirst>? itemsCharityFirst;
-    // List<CharityModelSecand>? itemsCharitySecand;
     String url;
     int paymentFactor;
     return Padding(
@@ -294,48 +283,9 @@ class _CharityPageState extends State<CharityPage> {
                         height: 4,
                       ),
                       Text(firstTypeDescription ?? ''),
-
                       const SizedBox(
                         height: 16,
                       ),
-                      // Text(
-                      //   'انتخاب نوع جزئی تر:',
-                      //   style: Theme.of(context).textTheme.headline5,
-                      // ),
-                      // const SizedBox(
-                      //   height: 16,
-                      // ),
-                      // DropdownButtonFormField2(
-                      //     decoration: InputDecoration(
-                      //       // label: Text('data'),
-
-                      //       isDense: true,
-                      //       contentPadding: EdgeInsets.zero,
-                      //       border: OutlineInputBorder(
-                      //         borderRadius: BorderRadius.circular(15),
-                      //       ),
-                      //     ),
-                      //     isExpanded: true,
-                      //     hint: const Text(
-                      //       'ابتدا نوع و موارد مصرف را انتخاب کنید',
-                      //       style: TextStyle(fontSize: 14),
-                      //     ),
-                      //     icon: const Icon(
-                      //       Icons.arrow_drop_down,
-                      //       color: Colors.black45,
-                      //     ),
-                      //     dropdownMaxHeight: 200,
-                      //     iconSize: 30,
-                      //     buttonHeight: 50,
-                      //     buttonPadding:
-                      //         const EdgeInsets.only(left: 20, right: 10),
-                      //     dropdownDecoration: BoxDecoration(
-                      //       borderRadius: BorderRadius.circular(15),
-                      //     ),
-                      //     items: []),
-                      // const SizedBox(
-                      //   height: 32,
-                      // ),
                       SizedBox(
                         height: 50,
                         child: ElevatedButton(
@@ -361,17 +311,6 @@ class _CharityPageState extends State<CharityPage> {
                                 idType: idType!,
                                 amount: _amount,
                                 token: token!));
-                            // IpaymentRepository paymentRepository = locator.get();
-
-                            // var either = await paymentRepository.getPaymentData(
-                            //     idType!, _amount, token!);
-                            // either.fold((l) => print(l), (r) async {
-                            //   payLinkModel = r;
-                            //   await _box.put('factorId', r.faktoorId);
-                            //   var either2 =
-                            //       await paymentRepository.launchUrlForPayment(r.url);
-                            //   either2.fold((l) => print(l), (r) => print(r));
-                            // });
                           },
                           child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -395,18 +334,6 @@ class _CharityPageState extends State<CharityPage> {
                 });
               }
               if (state is CharityLoadedSecandTypeState) {
-                // if (_secandBox.isEmpty) {
-                // for (var i = 0; i < state.item.length; i++) {
-                //   // _secandBox.add(state.item[i]);
-                //   _secandBox.put(i, state.item[i]);
-                // }
-                // // }
-
-                // for (var i = 0; i < _secandBox.values.length; i++) {
-                //   secandBoxList = _secandBox.values.toList();
-                // }
-                // itemsCharitySecand = state.item;
-
                 return state.items.fold((l) {
                   return Center(
                     child: ErrorBox(
@@ -587,7 +514,7 @@ class _CharityPageState extends State<CharityPage> {
                                 PayLinkModel? payLinkModel;
                                 String _amount = amount.text.toString();
                                 _amount = _amount.replaceAll(',', '');
-                                print(_amount);
+
                                 _amount = removeZero(_amount);
                                 String? token = await AuthManager.readauth();
 
@@ -596,17 +523,6 @@ class _CharityPageState extends State<CharityPage> {
                                         idType: idType!,
                                         amount: _amount,
                                         token: token!));
-                                // IpaymentRepository paymentRepository = locator.get();
-
-                                // var either = await paymentRepository.getPaymentData(
-                                //     idType!, _amount, token!);
-                                // either.fold((l) => print(l), (r) async {
-                                //   payLinkModel = r;
-                                //   await _box.put('factorId', r.faktoorId);
-                                //   var either2 =
-                                //       await paymentRepository.launchUrlForPayment(r.url);
-                                //   either2.fold((l) => print(l), (r) => print(r));
-                                // });
                               },
                               child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
@@ -904,7 +820,7 @@ class _CharityPageState extends State<CharityPage> {
               PayLinkModel? payLinkModel;
               String _amount = amount.text.toString();
               _amount = _amount.replaceAll(',', '');
-              print(_amount);
+
               _amount = removeZero(_amount);
               String? token = await AuthManager.readauth();
 
@@ -1065,8 +981,7 @@ class _CharityPageState extends State<CharityPage> {
         }).toList();
         needSecandType = listSelect[0].optionalSubSelect ?? 1;
         firstTypeDescription = listSelect[0].description ?? '';
-        // print(des);
-        // print('needSecandType' + needSecandType.toString());
+
         !_formKey.currentState!.validate();
         if (needSecandType == 1) {
           idType = value.toString();
@@ -1074,10 +989,6 @@ class _CharityPageState extends State<CharityPage> {
         context
             .read<CharityBloc>()
             .add(LoadSecandTypeEvent(firstType: value.toString()));
-        // setState(() {
-        //   // _getSecandTyps(value);
-
-        // });
       },
       onSaved: (value) {
         selectedValue = value.toString();
@@ -1137,11 +1048,7 @@ class _CharityPageState extends State<CharityPage> {
         secandTypeDescription = '';
         !_formKey.currentState!.validate();
         idType = value.toString();
-        // secandTypeDescription =
-        //     secandType?[int.parse(value.toString())].description ??
-        //         'توضیحاتی ندارد';
 
-        // print(secandTypeDescription);
         List<CharityModelSecand> listSelectsecand = [];
         listSelectsecand = secandType!.where((element) {
           return element.id.toString().contains(value.toString());
@@ -1168,7 +1075,7 @@ String removeZero(String num) {
   for (var i = 0; i < num.length; i++) {
     if (num[i] != '0') {
       String res = num.substring(i);
-      print(res);
+
       return res;
     }
   }

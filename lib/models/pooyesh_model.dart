@@ -7,6 +7,7 @@ class PooyeshModel {
   final String? start;
   final String? end;
   final int typePay;
+  final int? persentTamin;
 
   PooyeshModel(
       {required this.id,
@@ -16,18 +17,19 @@ class PooyeshModel {
       this.amount,
       this.start,
       this.end,
-      required this.typePay});
+      required this.typePay,
+      this.persentTamin});
 
   factory PooyeshModel.fromJsonMap(Map<String, dynamic> jsonObject) {
     return PooyeshModel(
-      id: jsonObject['id'],
-      amount: jsonObject['amount'],
-      description: jsonObject['description'],
-      imageUrl: jsonObject['image'],
-      typePay: jsonObject['type_pay'],
-      start: jsonObject['start'],
-      end: jsonObject['end'],
-      title: jsonObject['title'],
-    );
+        id: jsonObject['id'],
+        amount: jsonObject['amount'],
+        description: jsonObject['description'],
+        imageUrl: jsonObject['image'],
+        typePay: jsonObject['type_pay'],
+        start: jsonObject['start'],
+        end: jsonObject['end'],
+        title: jsonObject['title'],
+        persentTamin: jsonObject['persent_tamin']);
   }
 }

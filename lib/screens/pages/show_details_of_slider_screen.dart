@@ -2,12 +2,10 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:charity/bloc/details_of_sliders/details_bloc.dart';
 import 'package:charity/bloc/details_of_sliders/details_event.dart';
 import 'package:charity/bloc/details_of_sliders/details_state.dart';
-import 'package:charity/bloc/news_page_bloc/news_page_block.dart';
-import 'package:charity/bloc/news_page_bloc/news_page_event.dart';
-import 'package:charity/bloc/news_page_bloc/news_page_state.dart';
+
 import 'package:charity/constants/constants.dart';
 import 'package:charity/screens/pages/main_screen.dart';
-import 'package:charity/screens/widget/botom_sheet_comments.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_html/flutter_html.dart';
@@ -53,7 +51,6 @@ class _ShowDetailsOfSliderScreenState extends State<ShowDetailsOfSliderScreen> {
           }
           if (state is DetailShowPooyeshState) {
             return state.response.fold((l) {
-              print(l);
               return const Center(
                 child: Text('خطا در دریافت اطلاعات'),
               );
@@ -65,12 +62,12 @@ class _ShowDetailsOfSliderScreenState extends State<ShowDetailsOfSliderScreen> {
                 date: 'k',
                 description: r.description,
                 imageUrl: r.imageUrl,
+                persentTamin: r.persentTamin,
               );
             });
           }
           if (state is DetailShowProjectsState) {
             return state.response.fold((l) {
-              print(l);
               return const Center(
                 child: Text('خطا در دریافت اطلاعات'),
               );
@@ -103,6 +100,7 @@ class Body extends StatelessWidget {
   String title;
   int? index;
   String? amunt;
+  int? persentTamin;
   Body({
     required this.title,
     required this.date,
@@ -111,6 +109,7 @@ class Body extends StatelessWidget {
     this.id,
     this.index,
     this.amunt,
+    this.persentTamin,
     Key? key,
   }) : super(key: key);
 
@@ -192,46 +191,6 @@ class Body extends StatelessWidget {
               vertical: 16,
               horizontal: 16,
             ),
-            // sliver: SliverToBoxAdapter(
-            //   child: Container(
-            //     color: white,
-            //     child:
-            //  Row(
-            //   textDirection: TextDirection.rtl,
-            //   crossAxisAlignment: CrossAxisAlignment.center,
-            //   children:const [
-            //      Icon(Icons.timer_outlined),
-            //      SizedBox(
-            //       width: 4,
-            //     ),
-            // Text(
-            //   date,
-            //   style: const TextStyle(fontFamily: 'Vl', fontSize: 14),
-            // ),
-            // const Spacer(),
-            // const Icon(Icons.question_answer_outlined),
-            // Text(
-            //   '0',
-            //   style: TextStyle(
-            //       fontSize: 12, fontFamily: 'VL', color: black),
-            // ),
-            // Text(
-            //   'دیدگاه',
-            //   style: TextStyle(
-            //       fontSize: 12, fontFamily: 'VL', color: black),
-            // ),
-            // const SizedBox(
-            //   width: 16,
-            // ),
-            // const Icon(Icons.favorite_outline),
-            // const SizedBox(
-            //   width: 16,
-            // ),
-            // const Icon(Icons.bookmark_add_outlined)
-            //   ],
-            // ),
-            //   ),
-            // ),
           ),
           SliverPadding(
             padding: const EdgeInsets.only(
@@ -255,40 +214,60 @@ class Body extends StatelessWidget {
           ),
           MainScreen.isPooyeshSelected == true
               ? SliverPadding(
-                  padding: EdgeInsets.only(bottom: 8, right: 16, left: 16),
+                  padding:
+                      const EdgeInsets.only(bottom: 8, right: 16, left: 16),
                   sliver: SliverToBoxAdapter(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                    child: Column(
                       children: [
-                        Text(' هزینه مورد نیاز'),
-                        Spacer(),
-                        Text(amunt != '0'
-                            ? '${amunt?.toWord()} تومان'
-                            : 'نامحدود'),
-                        Spacer(),
-                        amunt != '0'
-                            ? Text('${amunt?.toPersianDigit().seRagham()}')
-                            : Spacer(),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const Text(' هزینه مورد نیاز'),
+                            const Spacer(),
+                            Text(amunt != '0'
+                                ? '${amunt?.toWord()} تومان'
+                                : 'نامحدود'),
+                            const Spacer(),
+                            amunt != '0'
+                                ? Text('${amunt?.toPersianDigit().seRagham()}')
+                                : const Spacer(),
+                          ],
+                        ),
+                        const SizedBox(
+                          height: 4,
+                        ),
+                        persentTamin != null
+                            ? Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  const Text(' پیشرفت'),
+                                  const Spacer(),
+                                  progressBar(persentTamin!, context),
+                                ],
+                              )
+                            : const SizedBox(
+                                height: 1,
+                              ),
                       ],
                     ),
                   ),
                 )
-              : SliverToBoxAdapter(),
-          MainScreen.isPooyeshSelected == false
-              ? SliverPadding(
-                  padding: EdgeInsets.only(bottom: 8, right: 16, left: 16),
-                  sliver: SliverToBoxAdapter(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(' پیشرفت'),
-                        Spacer(),
-                        progressBar(index ?? 0, context),
-                      ],
-                    ),
-                  ),
-                )
-              : SliverToBoxAdapter(),
+              : MainScreen.isPooyeshSelected == false
+                  ? SliverPadding(
+                      padding:
+                          const EdgeInsets.only(bottom: 8, right: 16, left: 16),
+                      sliver: SliverToBoxAdapter(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const Text(' پیشرفت'),
+                            const Spacer(),
+                            progressBar(index ?? 0, context),
+                          ],
+                        ),
+                      ),
+                    )
+                  : const SliverToBoxAdapter(),
           SliverPadding(
             padding: const EdgeInsets.only(bottom: 32, right: 12, left: 12),
             sliver: SliverToBoxAdapter(
@@ -302,7 +281,7 @@ class Body extends StatelessWidget {
                   padding:
                       const EdgeInsets.only(bottom: 16, right: 16, left: 16),
                   sliver: SliverToBoxAdapter(
-                      child: Container(
+                      child: SizedBox(
                     height: 50,
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
@@ -339,12 +318,12 @@ class Body extends StatelessWidget {
                   )),
                 )
               : id == null
-                  ? SliverToBoxAdapter()
+                  ? const SliverToBoxAdapter()
                   : SliverPadding(
                       padding: const EdgeInsets.only(
                           bottom: 16, right: 16, left: 16),
                       sliver: SliverToBoxAdapter(
-                          child: Container(
+                          child: SizedBox(
                         height: 50,
                         child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
@@ -386,14 +365,14 @@ class Body extends StatelessWidget {
 
   Widget progressBar(int index, BuildContext context) {
     return Container(
-      margin: EdgeInsets.symmetric(
+      margin: const EdgeInsets.symmetric(
         vertical: 8,
       ),
       child: LinearPercentIndicator(
         center: Align(
           alignment: Alignment.topCenter,
           child: Text(
-            index.toString().toPersianDigit() + '%',
+            '${index.toString().toPersianDigit()}%',
             style: Theme.of(context).textTheme.headline4,
           ),
         ),
@@ -402,59 +381,13 @@ class Body extends StatelessWidget {
         progressColor: Colors.red,
         backgroundColor: Colors.grey[200],
         percent: index / 100,
-        barRadius: Radius.circular(8),
+        barRadius: const Radius.circular(8),
         animation: true,
         animationDuration: 2000,
         alignment: MainAxisAlignment.center,
-        padding: EdgeInsets.symmetric(horizontal: 8),
+        padding: const EdgeInsets.symmetric(horizontal: 8),
         restartAnimation: false,
       ),
     );
   }
 }
-
-
-// PreferredSize _const_appbar(BuildContext context) {
-//     return PreferredSize(
-//       preferredSize: const Size.fromHeight(250),
-//       child: AppBar(
-//         elevation: 0,
-//         toolbarHeight: 60,
-//         title: Text(
-//           shortName,
-//           style: Theme.of(context).textTheme.headline1,
-//         ),
-//         actions: const [
-//           Padding(
-//             padding: EdgeInsets.all(8.0),
-//             child: Icon(
-//               Icons.notifications,
-//               size: 32,
-//             ),
-//           ),
-//         ],
-//         backgroundColor: Colors.white,
-//         flexibleSpace: FlexibleSpaceBar(
-//           collapseMode: CollapseMode.pin,
-//           background: Container(
-//             decoration: BoxDecoration(
-//               gradient: blueGradient,
-//               borderRadius: BorderRadius.vertical(
-//                 bottom:
-//                     Radius.elliptical(MediaQuery.of(context).size.width, 170),
-//               ),
-//             ),
-//             child: Container(
-//               decoration: BoxDecoration(
-//                 gradient: blueGradient,
-//                 borderRadius: BorderRadius.vertical(
-//                   bottom:
-//                       Radius.elliptical(MediaQuery.of(context).size.width, 170),
-//                 ),
-//               ),
-//             ),
-//           ),
-//         ),
-//       ),
-//     );
-//   }

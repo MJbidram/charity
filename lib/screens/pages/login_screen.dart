@@ -1,13 +1,10 @@
-import 'dart:convert';
-
 import 'package:charity/constants/constants.dart';
-import 'package:charity/main.dart';
+
 import 'package:charity/screens/pages/main_screen.dart';
 import 'package:charity/screens/pages/signup_screen.dart';
 import 'package:charity/util/api_exception.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:http/http.dart';
 
 import '../../data/repository/authentication_repository.dart';
 import '../../util/auth_manager.dart';
@@ -41,8 +38,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
-
     super.initState();
 
     focusNodePhone.addListener(() {

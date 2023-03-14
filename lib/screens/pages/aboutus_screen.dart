@@ -5,10 +5,9 @@ import 'package:charity/constants/constants.dart';
 import 'package:charity/models/aboutus_model.dart';
 import 'package:charity/screens/widget/error_box.dart';
 import 'package:charity/screens/widget/spin_kit.dart';
-import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_html/flutter_html.dart';
 
@@ -95,7 +94,7 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
 
   Widget body(AboutUsModel aboutUsModel) {
     return SliverPadding(
-      padding: EdgeInsets.only(bottom: 8),
+      padding: const EdgeInsets.only(bottom: 8),
       sliver: SliverToBoxAdapter(
         child: Center(
             child: Column(
@@ -118,23 +117,5 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
         )),
       ),
     );
-    // SliverPadding(
-    //   padding: EdgeInsets.only(bottom: 8),
-    //   sliver: SliverToBoxAdapter(
-    //     child: Center(child: Text('درباره خیریه')),
-    //   ),
-    // ),
-    // SliverPadding(
-    //   padding: EdgeInsets.only(bottom: 4),
-    //   sliver: SliverToBoxAdapter(
-    //     child: Center(child: Text('تلفن:')),
-    //   ),
-    // ),
-    // SliverPadding(
-    //   padding: EdgeInsets.only(bottom: 8),
-    //   sliver: SliverToBoxAdapter(
-    //     child: Center(child: Text('۰۹۱۲۳۴۵۶۷۸۹')),
-    //   ),
-    // ),
   }
 }

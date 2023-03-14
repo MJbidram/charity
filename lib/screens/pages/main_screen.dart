@@ -13,9 +13,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:stylish_bottom_bar/stylish_bottom_bar.dart';
 
-import '../../data/repository/charity_repository.dart';
-import '../../models/charity_model.dart';
-
 class MainScreen extends StatefulWidget {
   static bool isPooyeshSelected = false;
   const MainScreen({super.key});
@@ -48,7 +45,7 @@ class _MainScreenState extends State<MainScreen> {
             topRight: Radius.circular(15),
           ),
           child: StylishBottomBar(
-            padding: EdgeInsets.only(top: 4),
+            padding: const EdgeInsets.only(top: 4),
 
             items: [
               AnimatedBarItems(
@@ -156,7 +153,7 @@ class _MainScreenState extends State<MainScreen> {
         ),
         BlocProvider(create: (context) => NewsBloc(), child: NewsListPage()),
         BlocProvider(
-            create: (context) => ProfielBloc(), child: ProfileScreen()),
+            create: (context) => ProfielBloc(), child: const ProfileScreen()),
       ],
     );
   }

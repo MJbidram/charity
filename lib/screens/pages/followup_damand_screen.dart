@@ -3,13 +3,11 @@ import 'package:charity/bloc/followup_bloc/followup_bloc.dart';
 import 'package:charity/bloc/followup_bloc/followup_event.dart';
 import 'package:charity/bloc/followup_bloc/followup_state.dart';
 import 'package:charity/models/damand_model.dart';
-import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:persian_number_utility/persian_number_utility.dart';
 
 import '../../constants/constants.dart';
 import '../widget/error_box.dart';
@@ -59,37 +57,6 @@ class _FollowUpDamandScreenState extends State<FollowUpDamandScreen> {
                 ),
               ),
             ),
-            // SliverPadding(
-            //   padding: EdgeInsets.only(bottom: 16),
-            //   sliver: SliverToBoxAdapter(
-            //     child: Container(
-            //       height: 50,
-            //       color: blueDark,
-            //       child: Padding(
-            //         padding: const EdgeInsets.symmetric(horizontal: 16),
-            //         child: Row(children: [
-            //           Text(
-            //             'نمایش پرداخت های ناموفق',
-            //             style: Theme.of(context).textTheme.headline2,
-            //           ),
-            //           Spacer(),
-            //           Switch(
-            //             value: filterFactors,
-            //             onChanged: (value) {
-            //               setState(() {
-            //                 filterFactors = value;
-            //               });
-
-            //               context.read<FactorsBloc>().add(
-            //                   FactorRequestListEvent(
-            //                       AuthManager.authChangeNotifire.value));
-            //             },
-            //           )
-            //         ]),
-            //       ),
-            //     ),
-            //   ),
-            // ),
             BlocBuilder<FollowUpDamandBloc, FollowUpState>(
               builder: (context, state) {
                 if (state is FollowUpInitState) {
@@ -327,30 +294,6 @@ class _FactoersListState extends State<FactoersList> {
                               style: Theme.of(context).textTheme.headline2,
                             )),
                       ),
-                      // Spacer(),
-                      // Container(
-                      //   height: 42.0,
-                      //   width: MediaQuery.of(context).size.width / 3,
-                      //   decoration: BoxDecoration(
-                      //       borderRadius: BorderRadius.circular(32)),
-                      //   child: ElevatedButton(
-                      //     style: ElevatedButton.styleFrom(
-                      //         elevation: 0,
-                      //         foregroundColor: blueLight,
-                      //         backgroundColor: blueDark),
-                      //     onPressed: () {},
-                      //     child: Row(
-                      //       mainAxisAlignment: MainAxisAlignment.center,
-                      //       children: [
-                      //         Icon(
-                      //           Icons.share_outlined,
-                      //           color: white,
-                      //           size: 28,
-                      //         ),
-                      //       ],
-                      //     ),
-                      //   ),
-                      // ),
                     ],
                   ),
                 ]),
@@ -358,25 +301,6 @@ class _FactoersListState extends State<FactoersList> {
             ),
           ),
         ),
-        // Align(
-        //   alignment: AlignmentDirectional.topCenter,
-        //   child: CircleAvatar(
-        //       backgroundColor: blueDark,
-        //       radius: 24.0,
-        //       child:
-        //           //factorsModel[reversedIndex].isPardakht == 1
-        //           //     ? const Icon(
-        //           //         Icons.done_rounded,
-        //           //         size: 28,
-        //           //         color: Colors.greenAccent,
-        //           //       )
-        //           //     :
-        //           const Icon(
-        //         Icons.close,
-        //         size: 28,
-        //         color: Colors.redAccent,
-        //       )),
-        // ),
       ],
     );
   }

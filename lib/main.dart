@@ -1,10 +1,8 @@
 import 'dart:io';
-import 'package:charity/bloc/charity_bloc/chrity_bloc.dart';
-import 'package:charity/bloc/home_bloc/home_bloc.dart';
-import 'package:charity/bloc/news_page_bloc/news_page_block.dart';
+
 import 'package:charity/constants/constants.dart';
 import 'package:charity/di/di.dart';
-import 'package:charity/screens/pages/damand_screen.dart';
+
 import 'package:charity/screens/pages/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -13,9 +11,14 @@ import 'package:hive_flutter/hive_flutter.dart';
 
 import 'bloc/splash_screen_bloc/splash_bloc.dart';
 import 'models/charity_model.dart';
+// ignore: depend_on_referenced_packages
+import 'package:pushpole/pushpole.dart';
 
 void main(List<String> args) async {
+  WidgetsFlutterBinding.ensureInitialized();
+  PushPole.initialize();
   await getItInit();
+
   await Hive.initFlutter();
   var box = await Hive.openBox('information');
   // Hive.registerAdapter(CharityModelFirstAdapter());
@@ -23,22 +26,19 @@ void main(List<String> args) async {
   await Hive.openBox<CharityModelSecand>('ModelSecand');
   await Hive.openBox<CharityModelFirst>('ModelFirst');
   HttpOverrides.global = MyHttpOverrides();
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatefulWidget {
-  MyApp({super.key});
+  const MyApp({super.key});
 
   @override
   State<MyApp> createState() => _MyAppState();
 }
 
 class _MyAppState extends State<MyApp> {
-  // var box = Hive.box('information');
   @override
   void initState() {
-    // TODO: implement initState
-
     super.initState();
   }
 
@@ -53,7 +53,7 @@ class _MyAppState extends State<MyApp> {
       supportedLocales: const [
         Locale("fa", "IR"), // OR Locale('ar', 'AE') OR Other RTL locales
       ],
-      locale: Locale("fa", "IR"),
+      locale: const Locale("fa", "IR"),
       home: BlocProvider(
         create: (context) => SplashBloc(),
         child: const SplashScreen(),
@@ -101,8 +101,6 @@ class _MyAppState extends State<MyApp> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
-
     super.dispose();
   }
 }

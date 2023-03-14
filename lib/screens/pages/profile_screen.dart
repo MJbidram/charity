@@ -13,12 +13,11 @@ import 'package:charity/screens/widget/spin_kit.dart';
 import 'package:charity/util/auth_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hive_flutter/hive_flutter.dart';
+
 import 'package:url_launcher/url_launcher.dart';
 import '../../bloc/profile_bloc/profile_event.dart';
 import '../../bloc/profile_edit_bloc/profile_edit_bloc.dart';
-import '../../data/repository/profile_repository.dart';
-import '../../di/di.dart';
+
 import 'followup_damand_screen.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -93,7 +92,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     child: BlocBuilder<ProfielBloc, ProfileState>(
                   builder: (context, state) {
                     if (state is ProfileInitState) {
-                      return MySpinKit();
+                      return const MySpinKit();
                     }
                     if (state is ProfileLoadedState) {
                       return state.response.fold((l) {
@@ -113,45 +112,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             ]);
                       });
                     } else {
-                      return Text('خطا در دریافت مشخصات');
+                      return const Text('خطا در دریافت مشخصات');
                     }
                   },
-                )
-                    // FutureBuilder(
-                    //   initialData: Text('hello'),
-                    //   builder: (context, snapshot) {
-                    //     return Text(
-                    //       AuthManager.myName.value ??
-                    //           box.get('name') ??
-                    //           'ناشناس',
-                    //       style: Theme.of(context).textTheme.headline5,
-                    //     );
-                    //   },
-                    // )
-                    // ValueListenableBuilder(
-                    //   valueListenable: AuthManager.myName,
-                    //   builder: (context, value, child) {
-                    //     return Text(
-                    //       AuthManager.myName.value ??
-                    //           box.get('name') ??
-                    //           'ناشناس',
-                    //       style: Theme.of(context).textTheme.headline5,
-                    //     );
-                    //   },
-                    // ),
-                    // ValueListenableBuilder(
-                    //   valueListenable: AuthManager.myPhone,
-                    //   builder: (context, value, child) {
-                    //     return Text(
-                    //       AuthManager.myPhone.value ??
-                    //           box.get('phone') ??
-                    //           '__',
-                    //       style: Theme.of(context).textTheme.headline6,
-                    //     );
-                    //   },
-                    // )
-
-                    )),
+                ))),
             SliverToBoxAdapter(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -188,30 +152,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ],
                     ),
                   ),
-                  // TextButton(
-                  //   onPressed: () {},
-                  //   child: Column(
-                  //     crossAxisAlignment: CrossAxisAlignment.start,
-                  //     children: [
-                  //       Padding(
-                  //         padding: const EdgeInsets.only(right: 45),
-                  //         child: Text(
-                  //           'تغییر رمز ورود',
-                  //           style: Theme.of(context).textTheme.headline6,
-                  //           textAlign: TextAlign.start,
-                  //         ),
-                  //       ),
-                  //       const Padding(
-                  //         padding: EdgeInsets.symmetric(horizontal: 40),
-                  //         child: Divider(
-                  //           color: Colors.grey,
-                  //           height: 15,
-                  //           thickness: 1,
-                  //         ),
-                  //       )
-                  //     ],
-                  //   ),
-                  // ),
                   TextButton(
                     onPressed: () {
                       Navigator.push(context,
@@ -382,8 +322,5 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ),
       ),
     );
-    // var box = Hive.box('information');
-
-    // return await body(context, box);
   }
 }

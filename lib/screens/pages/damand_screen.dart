@@ -11,12 +11,8 @@ import 'package:charity/screens/widget/spin_kit.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../util/auth_manager.dart';
-import '../widget/snakbar.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 FocusNode _myFocusNodeDetails = FocusNode();
 FocusNode _myFocusNodeAddress = FocusNode();
@@ -283,63 +279,6 @@ class _DamandScreenState extends State<DamandScreen> {
                 onSaved: (value) {},
               ),
             )),
-        // SliverPadding(
-        //     padding: EdgeInsets.only(bottom: 16, right: 16, left: 16),
-        //     sliver: SliverToBoxAdapter(
-        //       child: TextFormField(
-        //           controller: detailsConroler,
-        //           maxLines: 5,
-        //           validator: (value) {},
-        //           focusNode: _myFocusNodeDetails,
-        //           style: TextStyle(
-        //             color: blueDark,
-        //             fontFamily: 'GM',
-        //             fontSize: 16,
-        //           ),
-        //           onChanged: (value) {},
-        //           decoration: InputDecoration(
-        //               focusedErrorBorder: const OutlineInputBorder(
-        //                 borderSide: BorderSide(
-        //                   color: Colors.red,
-        //                   width: 3,
-        //                 ),
-        //                 borderRadius: BorderRadius.all(Radius.circular(15)),
-        //               ),
-        //               errorBorder: const OutlineInputBorder(
-        //                 borderSide: BorderSide(
-        //                   color: Colors.red,
-        //                   width: 2,
-        //                 ),
-        //                 borderRadius: BorderRadius.all(Radius.circular(15)),
-        //               ),
-        //               contentPadding: const EdgeInsets.symmetric(
-        //                   horizontal: 25, vertical: 16),
-        //               enabledBorder: const OutlineInputBorder(
-        //                 borderSide: BorderSide(width: 1, color: Colors.grey),
-        //                 borderRadius: BorderRadius.all(Radius.circular(15)),
-        //               ),
-        //               focusedBorder: OutlineInputBorder(
-        //                 borderSide: BorderSide(
-        //                   color: blueDark,
-        //                   width: 3,
-        //                 ),
-        //                 borderRadius:
-        //                     const BorderRadius.all(Radius.circular(15)),
-        //               ),
-        //               // label: Align(
-        //               //   alignment: AlignmentDirectional.topCenter,
-        //               //   child: Text('تست'),
-        //               // ),
-        //               labelText: '  ${'توضیحات'}   ',
-        //               alignLabelWithHint: true,
-        //               labelStyle: TextStyle(
-        //                 fontFamily: 'GM',
-        //                 color: _myFocusNodeDetails.hasFocus
-        //                     ? blueDark
-        //                     : Colors.grey,
-        //                 fontSize: 18,
-        //               ))),
-        //     )),
         SliverPadding(
             padding: EdgeInsets.only(bottom: 8, right: 16, left: 16),
             sliver: SliverToBoxAdapter(

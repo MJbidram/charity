@@ -1,18 +1,13 @@
-import 'dart:async';
-import 'dart:convert';
-
 import 'package:charity/constants/constants.dart';
 import 'package:charity/data/repository/authentication_repository.dart';
-import 'package:charity/main.dart';
+
 import 'package:charity/screens/pages/login_screen.dart';
 import 'package:charity/screens/pages/main_screen.dart';
 import 'package:charity/util/api_exception.dart';
 import 'package:charity/util/auth_manager.dart';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-// import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:http/http.dart';
+
 import 'package:hive_flutter/hive_flutter.dart';
 
 import '../widget/spin_kit.dart';
@@ -52,7 +47,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     AuthManager.readauth();
     super.initState();
     focusNodeName.addListener(() {
@@ -436,7 +430,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   void dispose() {
     focusNodeName.dispose();
     focusNodePhone.dispose();
-    // focusNodeEmail.dispose();
+
     focusNodePassword.dispose();
     focusNodeConfirmPassword.dispose();
     super.dispose();

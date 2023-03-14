@@ -1,5 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:charity/bloc/home_bloc/home_event.dart';
+
 import 'package:charity/bloc/news_page_bloc/news_page_block.dart';
 import 'package:charity/bloc/news_page_bloc/news_page_event.dart';
 import 'package:charity/bloc/news_page_bloc/news_page_state.dart';
@@ -121,7 +121,6 @@ class NewsScreen extends StatelessWidget {
                 ),
               ),
             ),
-
             SliverPadding(
               padding: const EdgeInsets.only(
                 bottom: 8,
@@ -169,26 +168,6 @@ class NewsScreen extends StatelessWidget {
 
                         style: const TextStyle(fontFamily: 'Vl', fontSize: 14),
                       ),
-                      // const Spacer(),
-                      // const Icon(Icons.question_answer_outlined),
-                      // Text(
-                      //   '0',
-                      //   style: TextStyle(
-                      //       fontSize: 12, fontFamily: 'VL', color: black),
-                      // ),
-                      // Text(
-                      //   'دیدگاه',
-                      //   style: TextStyle(
-                      //       fontSize: 12, fontFamily: 'VL', color: black),
-                      // ),
-                      // const SizedBox(
-                      //   width: 16,
-                      // ),
-                      // const Icon(Icons.favorite_outline),
-                      // const SizedBox(
-                      //   width: 16,
-                      // ),
-                      // const Icon(Icons.bookmark_add_outlined)
                     ],
                   ),
                 ),
@@ -201,38 +180,6 @@ class NewsScreen extends StatelessWidget {
                 data: newsModel[0].newsText,
               )),
             ),
-            // SliverPadding(
-            //   padding: const EdgeInsets.only(bottom: 16, right: 16, left: 16),
-            //   sliver: SliverToBoxAdapter(
-            //       child: Container(
-            //     height: 50,
-            //     child: ElevatedButton(
-            //       style: ElevatedButton.styleFrom(
-            //         backgroundColor: blueDark,
-            //         shape: RoundedRectangleBorder(
-            //           borderRadius: BorderRadius.circular(16),
-            //         ),
-            //       ),
-            //       onPressed: () {
-            //         _getBottomSheetNavigation(context);
-            //       },
-            //       child:
-            //           Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-            //         Text(
-            //           'مشاهده و افزودن دیدگاه',
-            //           style: Theme.of(context).textTheme.headline4,
-            //         ),
-            //         const SizedBox(
-            //           width: 4,
-            //         ),
-            //         const Icon(
-            //           Icons.question_answer_outlined,
-            //           size: 24,
-            //         ),
-            //       ]),
-            //     ),
-            //   )),
-            // ),
           ],
         ),
       ),

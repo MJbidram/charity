@@ -10,7 +10,7 @@ import 'package:charity/screens/pages/news_screen.dart';
 import 'package:charity/screens/pages/show_details_of_slider_screen.dart';
 import 'package:charity/screens/widget/image_slider.dart';
 import 'package:charity/util/home_items_metods.dart';
-import 'package:dartz/dartz_unsafe.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:percent_indicator/percent_indicator.dart';
@@ -18,7 +18,7 @@ import 'package:persian_number_utility/persian_number_utility.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import '../../bloc/details_of_sliders/details_bloc.dart';
-import '../../models/charity_model.dart';
+
 import '../widget/error_box.dart';
 import '../widget/spin_kit.dart';
 
@@ -212,24 +212,12 @@ class _MyHomeScreenState extends State<MyHomeScreen> {
                       SliverToBoxAdapter(
                         child: Padding(
                           padding: const EdgeInsets.only(
-                              top: 16, right: 16, left: 16),
+                              top: 16, right: 16, left: 16, bottom: 8),
                           child: Align(
                               alignment: Alignment.topRight,
                               child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  TextButton(
-                                    onPressed: () {},
-                                    child: Text(
-                                      'بیشتر',
-                                      style: TextStyle(
-                                        fontFamily: 'VB',
-                                        fontSize: 16,
-                                        // fontWeight: FontWeight.w600,
-                                        color: blueDark,
-                                      ),
-                                    ),
-                                  ),
-                                  const Spacer(),
                                   Text(
                                     'اخبار',
                                     style: TextStyle(
@@ -361,8 +349,8 @@ class _MyHomeScreenState extends State<MyHomeScreen> {
         center: Align(
           alignment: Alignment.topCenter,
           child: Text(
-            '${r[1][index].pishraftProjectHome.toString().toPersianDigit()}' +
-                '%',
+            '${r[1][index].pishraftProjectHome.toString().toPersianDigit()}'
+            '%',
             style: Theme.of(context).textTheme.headline5,
           ),
         ),
@@ -428,7 +416,7 @@ class _MyHomeScreenState extends State<MyHomeScreen> {
                   borderRadius: BorderRadius.circular(16),
                 ),
                 child: Padding(
-                  padding: EdgeInsets.all(4),
+                  padding: const EdgeInsets.all(4),
                   child: CachedNetworkImage(
                     imageUrl: itemsModel.icon,
                     fit: BoxFit.cover,
@@ -452,7 +440,7 @@ class _MyHomeScreenState extends State<MyHomeScreen> {
                 child: Text(
                   itemsModel.title,
                   textAlign: TextAlign.center,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 12,
                   ),
                 ),

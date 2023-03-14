@@ -6,8 +6,7 @@ import 'package:charity/screens/widget/spin_kit.dart';
 import 'package:charity/util/auth_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../bloc/profile_edit_bloc/profile_edit_bloc.dart';
@@ -118,8 +117,6 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
                   sliver: SliverToBoxAdapter(
                     child: ElevatedButton(
                       onPressed: () {
-                        print('${AuthManager.authChangeNotifire.value}');
-
                         if (r.address != addressC!.text) {
                           address = addressC!.text;
                         }
@@ -198,7 +195,7 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
                       btnOkText: 'فهمیدم')
                   .show();
             });
-            return Center();
+            return const Center();
           });
         } else {
           return const Center(
@@ -250,7 +247,7 @@ class SliversInputText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SliverPadding(
-      padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
       sliver: SliverToBoxAdapter(
           child: CustomInputText(
         controller: controller,

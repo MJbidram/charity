@@ -2,8 +2,7 @@ import 'package:charity/bloc/factors_bloc/factors_bloc.dart';
 import 'package:charity/bloc/factors_bloc/factors_event.dart';
 import 'package:charity/bloc/factors_bloc/factors_state.dart';
 import 'package:charity/constants/constants.dart';
-import 'package:charity/data/repository/factors_repository.dart';
-import 'package:charity/di/di.dart';
+
 import 'package:charity/models/factors_model.dart';
 import 'package:charity/util/auth_manager.dart';
 import 'package:flutter/material.dart';
@@ -62,7 +61,7 @@ class _FactorsScreenState extends State<FactorsScreen> {
               ),
             ),
             SliverPadding(
-              padding: EdgeInsets.only(bottom: 16),
+              padding: const EdgeInsets.only(bottom: 16),
               sliver: SliverToBoxAdapter(
                 child: Container(
                   height: 50,
@@ -74,7 +73,7 @@ class _FactorsScreenState extends State<FactorsScreen> {
                         'نمایش پرداخت های ناموفق',
                         style: Theme.of(context).textTheme.headline2,
                       ),
-                      Spacer(),
+                      const Spacer(),
                       Switch(
                         value: filterFactors,
                         onChanged: (value) {
@@ -298,7 +297,7 @@ class _FactoersListState extends State<FactoersList> {
                                   )),
                             )
                           : Container(),
-                      Spacer(),
+                      const Spacer(),
                       Container(
                         height: 42.0,
                         width: MediaQuery.of(context).size.width / 3,
@@ -311,8 +310,7 @@ class _FactoersListState extends State<FactoersList> {
                               backgroundColor: blueDark),
                           onPressed: () {
                             Share.share(
-                                'فاکتور پرداخت : khapp.kheiriehemamali.ir/fk/' +
-                                    factorsModel[reversedIndex].sabtId);
+                                'فاکتور پرداخت : khapp.kheiriehemamali.ir/fk/${factorsModel[reversedIndex].sabtId}');
                           },
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,

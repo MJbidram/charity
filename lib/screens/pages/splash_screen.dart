@@ -1,19 +1,15 @@
-import 'dart:io';
-
 import 'package:charity/bloc/splash_screen_bloc/splash_bloc.dart';
 import 'package:charity/bloc/splash_screen_bloc/splash_state.dart';
 import 'package:charity/screens/pages/main_screen.dart';
 import 'package:charity/screens/pages/signup_screen.dart';
-import 'package:dio/dio.dart';
-import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_html/flutter_html.dart';
 
 import '../../bloc/splash_screen_bloc/splash_event.dart';
 import '../../constants/constants.dart';
-import '../../util/auth_manager.dart';
+
 import '../widget/spin_kit.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -60,7 +56,7 @@ class _SplashScreenState extends State<SplashScreen> {
                     if (state is ConnectionStates) {
                       if (state.isConnect) {
                         context.read<SplashBloc>().add(CheckLoginEvent());
-                        return MySpinKit();
+                        return const MySpinKit();
                       } else {
                         return Column(
                           children: [
@@ -74,14 +70,14 @@ class _SplashScreenState extends State<SplashScreen> {
                                     .read<SplashBloc>()
                                     .add(CheckConnectionEvent());
                               },
-                              child: Text('تلاش مجدد'),
+                              child: const Text('تلاش مجدد'),
                             ),
                           ],
                         );
                       }
                     }
                     if (state is SpalshLoadingState) {
-                      return MySpinKit();
+                      return const MySpinKit();
                     }
                     if (state is LoginState) {
                       if (state.isLogin) {
@@ -108,7 +104,7 @@ class _SplashScreenState extends State<SplashScreen> {
                         return const MySpinKit();
                       }
                     } else {
-                      return Text('خطا');
+                      return const Text('خطا');
                     }
                   },
                 )
