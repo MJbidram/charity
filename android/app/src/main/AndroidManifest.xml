@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="ir.kheirieh.emamali.gorgab">
+    package="ir.gorgab.charity.emamali">
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
    <application
         
@@ -9,6 +9,7 @@
          <meta-data android:name="com.pushpole.sdk.token" android:value="PUSHPOLE_6866073932"/>
         <activity
             android:name=".MainActivity"
+           
             android:exported="true"
             android:launchMode="singleTop"
             android:theme="@style/LaunchTheme"

@@ -84,3 +84,13 @@ class HadisModel {
     );
   }
 }
+
+class HomeImageSliderModel {
+  String url;
+
+  HomeImageSliderModel(this.url);
+
+  factory HomeImageSliderModel.fromJsonMap(Map<String, dynamic> jsonObject) {
+    return HomeImageSliderModel(jsonObject['image']);
+  }
+}

@@ -21,8 +21,7 @@ void main(List<String> args) async {
 
   await Hive.initFlutter();
   var box = await Hive.openBox('information');
-  // Hive.registerAdapter(CharityModelFirstAdapter());
-  // Hive.registerAdapter(CharityModelSecandAdapter());
+
   await Hive.openBox<CharityModelSecand>('ModelSecand');
   await Hive.openBox<CharityModelFirst>('ModelFirst');
   HttpOverrides.global = MyHttpOverrides();

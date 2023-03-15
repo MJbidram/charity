@@ -65,7 +65,7 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
                   return SliverToBoxAdapter(
                     child: Center(
                         child: ErrorBox(
-                      errorMessage: l,
+                      errorMessage: 'خطا در ارتباط با سرور',
                       onTap: () {
                         context.read<AboutUsBloc>().add(AboutUsLoadEvent());
                       },

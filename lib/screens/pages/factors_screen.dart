@@ -100,7 +100,7 @@ class _FactorsScreenState extends State<FactorsScreen> {
                 }
                 if (state is FactorsLoadedState) {
                   return state.response.fold((l) {
-                    return Text(l);
+                    return Text('خطا در ارتباط با سرور');
                   }, (r) {
                     if (!filterFactors) {
                       List<FactorsModle> sucseeslist = [];

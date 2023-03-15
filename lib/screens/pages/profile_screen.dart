@@ -96,7 +96,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     }
                     if (state is ProfileLoadedState) {
                       return state.response.fold((l) {
-                        return Text(l);
+                        return Text('خطا در ارتباط با سرور');
                       }, (r) {
                         return Column(
                             crossAxisAlignment: CrossAxisAlignment.center,

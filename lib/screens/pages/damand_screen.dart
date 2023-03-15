@@ -63,7 +63,7 @@ class _DamandScreenState extends State<DamandScreen> {
         if (state is DamandLoadedFirstTypes) {
           return state.response.fold((l) {
             return ErrorBox(
-              errorMessage: l,
+              errorMessage: 'خطا در ارتباط با سرور',
               onTap: () {
                 context.read<DamandBloc>().add(GetDamandFirstTypeEvent());
               },
@@ -71,7 +71,7 @@ class _DamandScreenState extends State<DamandScreen> {
           }, (r) {
             return state.checkeAddress.fold((l) {
               return ErrorBox(
-                errorMessage: l,
+                errorMessage: 'خطا در ارتباط با سرور',
                 onTap: () {
                   context.read<DamandBloc>().add(GetDamandFirstTypeEvent());
                 },
@@ -96,7 +96,7 @@ class _DamandScreenState extends State<DamandScreen> {
         if (state is DamandLoadedSecandTypes) {
           return state.response.fold((l) {
             return ErrorBox(
-              errorMessage: l,
+              errorMessage: 'خطا در ارتباط با سرور',
               onTap: () {
                 context.read<DamandBloc>().add(GetDamandFirstTypeEvent());
               },
@@ -112,7 +112,7 @@ class _DamandScreenState extends State<DamandScreen> {
         if (state is DamandSendedState) {
           return state.response.fold((l) {
             return ErrorBox(
-              errorMessage: l,
+              errorMessage: 'خطا در ارتباط با سرور',
               onTap: () {
                 context.read<DamandBloc>().add(GetDamandFirstTypeEvent());
               },

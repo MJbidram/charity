@@ -1,3 +1,4 @@
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:charity/bloc/home_bloc/home_bloc.dart';
@@ -60,25 +61,44 @@ class _MyHomeScreenState extends State<MyHomeScreen> {
             if (state is HomeLoadedState) {
               return state.response.fold((l) {
                 return Center(
-                  child: Text(l),
+                  child: Text('خطا در ارتباط با سرور'),
                 );
               }, (r) {
                 return NestedScrollView(
                   headerSliverBuilder: (context, innerBoxIsScrolled) {
                     return [
                       SliverAppBar(
-                        backgroundColor: blueDark,
+                        backgroundColor: Colors.transparent,
                         pinned: true,
                         title: Text(
                           shortName,
                           style: Theme.of(context).textTheme.headline1,
                         ),
-                        actions: const [
+                        actions: [
                           Padding(
-                            padding: EdgeInsets.all(8.0),
-                            child: Icon(
-                              Icons.notifications,
-                              size: 32,
+                            padding: const EdgeInsets.all(8.0),
+                            child: IconButton(
+                              onPressed: () {
+                                AwesomeDialog(
+                                  context: context,
+                                  animType: AnimType.scale,
+                                  dialogType: DialogType.warning,
+                                  body: const Center(
+                                    child: Text(
+                                      'به زودی ...',
+                                      style: TextStyle(
+                                          fontStyle: FontStyle.italic),
+                                    ),
+                                  ),
+                                  title: 'This is Ignored',
+                                  desc: 'This is also Ignored',
+                                  btnOkOnPress: () {},
+                                ).show();
+                              },
+                              icon: const Icon(
+                                Icons.notifications,
+                                size: 32,
+                              ),
                             ),
                           ),
                         ],
@@ -88,7 +108,28 @@ class _MyHomeScreenState extends State<MyHomeScreen> {
                             padding: EdgeInsets.only(
                                 top: MediaQuery.of(context).viewPadding.top),
                             child: r[0].length == 0
-                                ? _getProjectSlider(r)
+                                ? Container(
+                                    height: AppBar().preferredSize.height + 275,
+                                    decoration: BoxDecoration(
+                                      gradient: blueGradient,
+                                      borderRadius: BorderRadius.vertical(
+                                        bottom: Radius.elliptical(
+                                            MediaQuery.of(context).size.width,
+                                            175),
+                                      ),
+                                    ),
+                                    child: Column(
+                                      children: [
+                                        SizedBox(
+                                          height: AppBar().preferredSize.height,
+                                        ),
+                                        _getProjectSlider(r),
+                                        SizedBox(
+                                          height: 8,
+                                        ),
+                                      ],
+                                    ),
+                                  )
                                 : ImageSliderScreen(myModelList: r[0]),
                           ),
                         ),
@@ -116,6 +157,14 @@ class _MyHomeScreenState extends State<MyHomeScreen> {
                           ),
                         ),
                       ),
+                      r[4].length != 0
+                          ? SliverPadding(
+                              padding: const EdgeInsets.symmetric(vertical: 8),
+                              sliver: SliverToBoxAdapter(
+                                child: _getImageSlider(r),
+                              ),
+                            )
+                          : SliverToBoxAdapter(),
                       SliverToBoxAdapter(
                         child: Padding(
                           padding: const EdgeInsets.only(
@@ -254,6 +303,62 @@ class _MyHomeScreenState extends State<MyHomeScreen> {
             }
           },
         ));
+  }
+
+  Widget _getImageSlider(List r) {
+    return Stack(
+      alignment: AlignmentDirectional.bottomCenter,
+      children: [
+        CarouselSlider.builder(
+          itemCount: r[4].length,
+          itemBuilder: (context, index, realIndex) {
+            return Container(
+              width: MediaQuery.of(context).size.width,
+              margin: const EdgeInsets.symmetric(horizontal: 0),
+              decoration: BoxDecoration(
+                color: Colors.transparent,
+                borderRadius: BorderRadius.circular(16),
+                // image:
+
+                //  DecorationImage(
+                //     image: NetworkImage(
+                //         state.projectModel[index].imageProjectHome),
+                //     fit: BoxFit.cover),
+              ),
+              child: Stack(
+                fit: StackFit.expand,
+                children: [
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(16),
+                    child: CachedNetworkImage(
+                      imageUrl: r[4][index].url,
+                      fit: BoxFit.cover,
+                      placeholder: (context, url) =>
+                          const Center(child: MySpinKit()),
+                      errorWidget: (context, url, error) =>
+                          const Icon(Icons.error),
+                    ),
+                  ),
+                ],
+              ),
+            );
+          },
+          options: CarouselOptions(
+            enableInfiniteScroll: true,
+            reverse: true,
+            height: 175,
+            autoPlay: true,
+            pauseAutoPlayInFiniteScroll: true,
+            enlargeCenterPage: true,
+            onPageChanged: (index, reason) {
+              setState(() {
+                changePage = index;
+              });
+            },
+          ),
+        )
+      ],
+    );
   }
 
   Widget _getProjectSlider(List r) {
@@ -426,11 +531,6 @@ class _MyHomeScreenState extends State<MyHomeScreen> {
                         const Icon(Icons.error),
                   ),
                 ),
-                // child: const Icon(
-                //   Icons.sim_card,
-                //   color: Colors.white,
-                //   size: 34,
-                // ),
               ),
               const SizedBox(
                 height: 8,

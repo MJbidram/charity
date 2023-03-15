@@ -39,7 +39,7 @@ class NewsListPage extends StatelessWidget {
               }
               if (state is NewsLoadedState) {
                 return state.response.fold((l) {
-                  return const Text('خطای ناشناخته');
+                  return const Text('خطا در ارتباط با سرور');
                 }, (r) => body(context, r));
               } else {
                 return ErrorBox(

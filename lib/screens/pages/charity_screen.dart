@@ -100,12 +100,30 @@ class _CharityPageState extends State<CharityPage> {
               shortName,
               style: Theme.of(context).textTheme.headline1,
             ),
-            actions: const [
+            actions: [
               Padding(
                 padding: EdgeInsets.all(8.0),
-                child: Icon(
-                  Icons.notifications,
-                  size: 32,
+                child: IconButton(
+                  onPressed: () {
+                    AwesomeDialog(
+                      context: context,
+                      animType: AnimType.scale,
+                      dialogType: DialogType.warning,
+                      body: const Center(
+                        child: Text(
+                          'به زودی ...',
+                          style: TextStyle(fontStyle: FontStyle.italic),
+                        ),
+                      ),
+                      title: 'This is Ignored',
+                      desc: 'This is also Ignored',
+                      btnOkOnPress: () {},
+                    ).show();
+                  },
+                  icon: const Icon(
+                    Icons.notifications,
+                    size: 32,
+                  ),
                 ),
               ),
             ],
@@ -266,7 +284,7 @@ class _CharityPageState extends State<CharityPage> {
                 return state.items.fold((l) {
                   return Center(
                     child: ErrorBox(
-                      errorMessage: l,
+                      errorMessage: 'خطا در ارتباط با سرور',
                       onTap: () {
                         context.read<CharityBloc>().add(LoadFirstTypeEvent());
                       },
@@ -303,7 +321,7 @@ class _CharityPageState extends State<CharityPage> {
                             PayLinkModel? payLinkModel;
                             String _amount =
                                 amount.text.toString().replaceAll(',', '');
-                            print(_amount);
+
                             _amount = removeZero(_amount);
                             String? token = await AuthManager.readauth();
 
@@ -337,7 +355,7 @@ class _CharityPageState extends State<CharityPage> {
                 return state.items.fold((l) {
                   return Center(
                     child: ErrorBox(
-                      errorMessage: l,
+                      errorMessage: 'خطا در ارتباط با سرور',
                       onTap: () {
                         context.read<CharityBloc>().add(LoadFirstTypeEvent());
                       },
@@ -649,7 +667,7 @@ class _CharityPageState extends State<CharityPage> {
                 return state.response.fold((l) {
                   return Center(
                     child: ErrorBox(
-                      errorMessage: l,
+                      errorMessage: 'خطا در ارتباط با سرور',
                       onTap: () {
                         context.read<CharityBloc>().add(LoadFirstTypeEvent());
                       },
@@ -752,7 +770,7 @@ class _CharityPageState extends State<CharityPage> {
                 return state.response.fold((l) {
                   return Center(
                     child: ErrorBox(
-                      errorMessage: l,
+                      errorMessage: 'خطا در ارتباط با سرور',
                       onTap: () {
                         context.read<CharityBloc>().add(LoadFirstTypeEvent());
                       },

@@ -68,7 +68,7 @@ class _FollowUpDamandScreenState extends State<FollowUpDamandScreen> {
                   return state.response.fold((l) {
                     return SliverToBoxAdapter(
                       child: ErrorBox(
-                        errorMessage: l,
+                        errorMessage: 'خطا در ارتباط با سرور',
                         onTap: () {
                           context
                               .read<FollowUpDamandBloc>()
