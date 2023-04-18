@@ -13,12 +13,12 @@ class BottomSheetComments extends StatelessWidget {
 
   Widget _getBottomSheet(BuildContext context) {
     return ClipRRect(
-      borderRadius: BorderRadius.only(
+      borderRadius:const BorderRadius.only(
         topLeft: Radius.circular(36),
         topRight: Radius.circular(36),
       ),
       child: Container(
-        decoration: BoxDecoration(
+        decoration:const BoxDecoration(
             gradient: LinearGradient(
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
@@ -29,7 +29,7 @@ class BottomSheetComments extends StatelessWidget {
         child: BackdropFilter(
           filter: ImageFilter.blur(sigmaX: 30, sigmaY: 30),
           child: Container(
-            padding: EdgeInsets.symmetric(horizontal: 40),
+            padding:const EdgeInsets.symmetric(horizontal: 40),
             child: _getItems(context),
           ),
         ),

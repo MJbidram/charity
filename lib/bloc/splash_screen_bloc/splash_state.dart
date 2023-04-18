@@ -18,3 +18,9 @@ class LoginState extends SplashState {
   bool isLogin;
   LoginState(this.isLogin);
 }
+
+class UnAvailableState extends SplashState {
+  Either<String, String> unMessage;
+
+  UnAvailableState(this.unMessage);
+}

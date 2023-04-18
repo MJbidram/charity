@@ -55,7 +55,8 @@ class _SplashScreenState extends State<SplashScreen> {
                   builder: (context, state) {
                     if (state is ConnectionStates) {
                       if (state.isConnect) {
-                        context.read<SplashBloc>().add(CheckLoginEvent());
+                        // context.read<SplashBloc>().add(CheckLoginEvent());
+                        context.read<SplashBloc>().add(CheckAvailableEvent());
                         return const MySpinKit();
                       } else {
                         return Column(
@@ -76,6 +77,18 @@ class _SplashScreenState extends State<SplashScreen> {
                         );
                       }
                     }
+                    if (state is UnAvailableState) {
+                      return state.unMessage.fold((l) {
+                        return Text(
+                          l,
+                          style: Theme.of(context).textTheme.headline3,
+                        );
+                      }, (r) {
+                        context.read<SplashBloc>().add(CheckLoginEvent());
+                        return const MySpinKit();
+                      });
+                    }
+
                     if (state is SpalshLoadingState) {
                       return const MySpinKit();
                     }

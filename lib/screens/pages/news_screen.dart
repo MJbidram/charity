@@ -34,11 +34,17 @@ class NewsScreen extends StatelessWidget {
           }
           if (state is NewsLoadedState) {
             return state.response.fold((l) {
-              return ErrorBox(
-                errorMessage: 'خطا در دریافت اطلاعات از سرور',
-                onTap: () {
-                  context.read<NewsBloc>().add(LoadNewsApIEvent());
-                },
+              return Scaffold(
+                body: SafeArea(
+                  child: Center(
+                    child: ErrorBox(
+                      errorMessage: 'خطا در دریافت اطلاعات از سرور',
+                      onTap: () {
+                        context.read<NewsBloc>().add(LoadNewsApIEvent());
+                      },
+                    ),
+                  ),
+                ),
               );
             }, (r) {
               List<NewsModel> newsmodel = r.where((element) {
@@ -47,11 +53,17 @@ class NewsScreen extends StatelessWidget {
               return _getBody(context, newsmodel);
             });
           } else {
-            return ErrorBox(
-              errorMessage: 'خطا در دریافت اطلاعات از سرور',
-              onTap: () {
-                context.read<NewsBloc>().add(LoadNewsApIEvent());
-              },
+            return Scaffold(
+              body: SafeArea(
+                child: Center(
+                  child: ErrorBox(
+                    errorMessage: 'خطا در دریافت اطلاعات از سرور',
+                    onTap: () {
+                      context.read<NewsBloc>().add(LoadNewsApIEvent());
+                    },
+                  ),
+                ),
+              ),
             );
           }
         },
@@ -72,7 +84,7 @@ class NewsScreen extends StatelessWidget {
               collapsedHeight: 100,
               actions: [
                 Padding(
-                  padding: EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.all(8.0),
                   child: IconButton(
                     onPressed: () {
                       AwesomeDialog(

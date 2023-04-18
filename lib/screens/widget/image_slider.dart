@@ -1,13 +1,9 @@
-import 'dart:ui';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:charity/bloc/charity_bloc/charity_event.dart';
-import 'package:charity/bloc/charity_bloc/chrity_bloc.dart';
+
 import 'package:charity/bloc/details_of_sliders/details_bloc.dart';
 import 'package:charity/constants/constants.dart';
-import 'package:charity/models/models.dart';
-import 'package:charity/screens/pages/charity_screen.dart';
+
 import 'package:charity/screens/pages/main_screen.dart';
 import 'package:charity/screens/pages/show_details_of_slider_screen.dart';
 import 'package:charity/screens/widget/spin_kit.dart';

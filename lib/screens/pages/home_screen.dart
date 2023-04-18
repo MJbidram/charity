@@ -50,258 +50,266 @@ class _MyHomeScreenState extends State<MyHomeScreen> {
     return Scaffold(
         extendBody: true,
         backgroundColor: grey,
-        body: BlocBuilder<HomeBloc, HomeState>(
-          builder: (context, state) {
-            if (state is HomeLoadingState) {
-              return const Center(
-                child: MySpinKit(),
-              );
-            }
-            // State is Loaded data from API =>
-            if (state is HomeLoadedState) {
-              return state.response.fold((l) {
-                return Center(
-                  child: Text('خطا در ارتباط با سرور'),
+        body: SafeArea(
+          child: BlocBuilder<HomeBloc, HomeState>(
+            builder: (context, state) {
+              if (state is HomeLoadingState) {
+                return const Center(
+                  child: MySpinKit(),
                 );
-              }, (r) {
-                return NestedScrollView(
-                  headerSliverBuilder: (context, innerBoxIsScrolled) {
-                    return [
-                      SliverAppBar(
-                        backgroundColor: Colors.transparent,
-                        pinned: true,
-                        title: Text(
-                          shortName,
-                          style: Theme.of(context).textTheme.headline1,
-                        ),
-                        actions: [
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: IconButton(
-                              onPressed: () {
-                                AwesomeDialog(
-                                  context: context,
-                                  animType: AnimType.scale,
-                                  dialogType: DialogType.warning,
-                                  body: const Center(
-                                    child: Text(
-                                      'به زودی ...',
-                                      style: TextStyle(
-                                          fontStyle: FontStyle.italic),
-                                    ),
-                                  ),
-                                  title: 'This is Ignored',
-                                  desc: 'This is also Ignored',
-                                  btnOkOnPress: () {},
-                                ).show();
-                              },
-                              icon: const Icon(
-                                Icons.notifications,
-                                size: 32,
-                              ),
-                            ),
+              }
+              // State is Loaded data from API =>
+              if (state is HomeLoadedState) {
+                return state.response.fold((l) {
+                  return const Center(
+                    child: Text('خطا در ارتباط با سرور'),
+                  );
+                }, (r) {
+                  return NestedScrollView(
+                    headerSliverBuilder: (context, innerBoxIsScrolled) {
+                      return [
+                        SliverAppBar(
+                          backgroundColor: Colors.transparent,
+                          pinned: true,
+                          title: Text(
+                            shortName,
+                            style: Theme.of(context).textTheme.headline1,
                           ),
-                        ],
-                        expandedHeight: 275,
-                        flexibleSpace: FlexibleSpaceBar(
-                          background: Padding(
-                            padding: EdgeInsets.only(
-                                top: MediaQuery.of(context).viewPadding.top),
-                            child: r[0].length == 0
-                                ? Container(
-                                    height: AppBar().preferredSize.height + 275,
-                                    decoration: BoxDecoration(
-                                      gradient: blueGradient,
-                                      borderRadius: BorderRadius.vertical(
-                                        bottom: Radius.elliptical(
-                                            MediaQuery.of(context).size.width,
-                                            175),
+                          actions: [
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: IconButton(
+                                onPressed: () {
+                                  AwesomeDialog(
+                                    context: context,
+                                    animType: AnimType.scale,
+                                    dialogType: DialogType.warning,
+                                    body: const Center(
+                                      child: Text(
+                                        'به زودی ...',
+                                        style: TextStyle(
+                                            fontStyle: FontStyle.italic),
                                       ),
                                     ),
-                                    child: Column(
-                                      children: [
-                                        SizedBox(
-                                          height: AppBar().preferredSize.height,
-                                        ),
-                                        _getProjectSlider(r),
-                                        SizedBox(
-                                          height: 8,
-                                        ),
-                                      ],
-                                    ),
-                                  )
-                                : ImageSliderScreen(myModelList: r[0]),
-                          ),
-                        ),
-                      ),
-                    ];
-                  },
-                  body: CustomScrollView(
-                    slivers: [
-                      SliverPadding(
-                        padding:
-                            const EdgeInsets.only(top: 20, right: 16, left: 16),
-                        sliver: SliverGrid(
-                          delegate: SliverChildBuilderDelegate(
-                            (context, index) {
-                              return _getIcons(r[3][index]);
-                            },
-                            childCount: r[3].length,
-                          ),
-                          gridDelegate:
-                              const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 4,
-                            crossAxisSpacing: 8,
-                            mainAxisSpacing: 18,
-                            mainAxisExtent: 150,
-                          ),
-                        ),
-                      ),
-                      r[4].length != 0
-                          ? SliverPadding(
-                              padding: const EdgeInsets.symmetric(vertical: 8),
-                              sliver: SliverToBoxAdapter(
-                                child: _getImageSlider(r),
-                              ),
-                            )
-                          : SliverToBoxAdapter(),
-                      SliverToBoxAdapter(
-                        child: Padding(
-                          padding: const EdgeInsets.only(
-                              right: 16, left: 16, top: 16),
-                          child: Container(
-                            width: MediaQuery.of(context).size.width,
-                            decoration: BoxDecoration(
-                              gradient: blueGradient,
-                              borderRadius: BorderRadius.circular(16),
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(16.0),
-                              child: Column(
-                                children: [
-                                  Text(
-                                    r[2].teller,
-                                    style:
-                                        Theme.of(context).textTheme.headline2,
-                                  ),
-                                  const SizedBox(
-                                    height: 8,
-                                  ),
-                                  Text(
-                                    r[2].arabicText,
-                                    style:
-                                        Theme.of(context).textTheme.headline4,
-                                  ),
-                                  const SizedBox(
-                                    height: 8,
-                                  ),
-                                  Text(
-                                    r[2].farsiText,
-                                    style:
-                                        Theme.of(context).textTheme.headline2,
-                                  ),
-                                ],
+                                    title: 'This is Ignored',
+                                    desc: 'This is also Ignored',
+                                    btnOkOnPress: () {},
+                                  ).show();
+                                },
+                                icon: const Icon(
+                                  Icons.notifications,
+                                  size: 32,
+                                ),
                               ),
                             ),
-                          ),
-                        ),
-                      ),
-                      r[0].length != 0
-                          ? SliverToBoxAdapter(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  const SizedBox(
-                                    height: 16,
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(right: 16.0),
-                                    child: Text(
-                                      'پروژه ها',
-                                      style:
-                                          Theme.of(context).textTheme.headline5,
-                                    ),
-                                  ),
-                                  // پروژه ها
-                                  Container(
-                                      margin: const EdgeInsets.only(top: 8),
-                                      decoration:
-                                          BoxDecoration(gradient: blueGradient),
+                          ],
+                          expandedHeight: 275,
+                          flexibleSpace: FlexibleSpaceBar(
+                            background: Padding(
+                              padding: EdgeInsets.only(
+                                  top: MediaQuery.of(context).viewPadding.top),
+                              child: r[0].length == 0
+                                  ? Container(
+                                      height:
+                                          AppBar().preferredSize.height + 275,
+                                      decoration: BoxDecoration(
+                                        gradient: blueGradient,
+                                        borderRadius: BorderRadius.vertical(
+                                          bottom: Radius.elliptical(
+                                              MediaQuery.of(context).size.width,
+                                              175),
+                                        ),
+                                      ),
                                       child: Column(
                                         children: [
-                                          const SizedBox(
-                                            height: 16,
+                                          SizedBox(
+                                            height:
+                                                AppBar().preferredSize.height,
                                           ),
                                           _getProjectSlider(r),
                                           const SizedBox(
                                             height: 8,
                                           ),
-                                          AnimatedSmoothIndicator(
-                                            activeIndex: changePage,
-                                            count: r[1].length,
-                                            effect: ExpandingDotsEffect(
-                                              dotHeight: 10,
-                                              dotWidth: 10,
-                                              expansionFactor: 5,
-                                              dotColor: Colors.white,
-                                              activeDotColor: blueLight,
-                                            ),
-                                          ),
-                                          const SizedBox(
-                                            height: 12,
-                                          ),
                                         ],
-                                      )),
-                                ],
-                              ),
-                            )
-                          : const SliverToBoxAdapter(
-                              child: SizedBox(height: 4),
+                                      ),
+                                    )
+                                  : ImageSliderScreen(myModelList: r[0]),
                             ),
-                      SliverToBoxAdapter(
-                        child: Padding(
+                          ),
+                        ),
+                      ];
+                    },
+                    body: CustomScrollView(
+                      slivers: [
+                        SliverPadding(
                           padding: const EdgeInsets.only(
-                              top: 16, right: 16, left: 16, bottom: 8),
-                          child: Align(
-                              alignment: Alignment.topRight,
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    'اخبار',
-                                    style: TextStyle(
-                                      fontFamily: 'VB',
-                                      fontSize: 16,
-                                      // fontWeight: FontWeight.w600,
-                                      color: blueDark,
+                              top: 20, right: 16, left: 16),
+                          sliver: SliverGrid(
+                            delegate: SliverChildBuilderDelegate(
+                              (context, index) {
+                                return _getIcons(r[3][index]);
+                              },
+                              childCount: r[3].length,
+                            ),
+                            gridDelegate:
+                                const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 4,
+                              crossAxisSpacing: 8,
+                              mainAxisSpacing: 18,
+                              mainAxisExtent: 150,
+                            ),
+                          ),
+                        ),
+                        r[4].length != 0
+                            ? SliverPadding(
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 8),
+                                sliver: SliverToBoxAdapter(
+                                  child: Visibility(
+                                      visible: true, child: _getImageSlider(r)),
+                                ),
+                              )
+                            : const SliverToBoxAdapter(),
+                        SliverToBoxAdapter(
+                          child: Padding(
+                            padding: const EdgeInsets.only(
+                                right: 16, left: 16, top: 16),
+                            child: Container(
+                              width: MediaQuery.of(context).size.width,
+                              decoration: BoxDecoration(
+                                gradient: blueGradient,
+                                borderRadius: BorderRadius.circular(16),
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.all(16.0),
+                                child: Column(
+                                  children: [
+                                    Text(
+                                      r[2].teller,
+                                      style:
+                                          Theme.of(context).textTheme.headline2,
                                     ),
-                                  ),
-                                ],
-                              )),
+                                    const SizedBox(
+                                      height: 8,
+                                    ),
+                                    Text(
+                                      r[2].arabicText,
+                                      style:
+                                          Theme.of(context).textTheme.headline4,
+                                    ),
+                                    const SizedBox(
+                                      height: 8,
+                                    ),
+                                    Text(
+                                      r[2].farsiText,
+                                      style:
+                                          Theme.of(context).textTheme.headline2,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
                         ),
-                      ),
-                      SliverPadding(
-                        padding: const EdgeInsets.only(bottom: 80),
-                        sliver: SliverList(
-                          delegate:
-                              SliverChildBuilderDelegate((context, index) {
-                            return _getNewsCover(index, state);
-                          }, childCount: state.newsModl.length),
+                        r[0].length != 0
+                            ? SliverToBoxAdapter(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    const SizedBox(
+                                      height: 16,
+                                    ),
+                                    Padding(
+                                      padding:
+                                          const EdgeInsets.only(right: 16.0),
+                                      child: Text(
+                                        'پروژه ها',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .headline5,
+                                      ),
+                                    ),
+                                    // پروژه ها
+                                    Container(
+                                        margin: const EdgeInsets.only(top: 8),
+                                        decoration: BoxDecoration(
+                                            gradient: blueGradient),
+                                        child: Column(
+                                          children: [
+                                            const SizedBox(
+                                              height: 16,
+                                            ),
+                                            _getProjectSlider(r),
+                                            const SizedBox(
+                                              height: 8,
+                                            ),
+                                            AnimatedSmoothIndicator(
+                                              activeIndex: changePage,
+                                              count: r[1].length,
+                                              effect: ExpandingDotsEffect(
+                                                dotHeight: 10,
+                                                dotWidth: 10,
+                                                expansionFactor: 5,
+                                                dotColor: Colors.white,
+                                                activeDotColor: blueLight,
+                                              ),
+                                            ),
+                                            const SizedBox(
+                                              height: 12,
+                                            ),
+                                          ],
+                                        )),
+                                  ],
+                                ),
+                              )
+                            : const SliverToBoxAdapter(
+                                child: SizedBox(height: 4),
+                              ),
+                        SliverToBoxAdapter(
+                          child: Padding(
+                            padding: const EdgeInsets.only(
+                                top: 16, right: 16, left: 16, bottom: 8),
+                            child: Align(
+                                alignment: Alignment.topRight,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      'اخبار',
+                                      style: TextStyle(
+                                        fontFamily: 'VB',
+                                        fontSize: 16,
+                                        // fontWeight: FontWeight.w600,
+                                        color: blueDark,
+                                      ),
+                                    ),
+                                  ],
+                                )),
+                          ),
                         ),
-                      )
-                    ],
-                  ),
+                        SliverPadding(
+                          padding: const EdgeInsets.only(bottom: 80),
+                          sliver: SliverList(
+                            delegate:
+                                SliverChildBuilderDelegate((context, index) {
+                              return _getNewsCover(index, state);
+                            }, childCount: state.newsModl.length),
+                          ),
+                        )
+                      ],
+                    ),
+                  );
+                });
+              } else {
+                return ErrorBox(
+                  errorMessage: 'خطا در دریافت اطلاعات',
+                  onTap: () {
+                    context.read<HomeBloc>().add(LoadApiEvent());
+                  },
                 );
-              });
-            } else {
-              return ErrorBox(
-                errorMessage: 'خطا در دریافت اطلاعات',
-                onTap: () {
-                  context.read<HomeBloc>().add(LoadApiEvent());
-                },
-              );
-            }
-          },
+              }
+            },
+          ),
         ));
   }
 
@@ -314,7 +322,7 @@ class _MyHomeScreenState extends State<MyHomeScreen> {
           itemBuilder: (context, index, realIndex) {
             return Container(
               width: MediaQuery.of(context).size.width,
-              margin: const EdgeInsets.symmetric(horizontal: 0),
+              margin: const EdgeInsets.symmetric(horizontal: 8),
               decoration: BoxDecoration(
                 color: Colors.transparent,
                 borderRadius: BorderRadius.circular(16),
@@ -344,12 +352,14 @@ class _MyHomeScreenState extends State<MyHomeScreen> {
             );
           },
           options: CarouselOptions(
+            autoPlayInterval: const Duration(seconds: 6),
             enableInfiniteScroll: true,
             reverse: true,
-            height: 175,
+            height: 200,
             autoPlay: true,
-            pauseAutoPlayInFiniteScroll: true,
-            enlargeCenterPage: true,
+            pauseAutoPlayInFiniteScroll: false,
+            enlargeCenterPage: false,
+            viewportFraction: 1,
             onPageChanged: (index, reason) {
               setState(() {
                 changePage = index;
