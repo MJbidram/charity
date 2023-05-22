@@ -88,9 +88,10 @@ class _LoginScreenState extends State<LoginScreen> {
                     const SizedBox(
                       height: 16,
                     ),
-                    _getTextfild(focusNodePhone, 'شماره تلفن', phoneController,
+                    _getTextfild(false,focusNodePhone, 'شماره تلفن', phoneController,
                         TextInputType.number, 1, registererrors),
                     _getTextfild(
+                      true,
                         focusNodePassword,
                         'رمز عبور',
                         passwordController,
@@ -251,6 +252,7 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Padding _getTextfild(
+      bool obsText,
       FocusNode focusNode,
       String hintText,
       TextEditingController controller,
@@ -261,6 +263,7 @@ class _LoginScreenState extends State<LoginScreen> {
       padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
       child: TextFormField(
         controller: controller,
+        obscureText: obsText,
         focusNode: focusNode,
         keyboardType: inputType,
         style: TextStyle(

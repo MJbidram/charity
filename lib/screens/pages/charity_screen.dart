@@ -28,6 +28,7 @@ String? selectedValue;
 String? firstTypeDescription;
 String? secandTypeDescription;
 TextEditingController amount = TextEditingController();
+String? tomanValue = '';
 
 class CharityPage extends StatefulWidget {
   int id;
@@ -202,69 +203,30 @@ class _CharityPageState extends State<CharityPage> {
               height: 16,
             ),
             amountTextFild(),
+            Visibility(
+              visible: tomanValue!.length > 3 ? true : false,
+              child: const SizedBox(
+                height: 8,
+              ),
+            ),
+            Visibility(
+              visible: tomanValue!.length > 3 ? true : false,
+              child: Text(
+                DigitToWord.toWord(
+                  tomanValue!.length > 3 ? tomanValue ?? '' : '',
+                  StrType.StrWord,
+                  isMoney: true,
+                ),
+                style: const TextStyle(fontFamily: 'VB', fontSize: 14),
+              ),
+            ),
             const SizedBox(
               width: double.infinity,
               height: 16,
             ),
             Align(
               alignment: AlignmentDirectional.center,
-              child: Wrap(
-                spacing: 10,
-                runSpacing: 15,
-                alignment: WrapAlignment.center,
-                children: [
-                  AmountUsed(
-                    amountText: '۵,۰۰۰',
-                    amountValue: '5,000',
-                    onTap: () {
-                      setState(() {
-                        amount.text = '5,000';
-                      });
-                      !_formKey.currentState!.validate();
-                    },
-                  ),
-                  AmountUsed(
-                    amountText: '۱۰,۰۰۰',
-                    amountValue: '10,000',
-                    onTap: () {
-                      setState(() {
-                        amount.text = '10,000';
-                      });
-                      !_formKey.currentState!.validate();
-                    },
-                  ),
-                  AmountUsed(
-                    amountText: '۲۰,۰۰۰',
-                    amountValue: '20,000',
-                    onTap: () {
-                      setState(() {
-                        amount.text = '20,000';
-                      });
-                      !_formKey.currentState!.validate();
-                    },
-                  ),
-                  AmountUsed(
-                    amountText: '۵۰,۰۰۰',
-                    amountValue: '50,000',
-                    onTap: () {
-                      setState(() {
-                        amount.text = '50,000';
-                      });
-                      !_formKey.currentState!.validate();
-                    },
-                  ),
-                  AmountUsed(
-                    amountText: '۱۰۰,۰۰۰',
-                    amountValue: '100,000',
-                    onTap: () {
-                      setState(() {
-                        amount.text = '100,000';
-                      });
-                      !_formKey.currentState!.validate();
-                    },
-                  ),
-                ],
-              ),
+              child: defultAmountList(),
             ),
             const SizedBox(
               height: 16,
@@ -802,6 +764,66 @@ class _CharityPageState extends State<CharityPage> {
     );
   }
 
+  Wrap defultAmountList() {
+    return Wrap(
+      spacing: 10,
+      runSpacing: 15,
+      alignment: WrapAlignment.center,
+      children: [
+        AmountUsed(
+          amountText: '۵۰,۰۰۰',
+          amountValue: '5,000',
+          onTap: () {
+            setState(() {
+              amount.text = '50,000';
+            });
+            !_formKey.currentState!.validate();
+          },
+        ),
+        AmountUsed(
+          amountText: '۱۰۰,۰۰۰',
+          amountValue: '10,000',
+          onTap: () {
+            setState(() {
+              amount.text = '100,000';
+            });
+            !_formKey.currentState!.validate();
+          },
+        ),
+        AmountUsed(
+          amountText: '۲۰۰,۰۰۰',
+          amountValue: '20,000',
+          onTap: () {
+            setState(() {
+              amount.text = '200,000';
+            });
+            !_formKey.currentState!.validate();
+          },
+        ),
+        AmountUsed(
+          amountText: '۵۰۰,۰۰۰',
+          amountValue: '50,000',
+          onTap: () {
+            setState(() {
+              amount.text = '500,000';
+            });
+            !_formKey.currentState!.validate();
+          },
+        ),
+        AmountUsed(
+          amountText: '۱,۰۰۰,۰۰۰',
+          amountValue: '100,000',
+          onTap: () {
+            setState(() {
+              amount.text = '1,000,000';
+            });
+            !_formKey.currentState!.validate();
+          },
+        ),
+      ],
+    );
+  }
+
   shortcutPayPooyesh(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -867,6 +889,7 @@ class _CharityPageState extends State<CharityPage> {
   }
 
   Widget amountTextFild() {
+    bool _isvalid = false;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 0),
       child: TextFormField(
@@ -874,11 +897,11 @@ class _CharityPageState extends State<CharityPage> {
           if (value != null) {
             value = removeZero(value);
           }
-          if (value!.length >= 4 &&
+          if (value!.length >= 6 &&
               !value.contains('.') &&
               !value.contains('-')) {
             return null;
-          } else if (value.isNotEmpty && value.length < 4) {
+          } else if (value.isNotEmpty && value.length < 6) {
             return 'مقدار وارد شده کم تر از حد مجاز است!';
           } else if (value.contains('.') || value.contains('-')) {
             return 'مبلغ مجاز نیست';
@@ -901,6 +924,10 @@ class _CharityPageState extends State<CharityPage> {
           val.toPersianDigit().seRagham();
           setState(() {
             value = val;
+            if (val.length > 1) {
+              tomanValue = val.beToman();
+              print(val.length);
+            }
           });
         },
         decoration: InputDecoration(
@@ -931,7 +958,7 @@ class _CharityPageState extends State<CharityPage> {
               ),
               borderRadius: const BorderRadius.all(Radius.circular(15)),
             ),
-            labelText: '  مبلغ (تومان)  ',
+            labelText: '  مبلغ (ریال)  ',
             labelStyle: TextStyle(
               fontFamily: 'GM',
               color: _myFocusNode1.hasFocus ? blueDark : Colors.grey,

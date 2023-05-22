@@ -105,9 +105,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     const SizedBox(
                       height: 16,
                     ),
-                    _getTextfild(focusNodeName, 'نام', nameController,
+                    _getTextfild(false,focusNodeName, 'نام', nameController,
                         TextInputType.name, 1, registererrors),
-                    _getTextfild(focusNodePhone, 'شماره تلفن', phoneController,
+                    _getTextfild(false,focusNodePhone, 'شماره تلفن', phoneController,
                         TextInputType.number, 2, registererrors),
                     // _getTextfild(
                     //     focusNodeEmail,
@@ -117,6 +117,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     //     3,
                     //     registererrors),
                     _getTextfild(
+                      true,
                         focusNodePassword,
                         'رمز عبور',
                         passwordController,
@@ -124,6 +125,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         4,
                         registererrors),
                     _getTextfild(
+                      true,
                         focusNodeConfirmPassword,
                         'تکرار رمز عبور',
                         confirmPasswordController,
@@ -309,6 +311,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   }
 
   Padding _getTextfild(
+      bool obsText,
       FocusNode focusNode,
       String hintText,
       TextEditingController controller,
@@ -319,6 +322,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
       child: TextFormField(
         controller: controller,
+        obscureText: obsText,
         focusNode: focusNode,
         keyboardType: inputType,
         style: TextStyle(
