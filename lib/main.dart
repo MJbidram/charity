@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:charity/constants/constants.dart';
 import 'package:charity/di/di.dart';
 import 'package:charity/screens/pages/splash_screen.dart';
+import 'package:charity/screens/pages/wreath_screens/reserve_wreath_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -51,11 +52,11 @@ class _MyAppState extends State<MyApp> {
         Locale("fa", "IR"), // OR Locale('ar', 'AE') OR Other RTL locales
       ],
       locale: const Locale("fa", "IR"),
-      home: BlocProvider(
-        create: (context) => SplashBloc(),
-        child: const SplashScreen(),
-      ),
-      // home: DamandScreen(),
+      // home: BlocProvider(
+      //   create: (context) => SplashBloc(),
+      //   child: const SplashScreen(),
+      // ),
+      home: ReserveWreathScreen(),
       theme: ThemeData(
         fontFamily: 'VB',
         backgroundColor: Colors.grey[200],
