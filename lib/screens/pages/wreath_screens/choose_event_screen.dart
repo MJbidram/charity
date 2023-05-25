@@ -13,7 +13,7 @@ class ChooseEventScreen extends StatefulWidget {
 }
 
 class _ChooseEventScreenState extends State<ChooseEventScreen> {
-  int? _ItemSelectedIndex;
+  int? _itemSelectedIndex;
 
   final List<String> month = [
     'همه',
@@ -78,7 +78,7 @@ class _ChooseEventScreenState extends State<ChooseEventScreen> {
                       return GestureDetector(
                           onTap: () {
                             setState(() {
-                              _ItemSelectedIndex = index;
+                              _itemSelectedIndex = index;
                             });
                           },
                           child: _getEventList(context, index));
@@ -140,32 +140,36 @@ class _ChooseEventScreenState extends State<ChooseEventScreen> {
         height: 140.0,
         width: MediaQuery.of(context).size.width,
         decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(16.0),
-            border: Border.all(
-              width: _ItemSelectedIndex == index ? 3 : 1,
-              color: _ItemSelectedIndex == index ? Colors.blueAccent : blueDark,
-            ),
-            gradient: blueGradient),
+          borderRadius: BorderRadius.circular(16.0),
+          border: Border.all(
+            width: _itemSelectedIndex == index ? 3 : 1,
+            color: _itemSelectedIndex == index ? Colors.blueAccent : blueDark,
+          ),
+          gradient: _itemSelectedIndex == index ? blueGradient : null,
+          color: Color.fromARGB(255, 228, 230, 232),
+        ),
         child: Container(
           padding: const EdgeInsets.all(16),
           // margin: const EdgeInsets.all(1),
-          decoration: _ItemSelectedIndex == index
+          decoration: _itemSelectedIndex == index
               ? BoxDecoration(
                   borderRadius: BorderRadius.circular(14),
                   border: Border.all(width: 2, color: white),
                 )
-              : BoxDecoration(),
+              : const BoxDecoration(),
           child: Column(children: [
             Row(
               children: [
                 Text(
                   'مراسم',
-                  style: Theme.of(context).textTheme.headline3,
+                  style: Theme.of(context).textTheme.headline2!.copyWith(
+                      color: _itemSelectedIndex == index ? white : black),
                 ),
                 const Spacer(),
                 Text(
                   'تست',
-                  style: Theme.of(context).textTheme.headline3,
+                  style: Theme.of(context).textTheme.headline2!.copyWith(
+                      color: _itemSelectedIndex == index ? white : black),
                 ),
               ],
             ),
@@ -176,12 +180,14 @@ class _ChooseEventScreenState extends State<ChooseEventScreen> {
               children: [
                 Text(
                   'تاریخ',
-                  style: Theme.of(context).textTheme.headline3,
+                  style: Theme.of(context).textTheme.headline2!.copyWith(
+                      color: _itemSelectedIndex == index ? white : black),
                 ),
                 const Spacer(),
                 Text(
                   '۱۴۰۲/۰۴/۰۲',
-                  style: Theme.of(context).textTheme.headline3,
+                  style: Theme.of(context).textTheme.headline2!.copyWith(
+                      color: _itemSelectedIndex == index ? white : black),
                 ),
               ],
             ),
@@ -192,12 +198,14 @@ class _ChooseEventScreenState extends State<ChooseEventScreen> {
               children: [
                 Text(
                   'مکان',
-                  style: Theme.of(context).textTheme.headline3,
+                  style: Theme.of(context).textTheme.headline2!.copyWith(
+                      color: _itemSelectedIndex == index ? white : black),
                 ),
                 const Spacer(),
                 Text(
                   'مسجد جامع',
-                  style: Theme.of(context).textTheme.headline3,
+                  style: Theme.of(context).textTheme.headline2!.copyWith(
+                      color: _itemSelectedIndex == index ? white : black),
                 ),
               ],
             ),
