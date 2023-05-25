@@ -1,7 +1,5 @@
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 
 import '../../../constants/constants.dart';
 
@@ -46,7 +44,7 @@ class _ChooseEventScreenState extends State<ChooseEventScreen> {
           CustomScrollView(
             slivers: [
               _getAppBar(context),
-              _getTitle(context),
+              // _getTitle(context),
               SliverToBoxAdapter(
                 child: _getSearchBox(context),
               ),
@@ -89,44 +87,98 @@ class _ChooseEventScreenState extends State<ChooseEventScreen> {
               )
             ],
           ),
-          _getNextButton(context),
+          Align(
+              alignment: AlignmentDirectional.bottomCenter,
+              child: Container(
+                height: 70,
+                decoration: BoxDecoration(
+                    color: white,
+                    borderRadius: const BorderRadius.only(
+                      topRight: Radius.circular(16),
+                      topLeft: Radius.circular(16),
+                    )),
+                child: _getButtons(context),
+              ))
         ],
       ),
     );
   }
 
-  Padding _getNextButton(BuildContext context) {
+  Padding _getButtons(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(right: 32, left: 32, bottom: 32),
+      padding: const EdgeInsets.only(right: 16, left: 16, bottom: 12),
       child: Align(
         alignment: AlignmentDirectional.bottomCenter,
         child: SizedBox(
           height: 50,
-          child: ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              backgroundColor: blueDark,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(16),
-                side: BorderSide(
-                  width: 1,
-                  color: white,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: blueDark,
+                  minimumSize: Size(
+                    MediaQuery.of(context).size.width / 2.5,
+                    50,
+                  ),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16),
+                    // side: BorderSide(
+                    //   width: 1,
+                    //   color: white,
+                    // ),
+                  ),
+                ),
+                onPressed: () {},
+                child:
+                    Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                  Text(
+                    'مرحله بعد',
+                    style: Theme.of(context).textTheme.headline3,
+                  ),
+                  const SizedBox(
+                    width: 4,
+                  ),
+                  const Icon(
+                    Icons.arrow_forward,
+                    size: 24,
+                  ),
+                ]),
+              ),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: blueLight,
+                  minimumSize: Size(
+                    MediaQuery.of(context).size.width / 2.5,
+                    50,
+                  ),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16),
+                    // side: BorderSide(
+                    //   width: 1,
+                    //   color: white,
+                    // ),
+                  ),
+                ),
+                onPressed: () {},
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'افزودن مراسم',
+                      style: Theme.of(context).textTheme.headline3,
+                    ),
+                    const SizedBox(
+                      width: 4,
+                    ),
+                    const Icon(
+                      Icons.add,
+                      size: 24,
+                    ),
+                  ],
                 ),
               ),
-            ),
-            onPressed: () {},
-            child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-              Text(
-                'مرحله بعد',
-                style: Theme.of(context).textTheme.headline4,
-              ),
-              const SizedBox(
-                width: 8,
-              ),
-              const Icon(
-                Icons.arrow_forward,
-                size: 24,
-              ),
-            ]),
+            ],
           ),
         ),
       ),
@@ -136,7 +188,8 @@ class _ChooseEventScreenState extends State<ChooseEventScreen> {
   Widget _getEventList(BuildContext context, int index) {
     return Padding(
       padding: const EdgeInsets.only(top: 16, bottom: 0, right: 24, left: 24),
-      child: Container(
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 400),
         height: 140.0,
         width: MediaQuery.of(context).size.width,
         decoration: BoxDecoration(
@@ -146,9 +199,10 @@ class _ChooseEventScreenState extends State<ChooseEventScreen> {
             color: _itemSelectedIndex == index ? Colors.blueAccent : blueDark,
           ),
           gradient: _itemSelectedIndex == index ? blueGradient : null,
-          color: Color.fromARGB(255, 228, 230, 232),
+          color: const Color.fromARGB(255, 228, 230, 232),
         ),
-        child: Container(
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 300),
           padding: const EdgeInsets.all(16),
           // margin: const EdgeInsets.all(1),
           decoration: _itemSelectedIndex == index
@@ -233,7 +287,7 @@ class _ChooseEventScreenState extends State<ChooseEventScreen> {
 
   SliverAppBar _getAppBar(BuildContext context) {
     return SliverAppBar(
-      title: Text(shortName),
+      title: Text('انتخاب مراسم'),
       centerTitle: true,
       backgroundColor: Colors.transparent,
       pinned: false,

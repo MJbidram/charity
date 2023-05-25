@@ -13,7 +13,7 @@ class ReserveWreathScreen extends StatelessWidget {
       body: CustomScrollView(
         slivers: [
           _getAppBar(context),
-          _getTitle(context),
+          // _getTitle(context),
           _getImage(),
           _getBody(context),
         ],
@@ -124,7 +124,7 @@ class ReserveWreathScreen extends StatelessWidget {
 
   SliverAppBar _getAppBar(BuildContext context) {
     return SliverAppBar(
-      title: Text(shortName),
+      title: Text('سفارش تاج گل'),
       centerTitle: true,
       backgroundColor: Colors.transparent,
       pinned: false,

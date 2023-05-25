@@ -3,6 +3,7 @@ import 'package:charity/constants/constants.dart';
 import 'package:charity/di/di.dart';
 import 'package:charity/screens/pages/splash_screen.dart';
 import 'package:charity/screens/pages/wreath_screens/choose_event_screen.dart';
+import 'package:charity/screens/pages/wreath_screens/further%D9%80information.dart';
 import 'package:charity/screens/pages/wreath_screens/reserve_wreath_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -57,7 +58,7 @@ class _MyAppState extends State<MyApp> {
       //   create: (context) => SplashBloc(),
       //   child: const SplashScreen(),
       // ),
-      home: ChooseEventScreen(),
+      home: FurtherInformationScreen(),
       theme: ThemeData(
         fontFamily: 'VB',
         backgroundColor: Colors.grey[200],
