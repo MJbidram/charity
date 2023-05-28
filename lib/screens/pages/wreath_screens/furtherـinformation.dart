@@ -1,3 +1,4 @@
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
@@ -14,42 +15,63 @@ class FurtherInformationScreen extends StatelessWidget {
         slivers: [
           _getAppBar(context),
           _getNameTextFildandTitle(context),
-          getGallery(),
           SliverToBoxAdapter(
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 120),
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: blueDark,
-                  minimumSize: Size(
-                    100,
-                    40,
-                  ),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(16),
-                  ),
-                ),
-                onPressed: () {},
-                child:
-                    Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                  Text(
-                    'افزودن',
-                    style: Theme.of(context)
-                        .textTheme
-                        .headline2!
-                        .copyWith(fontSize: 15),
-                  ),
-                  const SizedBox(
-                    width: 4,
-                  ),
-                  const Icon(
-                    Icons.add,
-                    size: 24,
-                  ),
-                ]),
+              padding: const EdgeInsets.symmetric(horizontal: 8),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  _getButton(context, 'انتخاب تاج گل', Icons.local_florist, () {
+                    AwesomeDialog(
+                      context: context,
+                      animType: AnimType.scale,
+                      dialogType: DialogType.noHeader,
+                      padding: EdgeInsets.symmetric(horizontal: 8),
+                      body: Column(
+                        children: [
+                          const Text(
+                            'نوع تاج گل را انتخاب کنید',
+                            style: TextStyle(fontStyle: FontStyle.italic),
+                          ),
+                          getGallery(),
+                        ],
+                      ),
+                      title: 'This is Ignored',
+                      desc: 'This is also Ignored',
+                      btnOkOnPress: () {},
+                    ).show();
+                  }),
+                  _getButton(context, 'انتخاب طرح', Icons.brush, () {
+                    AwesomeDialog(
+                      context: context,
+                      animType: AnimType.scale,
+                      dialogType: DialogType.noHeader,
+                      padding: EdgeInsets.symmetric(horizontal: 8),
+                      body: Column(
+                        children: [
+                          const Text(
+                            'نوع تاج گل را انتخاب کنید',
+                            style: TextStyle(fontStyle: FontStyle.italic),
+                          ),
+                          getGallery(),
+                        ],
+                      ),
+                      title: 'This is Ignored',
+                      desc: 'This is also Ignored',
+                      btnOkOnPress: () {},
+                    ).show();
+                  }),
+                ],
               ),
             ),
           ),
+
+          // SliverToBoxAdapter(child: getGallery()),
+          SliverToBoxAdapter(
+              child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 32),
+            child: _getButton(context, 'افزودن', Icons.add, () {}),
+          )),
           const SliverToBoxAdapter(
             child: Padding(
                 padding: EdgeInsets.symmetric(horizontal: 24),
@@ -59,6 +81,36 @@ class FurtherInformationScreen extends StatelessWidget {
           _getNextLevelButton(context)
         ],
       ),
+    );
+  }
+
+  Widget _getButton(
+      BuildContext context, String title, IconData icon, VoidCallback onTap) {
+    return ElevatedButton(
+      style: ElevatedButton.styleFrom(
+        backgroundColor: blueDark,
+        minimumSize: Size(
+          140,
+          40,
+        ),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16),
+        ),
+      ),
+      onPressed: onTap,
+      child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+        Text(
+          title,
+          style: Theme.of(context).textTheme.headline2!.copyWith(fontSize: 15),
+        ),
+        const SizedBox(
+          width: 4,
+        ),
+        Icon(
+          icon,
+          size: 24,
+        ),
+      ]),
     );
   }
 
@@ -301,80 +353,77 @@ class getGallery extends StatefulWidget {
 class _getGalleryState extends State<getGallery> {
   @override
   Widget build(BuildContext context) {
-    return SliverToBoxAdapter(
-      child: Padding(
-        padding:
-            const EdgeInsets.only(right: 32, left: 32, top: 16, bottom: 16),
-        child: Container(
-          height: 284,
-          decoration: BoxDecoration(
-            color: white,
-            borderRadius: BorderRadius.circular(8),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(14),
-            child: Column(
-              children: [
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.only(
-                      bottom: 8,
-                    ),
-                    child: SizedBox(
-                      height: 200,
-                      width: 280,
-                      child: Image.asset(
-                        widget.productImages[widget.selectedItem],
-                        fit: BoxFit.cover,
-                      ),
+    return Padding(
+      padding: const EdgeInsets.only(right: 32, left: 32, top: 16, bottom: 16),
+      child: Container(
+        height: 284,
+        decoration: BoxDecoration(
+          color: white,
+          borderRadius: BorderRadius.circular(8),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(14),
+          child: Column(
+            children: [
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.only(
+                    bottom: 8,
+                  ),
+                  child: SizedBox(
+                    height: 200,
+                    width: 280,
+                    child: Image.asset(
+                      widget.productImages[widget.selectedItem],
+                      fit: BoxFit.cover,
                     ),
                   ),
                 ),
-                if (widget.productImages.isNotEmpty) ...{
-                  SizedBox(
-                    height: 70,
-                    child: ListView.builder(
-                        itemCount: widget.productImages.length,
-                        scrollDirection: Axis.horizontal,
-                        itemBuilder: (context, index) {
-                          return Padding(
-                            padding: const EdgeInsets.only(
-                              left: 12,
-                            ),
-                            child: GestureDetector(
-                              onTap: () {
-                                setState(() {
-                                  widget.selectedItem = index;
-                                });
-                              },
-                              child: Container(
-                                height: 70,
-                                width: 70,
-                                decoration: BoxDecoration(
-                                  border: Border.all(
-                                    width: widget.selectedItem == index ? 3 : 1,
-                                    color: widget.selectedItem == index
-                                        ? blueLight
-                                        : grey,
-                                  ),
-                                  borderRadius: BorderRadius.circular(8),
+              ),
+              if (widget.productImages.isNotEmpty) ...{
+                SizedBox(
+                  height: 70,
+                  child: ListView.builder(
+                      itemCount: widget.productImages.length,
+                      scrollDirection: Axis.horizontal,
+                      itemBuilder: (context, index) {
+                        return Padding(
+                          padding: const EdgeInsets.only(
+                            left: 12,
+                          ),
+                          child: GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                widget.selectedItem = index;
+                              });
+                            },
+                            child: Container(
+                              height: 70,
+                              width: 70,
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                  width: widget.selectedItem == index ? 3 : 1,
+                                  color: widget.selectedItem == index
+                                      ? blueLight
+                                      : grey,
                                 ),
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      vertical: 4, horizontal: 4),
-                                  child: Image(
-                                    image:
-                                        AssetImage(widget.productImages[index]),
-                                  ),
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 4, horizontal: 4),
+                                child: Image(
+                                  image:
+                                      AssetImage(widget.productImages[index]),
                                 ),
                               ),
                             ),
-                          );
-                        }),
-                  )
-                }
-              ],
-            ),
+                          ),
+                        );
+                      }),
+                )
+              }
+            ],
           ),
         ),
       ),
