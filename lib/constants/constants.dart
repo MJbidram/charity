@@ -30,6 +30,8 @@ class ApiAddress {
   static const String projectAddress = 'project';
   static const String pooyeshAddress = 'pooyesh';
   static const String hadisAddress = 'hadis';
+  // static const String newsAddressHome =
+  //     'https://kheiriehemamali.ir/blog/wp-json/wp/v2/posts?per_page=5';
   static const String newsAddressHome =
       'https://kheiriehemamali.ir/blog/wp-json/wp/v2/posts?per_page=5';
   static const String newsAddress =
@@ -47,7 +49,12 @@ class ApiAddress {
   static const String repayLink = 'https://khapp.kheiriehemamali.ir/invoice/';
   static const String shareFactors = 'khapp.kheiriehemamali.ir/fk/';
   static const String deletedamand = 'profile/darkhasts/delete?id=';
-  static const String aboutUs = '/about';
+  static const String aboutUs = 'about';
+  static const String marasemat = 'marasem';
+  static const String wearthType = 'taj/type';
+  static const String wearthTarh = 'taj/tarh';
+  static const String creatOrder = 'taj/create-order';
+  static const String userOrders = 'taj/user-order';
 }
 
 class ErrorsMessages {

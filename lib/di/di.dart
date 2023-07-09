@@ -2,14 +2,24 @@ import 'package:charity/constants/constants.dart';
 import 'package:charity/data/datasource/aboutus_datasource.dart';
 import 'package:charity/data/datasource/authentication_dataSource.dart';
 import 'package:charity/data/datasource/charity_datasource.dart';
+import 'package:charity/data/datasource/creat_order_datasource.dart';
 import 'package:charity/data/datasource/demand_datasource.dart';
 import 'package:charity/data/datasource/factors_datasource.dart';
 import 'package:charity/data/datasource/home_datasource.dart';
+import 'package:charity/data/datasource/marasemat_datasource.dart';
 import 'package:charity/data/datasource/profile_datasource.dart';
+import 'package:charity/data/datasource/user_orders_datasorce.dart';
+import 'package:charity/data/datasource/wearth_tarh_datasource.dart';
+import 'package:charity/data/datasource/wearth_type_datasource.dart';
 import 'package:charity/data/repository/authentication_repository.dart';
+import 'package:charity/data/repository/creat_order_repository.dart';
 import 'package:charity/data/repository/factors_repository.dart';
 import 'package:charity/data/repository/home_data_repository.dart';
+import 'package:charity/data/repository/marasemat_repository.dart';
 import 'package:charity/data/repository/profile_repository.dart';
+import 'package:charity/data/repository/user_orders_repository.dart';
+import 'package:charity/data/repository/wearth_tarh_repository.dart';
+import 'package:charity/data/repository/wearth_type_repository.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_it/get_it.dart';
@@ -50,6 +60,11 @@ Future<void> getItInit() async {
   locator.registerFactory<ProfileDataSource>(() => ProfileRemote());
 
   locator.registerFactory<AboutUsDataSource>(() => AboutUsRemot());
+  locator.registerFactory<IMarasematDataSource>(() => MarasematRemote());
+  locator.registerFactory<IWearthTypeDataSource>(() => WearthTypeRemote());
+  locator.registerFactory<IWearthTarhDataSource>(() => WearthTarhRemote());
+  locator.registerFactory<ICreatOrderDatasource>(() => CreatOrderReomote());
+  locator.registerFactory<IUserOrdersDatasource>(() => UserOrderDatasourse());
 
   //repository
 
@@ -70,4 +85,11 @@ Future<void> getItInit() async {
   locator.registerFactory<IprofileRepository>(() => ProfileRepository());
 
   locator.registerFactory<IAboutUsRepository>(() => AboutUsRepository());
+
+  locator.registerFactory<IMarasematRepository>(() => MarasematRepository());
+  locator.registerFactory<IWearthTypeRepository>(() => WearthTypeRepository());
+  locator.registerFactory<IWearthTarhRepository>(() => WearthTarhRepository());
+  locator
+      .registerFactory<ICreatOrderRepositorey>(() => CreateOrderRepository());
+  locator.registerFactory<IUserOrdersRepositorys>(() => UserOrderRepository());
 }

@@ -6,6 +6,8 @@ import 'package:charity/di/di.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../util/auth_manager.dart';
+
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
   final HomeNews _repositoriesNews = HomeNews();
   final MYHomeRepository repository = locator.get();
@@ -14,6 +16,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       emit(HomeLoadingState());
       var response = await repository.getHomeData();
       var newsResponse = await _repositoriesNews.getHomePageListNews();
+      print('token is : ${await AuthManager.readauth()}');
 
       emit(HomeLoadedState(response: response, newsModl: newsResponse));
     });

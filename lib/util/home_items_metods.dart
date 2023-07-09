@@ -15,6 +15,7 @@ import '../screens/pages/factors_screen.dart';
 import '../screens/pages/main_screen.dart';
 import '../screens/pages/news_screen.dart';
 import '../screens/pages/show_details_of_slider_screen.dart';
+import '../screens/pages/wreath_screens/reserve_wreath_screen.dart';
 import '../screens/widget/image_slider.dart';
 
 class ManageHomeItems {
@@ -52,6 +53,11 @@ class ManageHomeItems {
     if (itemModel.fnName == 'openpooyesh') {
       final int id = itemModel.params['id'];
       myfn.openpooyesh(id, context);
+    }
+    if (itemModel.fnName == 'taj') {
+      Navigator.of(context).push(MaterialPageRoute(
+        builder: (context) => ReserveWreathScreen(),
+      ));
     }
   }
 }

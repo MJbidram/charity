@@ -4,11 +4,17 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:charity/bloc/home_bloc/home_bloc.dart';
 import 'package:charity/bloc/home_bloc/home_event.dart';
 import 'package:charity/bloc/home_bloc/home_state.dart';
+import 'package:charity/bloc/maresemat_bloc/marasemat_bloc.dart';
+import 'package:charity/bloc/userorder_bloc/userbloc.dart';
 import 'package:charity/constants/constants.dart';
 import 'package:charity/models/home_models.dart';
 import 'package:charity/screens/pages/main_screen.dart';
 import 'package:charity/screens/pages/news_screen.dart';
 import 'package:charity/screens/pages/show_details_of_slider_screen.dart';
+import 'package:charity/screens/pages/wreath_screens/choose_event_screen.dart';
+import 'package:charity/screens/pages/wreath_screens/reserve_wreath_screen.dart';
+import 'package:charity/screens/pages/wreath_screens/user_orders_factors.dart';
+
 import 'package:charity/screens/widget/image_slider.dart';
 import 'package:charity/util/home_items_metods.dart';
 
@@ -20,6 +26,7 @@ import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import '../../bloc/details_of_sliders/details_bloc.dart';
 
+import '../../util/auth_manager.dart';
 import '../widget/error_box.dart';
 import '../widget/spin_kit.dart';
 
@@ -170,6 +177,16 @@ class _MyHomeScreenState extends State<MyHomeScreen> {
                                 ),
                               )
                             : const SliverToBoxAdapter(),
+                        // SliverToBoxAdapter(
+                        //   child: ElevatedButton(
+                        //     onPressed: () {
+                        //       Navigator.of(context).push(MaterialPageRoute(
+                        //         builder: (context) => ReserveWreathScreen(),
+                        //       ));
+                        //     },
+                        //     child: (Text('data')),
+                        //   ),
+                        // ),
                         SliverToBoxAdapter(
                           child: Padding(
                             padding: const EdgeInsets.only(

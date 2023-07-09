@@ -1,8 +1,13 @@
+import 'package:charity/screens/pages/wreath_screens/user_orders_factors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../bloc/maresemat_bloc/marasemat_bloc.dart';
+import '../../../bloc/userorder_bloc/userbloc.dart';
 import '../../../constants/constants.dart';
+import 'choose_event_screen.dart';
 
 class ReserveWreathScreen extends StatelessWidget {
   const ReserveWreathScreen({super.key});
@@ -28,7 +33,7 @@ class ReserveWreathScreen extends StatelessWidget {
         child: Column(
           children: [
             const Text(
-                'توضیحات و راهنمای سفارش تاج گل در این بخش قرار خواهد گرفت.'),
+                'با این سرویس می توانید در مراسمات ترحیم پیش رو به نام دلخواه تاج گل قرار دهید . هزینه های دریافتی صرف امور خیر می شوند و هم شما و مرحوم از ثواب آن بهرمند می شوید .'),
             const SizedBox(
               height: 64,
             ),
@@ -41,7 +46,16 @@ class ReserveWreathScreen extends StatelessWidget {
                     borderRadius: BorderRadius.circular(16),
                   ),
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => BlocProvider(
+                          create: (context) => MarasematBloc(),
+                          child: ChooseEventScreen(),
+                        ),
+                      ));
+                },
                 child:
                     Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                   Text(
@@ -70,7 +84,16 @@ class ReserveWreathScreen extends StatelessWidget {
                     borderRadius: BorderRadius.circular(16),
                   ),
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => BlocProvider(
+                          create: (context) => UserOrdersBloc(),
+                          child: UserOrderScreen(),
+                        ),
+                      ));
+                },
                 child:
                     Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                   Text(
@@ -100,7 +123,7 @@ class ReserveWreathScreen extends StatelessWidget {
         child: ClipRRect(
           borderRadius: BorderRadius.circular(16),
           child: Image.asset(
-            'assets/images/item16.jpg',
+            'assets/images/item9.jpg',
             fit: BoxFit.fitWidth,
           ),
         ),

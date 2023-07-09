@@ -1,7 +1,22 @@
+import 'package:awesome_dialog/awesome_dialog.dart';
+import 'package:charity/bloc/further_information_bloc/further_info_bloc.dart';
+import 'package:charity/bloc/maresemat_bloc/marasemat_bloc.dart';
+import 'package:charity/bloc/maresemat_bloc/marasemat_event.dart';
+import 'package:charity/bloc/maresemat_bloc/marasemat_state.dart';
+import 'package:charity/models/marasemat.dart';
+import 'package:charity/screens/pages/wreath_screens/further%D9%80information.dart';
+import 'package:charity/screens/widget/error_box.dart';
+import 'package:charity/screens/widget/spin_kit.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:persian_number_utility/persian_number_utility.dart';
 
+import '../../../bloc/details_of_sliders/details_bloc.dart';
 import '../../../constants/constants.dart';
+
+String filter = '';
+TextEditingController textcontroller = TextEditingController(text: filter);
 
 class ChooseEventScreen extends StatefulWidget {
   ChooseEventScreen({super.key});
@@ -12,6 +27,9 @@ class ChooseEventScreen extends StatefulWidget {
 
 class _ChooseEventScreenState extends State<ChooseEventScreen> {
   int? _itemSelectedIndex;
+  int selectedId = 0;
+  List<MarasematModel> marasemsearch = [];
+  List<MarasematModel> marasemat = [];
 
   final List<String> month = [
     'همه',
@@ -35,72 +53,167 @@ class _ChooseEventScreenState extends State<ChooseEventScreen> {
     'چهلم',
     'سال',
   ];
+  @override
+  void initState() {
+    BlocProvider.of<MarasematBloc>(context).add(GetMarasematEvent());
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        children: [
-          CustomScrollView(
-            slivers: [
-              _getAppBar(context),
-              // _getTitle(context),
-              SliverToBoxAdapter(
-                child: _getSearchBox(context),
-              ),
-              const SliverToBoxAdapter(
-                child: Padding(
-                  padding: EdgeInsets.only(
-                    bottom: 8,
-                    right: 24,
-                    left: 24,
-                  ),
-                  child: Text('فیلتر :'),
-                ),
-              ),
-              SliverToBoxAdapter(
-                child: _getFilterBoxes(),
-              ),
-              const SliverToBoxAdapter(
-                child: Padding(
-                    padding: EdgeInsets.only(top: 16, right: 24),
-                    child: Text('لیست مراسمات')),
-              ),
-              SliverPadding(
-                padding: const EdgeInsets.only(
-                  bottom: 86,
-                ),
-                sliver: SliverList(
-                  delegate: SliverChildBuilderDelegate(
-                    (context, index) {
-                      return GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              _itemSelectedIndex = index;
-                            });
-                          },
-                          child: _getEventList(context, index));
-                    },
-                    childCount: 4,
-                  ),
-                ),
-              )
-            ],
+      body: CustomScrollView(
+        slivers: [
+          _getAppBar(context),
+          SliverToBoxAdapter(
+            child: _getSearchBox(context, marasemat),
           ),
-          Align(
-              alignment: AlignmentDirectional.bottomCenter,
-              child: Container(
-                height: 70,
-                decoration: BoxDecoration(
-                    color: white,
-                    borderRadius: const BorderRadius.only(
-                      topRight: Radius.circular(16),
-                      topLeft: Radius.circular(16),
-                    )),
-                child: _getButtons(context),
-              ))
+          const SliverToBoxAdapter(
+            child: Padding(
+              padding: EdgeInsets.only(
+                bottom: 8,
+                right: 24,
+                left: 24,
+              ),
+              child: Text('فیلتر :'),
+            ),
+          ),
+          SliverToBoxAdapter(
+            child: _getFilterBoxes(),
+          ),
+          const SliverToBoxAdapter(
+            child: Padding(
+                padding: EdgeInsets.only(top: 16, right: 24),
+                child: Text('لیست مراسمات')),
+          ),
+          SliverToBoxAdapter(
+            child: BlocBuilder<MarasematBloc, MarasematState>(
+                builder: (context, state) {
+              if (state is LoadingMarasemState) {
+                return const Center(
+                  child: MySpinKit(),
+                );
+              }
+              if (state is MarasematLoadedState) {
+                return state.response.fold((l) {
+                  return Center(
+                    child: ErrorBox(
+                      errorMessage: l,
+                      onTap: () {},
+                    ),
+                  );
+                }, (r) {
+                  if (filter.isEmpty) {
+                    marasemat = r;
+                  } else {
+                    marasemsearch = r.where((element) {
+                      return element.marhoomName
+                          .toLowerCase()
+                          .contains(filter.toLowerCase());
+                    }).toList();
+                    marasemat = marasemsearch;
+                  }
+                  return Stack(
+                    alignment: Alignment.bottomCenter,
+                    children: [
+                      // CustomScrollView(
+                      //   slivers: [
+                      // _getAppBar(context),
+                      // _getTitle(context),
+                      // SliverToBoxAdapter(
+                      //   child: _getSearchBox(context, marasemat),
+                      // ),
+                      // const SliverToBoxAdapter(
+                      //   child: Padding(
+                      //     padding: EdgeInsets.only(
+                      //       bottom: 8,
+                      //       right: 24,
+                      //       left: 24,
+                      //     ),
+                      //     child: Text('فیلتر :'),
+                      //   ),
+                      // ),
+                      // SliverToBoxAdapter(
+                      //   child: _getFilterBoxes(),
+                      // ),
+                      // const SliverToBoxAdapter(
+                      //   child: Padding(
+                      //       padding: EdgeInsets.only(top: 16, right: 24),
+                      //       child: Text('لیست مراسمات')),
+                      // ),
+                      // SliverPadding(
+                      //   padding: const EdgeInsets.only(
+                      //     bottom: 86,
+                      //   ),
+                      //   sliver: getListOfEvent(marasemat),
+                      // ),
+
+                      Padding(
+                        padding: const EdgeInsets.only(
+                          bottom: 0,
+                        ),
+                        child: SizedBox(
+                            height: MediaQuery.of(context).size.height / 1.7,
+                            child: getListOfEvent(marasemat)),
+                      ),
+                      //   ],
+                      // ),
+                      Positioned(
+                          // alignment: AlignmentDirectional.topCenter,
+                          bottom: 8,
+                          child: Container(
+                            height: 70,
+                            decoration: const BoxDecoration(
+                                borderRadius: BorderRadius.only(
+                              topRight: Radius.circular(16),
+                              topLeft: Radius.circular(16),
+                            )),
+                            child: _getButtons(context),
+                          ))
+                    ],
+                  );
+                });
+              } else {
+                return Center(
+                  child: ErrorBox(
+                    errorMessage: 'خطا',
+                    onTap: () {},
+                  ),
+                );
+              }
+            }),
+          )
         ],
       ),
+    );
+  }
+
+  Widget getListOfEvent(List<MarasematModel> model) {
+    return ListView.builder(
+      shrinkWrap: true,
+      itemBuilder: (context, index) {
+        return index == model.length - 1
+            ? Padding(
+                padding: const EdgeInsets.only(bottom: 64),
+                child: GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        _itemSelectedIndex = index;
+                        selectedId = model[index].id;
+                      });
+                    },
+                    child: _getEventList(context, index, model[index])),
+              )
+            : GestureDetector(
+                onTap: () {
+                  setState(() {
+                    _itemSelectedIndex = index;
+                    selectedId = model[index].id;
+                  });
+                },
+                child: _getEventList(context, index, model[index]));
+      },
+      itemCount: model.length,
     );
   }
 
@@ -109,7 +222,7 @@ class _ChooseEventScreenState extends State<ChooseEventScreen> {
       padding: const EdgeInsets.only(right: 16, left: 16, bottom: 12),
       child: Align(
         alignment: AlignmentDirectional.bottomCenter,
-        child: SizedBox(
+        child: Container(
           height: 50,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -129,7 +242,25 @@ class _ChooseEventScreenState extends State<ChooseEventScreen> {
                     // ),
                   ),
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  if (selectedId == 0) {
+                    AwesomeDialog(
+                      context: context,
+                      body: const Center(
+                        child: Text('لطفا یک مراسم را انتخاب کنید'),
+                      ),
+                      btnOkText: 'متوجه شدم',
+                      btnOkOnPress: () {},
+                    ).show();
+                  } else {
+                    Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => BlocProvider(
+                        create: (context) => FurtherInfoBloc(),
+                        child: FurtherInformationScreen(selectedId),
+                      ),
+                    ));
+                  }
+                },
                 child:
                     Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                   Text(
@@ -145,39 +276,39 @@ class _ChooseEventScreenState extends State<ChooseEventScreen> {
                   ),
                 ]),
               ),
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: blueLight,
-                  minimumSize: Size(
-                    MediaQuery.of(context).size.width / 2.5,
-                    50,
-                  ),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(16),
-                    // side: BorderSide(
-                    //   width: 1,
-                    //   color: white,
-                    // ),
-                  ),
-                ),
-                onPressed: () {},
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      'افزودن مراسم',
-                      style: Theme.of(context).textTheme.headline3,
-                    ),
-                    const SizedBox(
-                      width: 4,
-                    ),
-                    const Icon(
-                      Icons.add,
-                      size: 24,
-                    ),
-                  ],
-                ),
-              ),
+              // ElevatedButton(
+              //   style: ElevatedButton.styleFrom(
+              //     backgroundColor: blueLight,
+              //     minimumSize: Size(
+              //       MediaQuery.of(context).size.width / 2.5,
+              //       50,
+              //     ),
+              //     shape: RoundedRectangleBorder(
+              //       borderRadius: BorderRadius.circular(16),
+              //       // side: BorderSide(
+              //       //   width: 1,
+              //       //   color: white,
+              //       // ),
+              //     ),
+              //   ),
+              //   onPressed: () {},
+              //   child: Row(
+              //     mainAxisAlignment: MainAxisAlignment.center,
+              //     children: [
+              //       Text(
+              //         'افزودن مراسم',
+              //         style: Theme.of(context).textTheme.headline3,
+              //       ),
+              //       const SizedBox(
+              //         width: 4,
+              //       ),
+              //       const Icon(
+              //         Icons.add,
+              //         size: 24,
+              //       ),
+              //     ],
+              //   ),
+              // ),
             ],
           ),
         ),
@@ -185,12 +316,13 @@ class _ChooseEventScreenState extends State<ChooseEventScreen> {
     );
   }
 
-  Widget _getEventList(BuildContext context, int index) {
+  Widget _getEventList(
+      BuildContext context, int index, MarasematModel marasem) {
     return Padding(
       padding: const EdgeInsets.only(top: 16, bottom: 0, right: 24, left: 24),
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 400),
-        height: 140.0,
+        height: 170.0,
         width: MediaQuery.of(context).size.width,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(16.0),
@@ -221,7 +353,7 @@ class _ChooseEventScreenState extends State<ChooseEventScreen> {
                 ),
                 const Spacer(),
                 Text(
-                  'تست',
+                  marasem.marhoomName,
                   style: Theme.of(context).textTheme.headline2!.copyWith(
                       color: _itemSelectedIndex == index ? white : black),
                 ),
@@ -239,7 +371,7 @@ class _ChooseEventScreenState extends State<ChooseEventScreen> {
                 ),
                 const Spacer(),
                 Text(
-                  '۱۴۰۲/۰۴/۰۲',
+                  marasem.date.toPersianDate(),
                   style: Theme.of(context).textTheme.headline2!.copyWith(
                       color: _itemSelectedIndex == index ? white : black),
                 ),
@@ -257,7 +389,25 @@ class _ChooseEventScreenState extends State<ChooseEventScreen> {
                 ),
                 const Spacer(),
                 Text(
-                  'مسجد جامع',
+                  marasem.location,
+                  style: Theme.of(context).textTheme.headline2!.copyWith(
+                      color: _itemSelectedIndex == index ? white : black),
+                ),
+              ],
+            ),
+            const SizedBox(
+              height: 4,
+            ),
+            Row(
+              children: [
+                Text(
+                  'نوع',
+                  style: Theme.of(context).textTheme.headline2!.copyWith(
+                      color: _itemSelectedIndex == index ? white : black),
+                ),
+                const Spacer(),
+                Text(
+                  marasem.marasemType ?? 'مراسم',
                   style: Theme.of(context).textTheme.headline2!.copyWith(
                       color: _itemSelectedIndex == index ? white : black),
                 ),
@@ -334,12 +484,12 @@ class _ChooseEventScreenState extends State<ChooseEventScreen> {
     );
   }
 
-  Padding _getSearchBox(BuildContext context) {
+  Padding _getSearchBox(BuildContext context, List<MarasematModel> orMarasem) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
       child: TextField(
         // focusNode: focusNode,
-
+        controller: textcontroller,
         decoration: InputDecoration(
           prefixIcon: const Icon(
             Icons.search,
@@ -367,6 +517,10 @@ class _ChooseEventScreenState extends State<ChooseEventScreen> {
           hintText: '  جستجوی مراسمات  ',
           hintStyle: TextStyle(color: Colors.grey, fontSize: 14),
         ),
+        onChanged: (value) {
+          filter = value;
+          BlocProvider.of<MarasematBloc>(context).add(GetMarasematEvent());
+        },
       ),
     );
   }
